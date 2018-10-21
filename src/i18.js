@@ -3,37 +3,17 @@
  */
 import i18n from "i18next";
 import {reactI18nextModule} from "react-i18next";
+import translationEN from './resources/locales/en/translation.json';
+import translationSR from './resources/locales/sr/translation.json';
 
 // the translations
 // (tip move them in a JSON file and import them)
 const resources = {
     en: {
-        translation: {
-            "navbar.aboutUs": "About us",
-            "navbar.careers": "Careers",
-            "navbar.home": "Home",
-            "navbar.signIn": "Sign in",
-            "navbar.register": "Register",
-            "events.eventName": "Event name",
-            "events.price": "Price",
-            "events.date": "Date",
-            "events.time": "Time",
-            "events.place": "Place"
-        }
+        translation: translationEN
     },
     sr: {
-        translation: {
-            "navbar.aboutUs": "O nama",
-            "navbar.careers": "Karijera",
-            "navbar.home": "Pocetna",
-            "navbar.signIn": "Prijavi se",
-            "navbar.register": "Registruj se",
-            "events.eventName": "Naziv dogadjaja",
-            "events.price": "Cena",
-            "events.date": "Datum",
-            "events.time": "Vreme",
-            "events.place": "Mesto"
-        }
+        translation: translationSR
     }
 };
 
@@ -42,8 +22,8 @@ i18n
     .init({
         resources,
         lng: "en",
-
-        keySeparator: false,
+        fallbackLng: "en",
+        keySeparator: true,
         interpolation: {
             escapeValue: false
         }
