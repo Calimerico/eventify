@@ -109,4 +109,4 @@ const mapDispatchToProps = dispatch => {
     }
 };
 
-export default withNamespaces(connect(mapStateToProps, mapDispatchToProps)(Events));
+export default connect(mapStateToProps, mapDispatchToProps)(Events);
