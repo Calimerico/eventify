@@ -16,7 +16,7 @@ const resources = {
         translation: translationSR
     }
 };
-
+//TODO Auto check language somehow!
 i18n
     .use(reactI18nextModule) // passes i18n down to react-i18next
     .init({

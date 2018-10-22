@@ -3,7 +3,7 @@
  */
 import React, {Component} from 'react';
 import Cards from './../../containers/cards/Cards';
-import {withNamespaces} from 'react-i18next';
+import {translate} from 'react-i18next';
 const aboutUs = () => {
     const style = {
         position: 'relative',
@@ -31,5 +31,5 @@ const aboutUs = () => {
         </div>
     )
 }
-export default withNamespaces()(aboutUs);
+export default translate()(aboutUs);
 

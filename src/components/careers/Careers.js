@@ -2,7 +2,7 @@
  * Created by spasoje on 21-Oct-18.
  */
 import React from 'react';
-import {withNamespaces} from 'react-i18next';
+import {translate} from 'react-i18next';
 const careers = () => {
     const style = {
         width: '70%',
@@ -16,4 +16,4 @@ const careers = () => {
     )
 }
 
-export default withNamespaces()(careers);
+export default translate()(careers);

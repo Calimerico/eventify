@@ -5,7 +5,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Table} from 'react-bootstrap';
 import Input from './../../components/UI/Input/Input';
-import {withNamespaces} from 'react-i18next';
+import {translate} from 'react-i18next';
 class Events extends Component {
     state = {
         eventAddForm: {
@@ -56,16 +56,17 @@ class Events extends Component {
                 config: this.state.eventAddForm[key]
             })
         }
+        const {t} = this.props;
         return (
             <div style={{width:'70%',margin:'auto'}}>
                 <Table responsive>
                     <thead>
                     <tr>
-                        <th>Event name</th>
-                        <th>Price</th>
-                        <th>Date</th>
-                        <th>Time</th>
-                        <th>Place</th>
+                        <th>{t('event.eventName')}</th>
+                        <th>{t('event.price')}</th>
+                        <th>{t('event.date')}</th>
+                        <th>{t('event.time')}</th>
+                        <th>{t('event.place')}</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -109,4 +110,4 @@ const mapDispatchToProps = dispatch => {
     }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Events);
+export default translate()(connect(mapStateToProps, mapDispatchToProps)(Events));

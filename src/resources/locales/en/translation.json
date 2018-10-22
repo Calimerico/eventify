@@ -12,5 +12,10 @@
   "navbar.changeLanguage.serbian": "Serbian",
   "navbar.language": "Language",
   "navbar.signInDrowdown": "Sign in",
-  "navbar.changeLanguage.english": "English"
+  "navbar.changeLanguage.english": "English",
+  "event.eventName": "Event name",
+  "event.price": "Price",
+  "event.date": "Date",
+  "event.time": "Time",
+  "event.place": "Place"
 }

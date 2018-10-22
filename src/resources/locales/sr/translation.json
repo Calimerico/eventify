@@ -12,5 +12,10 @@
   "navbar.changeLanguage.serbian": "Srpski",
   "navbar.language": "Jezik",
   "navbar.signInDrowdown": "Prijavi se",
-  "navbar.changeLanguage.english": "Engleski"
+  "navbar.changeLanguage.english": "Engleski",
+  "event.eventName": "Ime dogadjaja",
+  "event.price": "Cena",
+  "event.date": "Datum",
+  "event.time": "Vreme",
+  "event.place": "Mesto"
 }
