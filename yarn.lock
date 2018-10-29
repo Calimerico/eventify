@@ -6327,14 +6327,14 @@ postcss-preset-env@6.0.6:
     postcss-overflow-shorthand "^2.0.0"
     postcss-page-break "^2.0.0"
     postcss-place "^4.0.1"
-    postcss-pseudo-class-any-link "^6.0.0"
+    postcss-pseudo-class-any-source "^6.0.0"
     postcss-replace-overflow-wrap "^3.0.0"
     postcss-selector-matches "^4.0.0"
     postcss-selector-not "^4.0.0"
 
-postcss-pseudo-class-any-link@^6.0.0:
+postcss-pseudo-class-any-source@^6.0.0:
   version "6.0.0"
-  resolved "https://registry.yarnpkg.com/postcss-pseudo-class-any-link/-/postcss-pseudo-class-any-link-6.0.0.tgz#2ed3eed393b3702879dec4a87032b210daeb04d1"
+  resolved "https://registry.yarnpkg.com/postcss-pseudo-class-any-source/-/postcss-pseudo-class-any-source-6.0.0.tgz#2ed3eed393b3702879dec4a87032b210daeb04d1"
   dependencies:
     postcss "^7.0.2"
     postcss-selector-parser "^5.0.0-rc.3"

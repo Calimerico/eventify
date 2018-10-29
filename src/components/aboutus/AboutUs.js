@@ -4,6 +4,7 @@
 import React, {Component} from 'react';
 import Cards from './../../containers/cards/Cards';
 import {translate} from 'react-i18next';
+
 const aboutUs = () => {
     const style = {
         position: 'relative',
