@@ -3,7 +3,7 @@
  */
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {Table} from 'react-bootstrap';
+import {Table, Form, Button} from 'react-bootstrap';
 import Input from './../../components/UI/Input/Input';
 import {translate} from 'react-i18next';
 class Events extends Component {
@@ -15,7 +15,8 @@ class Events extends Component {
                     type: 'text',
                     placeholder: 'Enter event name'
                 },
-                value: ''
+                value: '',
+                label: 'Event name'
             },
             eventPrice: {
                 elementType: 'input',
@@ -23,7 +24,8 @@ class Events extends Component {
                     type: 'text',
                     placeholder: 'Enter price'
                 },
-                value: ''
+                value: '',
+                label: 'Price'
             },
             eventType: {
                 elementType: 'select',
@@ -33,7 +35,8 @@ class Events extends Component {
                         {value: 'sport', displayValue: 'Sport'}
                     ]
                 },
-                value: ''
+                value: '',
+                label: 'Event type'
             }
         }
     }
@@ -56,6 +59,12 @@ class Events extends Component {
                 config: this.state.eventAddForm[key]
             })
         }
+        const formInputs = formElementsArray.map(element => (
+            <Input changed={event => {
+                this.inputChangedHandler(event, element.id)
+            }} key={element.id} elementType={element.config.elementType}
+                   elementConfig={element.config.elementConfig} value={element.config.value} label={element.config.label}/>
+        ));
         const {t} = this.props;
         return (
             <div style={{width:'70%',margin:'auto'}}>
@@ -83,15 +92,10 @@ class Events extends Component {
                     }
                     </tbody>
                 </Table>
-                <form>
-                    {formElementsArray.map(element => (
-                        <Input changed={event => {
-                            this.inputChangedHandler(event, element.id)
-                        }} key={element.id} elementType={element.config.elementType}
-                               elementConfig={element.config.elementConfig} value={element.config.value}/>
-                    ))}
-                </form>
-                <button onClick={this.props.addEvent}>Button</button>
+                <Form horizontal>
+                    {formInputs}
+                </Form>
+                <Button onClick={this.props.addEvent}>Button</Button>
             </div>
 
         )

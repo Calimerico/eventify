@@ -27,8 +27,8 @@ const navbar = (props) => {
                         <MenuItem onClick={() => changeLanguage('en')} eventKey={4.2}>{t('navbar.changeLanguage.english')}</MenuItem>
                     </NavDropdown>
                     <NavDropdown eventKey={5} title={t('navbar.signInDrowdown')} id="basic-nav-dropdown">
-                        <MenuItem eventKey={5.1}>{t('navbar.signIn')}</MenuItem>
-                        <MenuItem eventKey={5.2}>{t('navbar.register')}</MenuItem>
+                        <LinkContainer to="/login"><MenuItem eventKey={5.1}>{t('navbar.signIn')}</MenuItem></LinkContainer>
+                        <LinkContainer to="/register"><MenuItem eventKey={5.2}>{t('navbar.register')}</MenuItem></LinkContainer>
                     </NavDropdown>
                 </Nav>
             </Navbar.Collapse>
