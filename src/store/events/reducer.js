@@ -2,20 +2,7 @@
  * Created by spasoje on 19-Oct-18.
  */
 
-const initialState = {
-    events: [
-        {
-            eventName: 'Zika',
-            description: 'Neki desc',
-            eventPrice: 11,
-            date:'12/9/2019',
-            eventTime:'12:00',
-            place:'Sava centar Beograd'
-        }
-    ]
-}
-
-const eventsReducer = (state = initialState, action) => {
+const eventsReducer = (state = {}, action) => {
     switch (action.type) {
 
         case 'ADD_EVENT':

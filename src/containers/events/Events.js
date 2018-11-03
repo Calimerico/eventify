@@ -6,6 +6,7 @@ import {connect} from 'react-redux';
 import {Table, Form, Button} from 'react-bootstrap';
 import Input from './../../components/UI/Input/Input';
 import {translate} from 'react-i18next';
+import axios from './../../axiosBase'
 class Events extends Component {
     state = {
         eventAddForm: {
@@ -38,7 +39,31 @@ class Events extends Component {
                 value: '',
                 label: 'Event type'
             }
-        }
+        },
+        events: [
+            {
+                eventName: 'Zika',
+                description: 'Neki desc',
+                eventPrice: 11,
+                date:'12/9/2019',
+                eventTime:'12:00',
+                place:'Sava centar Beograd'
+            }
+        ]
+    }
+
+    componentDidMount () {
+
+
+        axios.get( 'http://localhost:8080/events' )
+            .then( response => {
+                this.setState( { events: response.data } );
+            } )
+            .catch( error => {
+                console.log('greska')
+                console.log(error)
+                this.setState( { error: true } );
+            } );
     }
 
     inputChangedHandler(event, inputIdentifier) {
@@ -80,7 +105,7 @@ class Events extends Component {
                     </thead>
                     <tbody>
                     {
-                        this.props.events.map(event => (
+                        this.state.events.map(event => (
                             <tr>
                                 <td>{event.eventName}</td>
                                 <td>{event.eventPrice + ' RSD'}</td>

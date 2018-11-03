@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import './App.css';
 import Events from '../events/Events';
-import Navbar from '../../components/UI/Navbar/Navbar';
+import MainNavbar from '../../components/UI/Navbar/MainNavbar';
 import {BrowserRouter} from 'react-router-dom';
 import {Route} from 'react-router-dom';
 import AboutUs from './../../components/aboutus/AboutUs';
@@ -15,7 +15,7 @@ class App extends Component {
         return (
             <BrowserRouter>
                 <div>
-                    <Navbar/>
+                    <MainNavbar/>
                     <Route path = "/" exact component={Events} />
                     <Route path = "/aboutus" component={AboutUs} />
                     <Route path = "/careers" component={Careers} />
