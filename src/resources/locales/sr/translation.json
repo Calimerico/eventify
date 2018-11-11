@@ -1,14 +1,10 @@
 {
   "navbar.aboutUs": "O nama",
   "navbar.careers": "Karijera",
+  "navbar.addEvent": "Dodaj dogadjaj",
   "navbar.home": "Pocetna",
   "navbar.signIn": "Prijavi se",
   "navbar.register": "Registruj se",
-  "events.eventName": "Naziv dogadjaja",
-  "events.price": "Cena",
-  "events.date": "Datum",
-  "events.time": "Vreme",
-  "events.place": "Mesto",
   "navbar.changeLanguage.serbian": "Srpski",
   "navbar.language": "Jezik",
   "navbar.signInDrowdown": "Prijavi se",
@@ -22,5 +18,6 @@
   "event.price": "Cena",
   "event.date": "Datum",
   "event.time": "Vreme",
-  "event.place": "Mesto"
+  "event.place": "Mesto",
+  "event.type": "Vrsta dogadjaja"
 }

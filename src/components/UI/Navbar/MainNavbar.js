@@ -23,6 +23,11 @@ class MainNavbar extends Component {
                 label: 'navbar.careers',
                 to: '/careers'
             },
+            addEvent: {
+                type: 'normalLink',
+                label: 'navbar.addEvent',
+                to: '/addEvent'
+            },
             languageDropdown: {
                 type: 'dropdown',
                 label: 'navbar.language',
@@ -77,8 +82,7 @@ class MainNavbar extends Component {
                 return (
                     <LinkContainer to={element.config.to}><NavItem eventKey={element.key}>{t(element.config.label)}</NavItem></LinkContainer>
                 )
-            }
-            if (element.config.type === 'dropdown') {
+            } else {
                 return (
                     <NavDropdown eventKey={element.key} title={t(element.config.label)} id="basic-nav-dropdown">
                         {element.config.links.map(link => {
@@ -86,8 +90,7 @@ class MainNavbar extends Component {
                                 return(
                                     <LinkContainer to={link.to}><MenuItem >{t(link.label)}</MenuItem></LinkContainer>
                                 )
-                            }
-                            if (link.typeOfLink === 'onClick') {
+                            } else {
                                 return(
                                     <MenuItem onClick={this.changeLanguage.bind(this, link.toLanguage)}>{t(link.label)}</MenuItem>
                                 )

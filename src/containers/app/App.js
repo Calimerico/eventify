@@ -8,6 +8,7 @@ import AboutUs from './../../components/aboutus/AboutUs';
 import Careers from './../../components/careers/Careers';
 import Login from './../../components/login/Login';
 import Register from './../../components/register/Register';
+import AddEvent from '../events/AddEvent';
 
 class App extends Component {
 
@@ -19,6 +20,7 @@ class App extends Component {
                     <Route path = "/" exact component={Events} />
                     <Route path = "/aboutus" component={AboutUs} />
                     <Route path = "/careers" component={Careers} />
+                    <Route path = "/addEvent" component={AddEvent} />
                     <Route path = "/login" component={Login} />
                     <Route path = "/register" component={Register} />
                 </div>

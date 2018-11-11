@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './containers/app/App';
 import * as serviceWorker from './serviceWorker';
-import eventsReducer from './store/events/reducer';
 import { Provider } from 'react-redux';
 import { createStore, combineReducers } from 'redux';
 import './i18';
@@ -11,7 +10,7 @@ import {I18nextProvider} from 'react-i18next';
 import i18n from './i18';
 
 const rootReducer = combineReducers({
-    eventsReducer: eventsReducer
+    eventsReducer: null
 });
 
 const store = createStore(rootReducer);
