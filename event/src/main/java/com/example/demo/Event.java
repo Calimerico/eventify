@@ -6,16 +6,15 @@ package com.example.demo;
 
 import javax.persistence.*;
 import java.time.ZonedDateTime;
-import java.util.Set;
 
 /**
  * Created by spasoje on 15-Jun-17.
  */
 @Entity
-@Inheritance
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @DiscriminatorColumn(name="event_type")
 @Table(name="event")
-public class Event {
+public abstract class Event {
     private String eventId;
     private String eventName;
     private String eventHostId;
@@ -29,7 +28,6 @@ public class Event {
     //TODO Tickets should be added here
 
     @Id
-    @GeneratedValue
     @Column(name = "event_id")
     public String getEventId() {
         return eventId;
