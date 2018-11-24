@@ -4,7 +4,10 @@
 import React, {Component} from 'react';
 import {translate} from 'react-i18next';
 import Input from './../UI/Input/Input'
-import {Button,Form, Col} from 'react-bootstrap';
+import {Form, Col} from 'react-bootstrap';
+import Button from '@material-ui/core/Button';
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
 
 class Register extends Component {
     state = {
@@ -46,6 +49,7 @@ class Register extends Component {
     }
 
     render() {
+        const { classes } = this.props;
         const formElementsArray = [];
         for (let key in this.state.loginForm) {
             formElementsArray.push({
@@ -63,12 +67,29 @@ class Register extends Component {
                     {formInputs}
                 </Form>
                 <Col smOffset={2}>
-                    <Button>Log in</Button>
+                    <Button variant="contained" className={classes.button}>
+                        <span className={classes.buttonLabel}>Register</span>
+                    </Button>
                 </Col>
             </div>
 
         )
     }
 }
+const styles = theme => ({
+    button: {
+        margin: theme.spacing.unit,
+    },
+    input: {
+        display: 'none',
+    },
+    buttonLabel: {
+        fontSize: "13px"
+    }
+});
 
-export default translate()(Register);
+Register.propTypes = {
+    classes: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles)(translate()(Register));
