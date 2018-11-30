@@ -83,7 +83,8 @@ public abstract class Event {
         return eventType;
     }
 
-    public void setEventType(String eventType) {
+    //TODO Forbid for calling
+    protected void setEventType(String eventType) {
         this.eventType = eventType;
     }
 

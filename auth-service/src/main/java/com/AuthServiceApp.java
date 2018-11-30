@@ -1,14 +1,18 @@
-package com.example.demo;
+package com;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 
+/**
+ * Created by spasoje on 25-Nov-18.
+ */
 @SpringBootApplication
 @EnableEurekaClient
-public class EventApplication {
+public class AuthServiceApp {
 
-	public static void main(String[] args) {
-		SpringApplication.run(EventApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(AuthServiceApp.class, args);
+    }
+
 }
