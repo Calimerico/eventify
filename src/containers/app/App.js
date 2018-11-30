@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import './App.css';
 import Events from '../events/Events';
 import AnonymousNavbar from '../../components/UI/Navbar/AnonymousNavbar';
+import NormalUserNavbar from '../../components/UI/Navbar/NormalUserNavbar';
+import MainNavbar from '../../components/UI/Navbar/MainNavbar';
 import {BrowserRouter} from 'react-router-dom';
 import {Route} from 'react-router-dom';
 import AboutUs from './../../components/aboutus/AboutUs';
@@ -18,8 +20,9 @@ class App extends Component {
         return (
             <BrowserRouter>
                 <div>
-                    {/*<MainNavbar/>*/}
-                    <AnonymousNavbar/>
+                    {/*<NormalUserNavbar/>*/}
+                    {/*<AnonymousNavbar/>*/}
+                    <MainNavbar/>
                     <SwipeableRoutes>
                         <Route path = "/" exact component={Events} />
                         <Route path = "/contactus" component={ContactUs} />

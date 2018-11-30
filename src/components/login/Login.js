@@ -12,30 +12,35 @@ import { withStyles } from '@material-ui/core/styles';
 
 class Login extends Component {
 
-    state = {
-        loginForm: {
-            email: {
-                elementType: 'input',
-                elementConfig: {
-                    type: 'text',
+    constructor(props) {
+        super(props);
+        this.state = {
+            loginForm: {
+                email: {
+                    elementType: 'input',
+                    elementConfig: {
+                        type: 'text',
+                    },
+                    value: '',
+                    label: 'emailLabel'
                 },
-                value: '',
-                label: 'emailLabel'
-            },
-            password: {
-                elementType: 'input',
-                elementConfig: {
-                    type: 'password',
+                password: {
+                    elementType: 'input',
+                    elementConfig: {
+                        type: 'password',
+                    },
+                    value: '',
+                    label: 'passwordLabel'
                 },
-                value: '',
-                label: 'passwordLabel'
-            },
-            rememberMe: {
-                elementType: 'checkbox',
-                value: '',
-                label: 'rememberMeLabel'
+                rememberMe: {
+                    elementType: 'checkbox',
+                    value: '',
+                    label: 'rememberMeLabel'
+                }
             }
         }
+        this.inputChangedHandler = this.inputChangedHandler.bind(this);
+        this.login = this.login.bind(this);
     }
 
     inputChangedHandler = (event, inputIdentifier) =>{
@@ -50,20 +55,19 @@ class Login extends Component {
 
     login = (event) => {
         event.preventDefault();//TODO Prevent refreshing page(and refreshing state)
-        localStorage.setItem("role","USER")
-        //TODO This is the solution. Enable when you solve cors problem
-        // axios.defaults.headers.common['Content-Type'] = 'application/json';
-        // axios.post( 'http://localhost:8762/auth', {username:this.state.email,password:this.state.password} )
-        //     .then( response => {
-        //         debugger;
-        //         this.setState( { events: response.data } );
-        //     } )
-        //     .catch( error => {
-        //         console.log('greska')
-        //         console.log(error)
-        //         this.setState( { error: true } );
-        //     } );
-    }
+        axios.defaults.headers.common['Content-Type'] = 'application/json';
+        axios.post( 'http://localhost:8762/auth', {username:this.state.loginForm.email.value,password:this.state.loginForm.password.value} )
+            .then( response => {
+                let authorizationTOken = response.headers.authorization;//TODO
+                localStorage.setItem("token",authorizationTOken);
+                window.location.replace("/");
+            } )
+            .catch( error => {
+                console.log('greska')
+                console.log(error)
+                this.setState( { error: true } );
+            } );
+    };
 
     render() {
         const { classes } = this.props;
@@ -91,6 +95,9 @@ class Login extends Component {
                         <Button variant="contained" className={classes.button}>
                             <span className={classes.buttonLabel}>Login</span>
                         </Button>
+                        <Col smOffset={2}>
+                            <Button type="submit">Log in2</Button>
+                        </Col>
                     </Col>
                 </Form>
 
