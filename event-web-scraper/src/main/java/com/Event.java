@@ -10,7 +10,7 @@ public class Event {
     private String eventId;
     private String eventName;
     private List<String> eventHostIds;
-    private Integer eventSeriesId;
+//    private Integer eventSeriesId;
     private String eventType;
     private String placeId;
     private ZonedDateTime eventDateAndTime;
@@ -42,13 +42,14 @@ public class Event {
         this.eventHostIds = eventHostIds;
     }
 
-    public Integer getEventSeriesId() {
-        return eventSeriesId;
-    }
+//    public Integer getEventSeriesId() {
+//        return eventSeriesId;
+//    }
+//
+//    public void setEventSeriesId(Integer eventSeriesId) {
+//        this.eventSeriesId = eventSeriesId;
+//    }
 
-    public void setEventSeriesId(Integer eventSeriesId) {
-        this.eventSeriesId = eventSeriesId;
-    }
 
     public String getEventType() {
         return eventType;
@@ -104,7 +105,7 @@ public class Event {
                 "eventId='" + eventId + '\'' +
                 ", eventName='" + eventName + '\'' +
                 ", eventHostIds=" + eventHostIds +
-                ", eventSeriesId=" + eventSeriesId +
+//                ", eventSeriesId=" + eventSeriesId +
                 ", eventType='" + eventType + '\'' +
                 ", placeId='" + placeId + '\'' +
                 ", eventDateAndTime=" + eventDateAndTime +

@@ -4,8 +4,13 @@ package com.example.demo;
  * Created by spasoje on 01-Nov-18.
  */
 
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
+import java.util.List;
 
 /**
  * Created by spasoje on 15-Jun-17.
@@ -14,21 +19,22 @@ import java.time.ZonedDateTime;
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @DiscriminatorColumn(name="event_type")
 @Table(name="event")
+@EqualsAndHashCode
 public abstract class Event {
     private String eventId;
     private String eventName;
-    private String eventHostId;
-    private Integer eventSeriesId;
+//    private List<String> eventHostsId;
+//    private Integer eventSeriesId;
     private String eventType;
     private String placeId;
-    private ZonedDateTime eventDateAndTime;
+    private LocalDateTime eventDateAndTime;
     private String description;
     private String source;
 //    private Set<User> organizers;//TODO Temporary commented for compile reasons
     //TODO Tickets should be added here
 
     @Id
-    @Column(name = "event_id")
+    @Column
     public String getEventId() {
         return eventId;
     }
@@ -38,7 +44,7 @@ public abstract class Event {
     }
 
     @Basic
-    @Column(name = "event_name")
+    @Column
     public String getEventName() {
         return eventName;
     }
@@ -47,18 +53,18 @@ public abstract class Event {
         this.eventName = eventName;
     }
 
-    @Basic
-    @Column(name = "event_host_id")
-    public String getEventHostId() {
-        return eventHostId;
-    }
+//    @Basic
+//    @Column
+//    public String getEventHostId() {
+//        return eventHostsId;
+//    }
+//
+//    public void setEventHostId(String eventHostId) {
+//        this.eventHostsId = eventHostId;
+//    }
 
-    public void setEventHostId(String eventHostId) {
-        this.eventHostId = eventHostId;
-    }
-
     @Basic
-    @Column(name = "description")
+    @Column
     public String getDescription() {
         return description;
     }
@@ -67,18 +73,18 @@ public abstract class Event {
         this.description = description;
     }
 
-    @Basic
-    @Column(name = "event_series_id")
-    public Integer getEventSeriesId() {
-        return eventSeriesId;
-    }
+//    @Basic
+//    @Column
+//    public Integer getEventSeriesId() {
+//        return eventSeriesId;
+//    }
+//
+//    public void setEventSeriesId(Integer eventSeriesId) {
+//        this.eventSeriesId = eventSeriesId;
+//    }
 
-    public void setEventSeriesId(Integer eventSeriesId) {
-        this.eventSeriesId = eventSeriesId;
-    }
-
     @Basic
-    @Column(name = "event_type", insertable = false, updatable = false)
+    @Column(insertable = false, updatable = false)
     public String getEventType() {
         return eventType;
     }
@@ -89,7 +95,7 @@ public abstract class Event {
     }
 
     @Basic
-    @Column(name = "place_id")
+    @Column
     public String getPlaceId() {
         return placeId;
     }
@@ -99,17 +105,17 @@ public abstract class Event {
     }
 
     @Basic
-    @Column(name = "event_date_and_time")
-    public ZonedDateTime getEventDateAndTime() {
+    @Column
+    public LocalDateTime getEventDateAndTime() {
         return eventDateAndTime;
     }
 
-    public void setEventDateAndTime(ZonedDateTime eventDateAndTime) {
+    public void setEventDateAndTime(LocalDateTime eventDateAndTime) {
         this.eventDateAndTime = eventDateAndTime;
     }
 
     @Basic
-    @Column(name = "source")
+    @Column
     public String getSource() {
         return source;
     }
@@ -126,38 +132,5 @@ public abstract class Event {
 //    public void setOrganizers(Set<User> organizers) {
 //        this.organizers = organizers;
 //    }//TODO Temporary commented for compile reasons
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Event event = (Event) o;
-
-        if (!eventId.equals(event.eventId)) return false;
-        if (!eventName.equals(event.eventName)) return false;
-        if (!eventHostId.equals(event.eventHostId)) return false;
-        if (description != null ? !description.equals(event.description) : event.description != null) return false;
-        if (eventSeriesId != null ? !eventSeriesId.equals(event.eventSeriesId) : event.eventSeriesId != null)
-            return false;
-        if (!eventType.equals(event.eventType)) return false;
-        if (!placeId.equals(event.placeId)) return false;
-        if (!eventDateAndTime.equals(event.eventDateAndTime)) return false;
-        return source.equals(event.source);
-    }
-
-    @Override
-    public int hashCode() {
-        int result = eventId.hashCode();
-        result = 31 * result + eventName.hashCode();
-        result = 31 * result + eventHostId.hashCode();
-        result = 31 * result + (description != null ? description.hashCode() : 0);
-        result = 31 * result + (eventSeriesId != null ? eventSeriesId.hashCode() : 0);
-        result = 31 * result + eventType.hashCode();
-        result = 31 * result + placeId.hashCode();
-        result = 31 * result + eventDateAndTime.hashCode();
-        result = 31 * result + source.hashCode();
-        return result;
-    }
 }
 

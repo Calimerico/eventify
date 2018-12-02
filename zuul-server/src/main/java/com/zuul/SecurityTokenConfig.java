@@ -37,6 +37,8 @@ public class SecurityTokenConfig extends WebSecurityConfigurerAdapter {
                 // allow all who are accessing "auth" service
                 .antMatchers(HttpMethod.OPTIONS, jwtConfig.getUri()).permitAll()
                 .antMatchers(HttpMethod.POST, jwtConfig.getUri()).permitAll()
+                .antMatchers(HttpMethod.OPTIONS, "/scraper/scrap").permitAll()
+                .antMatchers(HttpMethod.POST, "/scraper/scrap").permitAll()
                 .antMatchers(HttpMethod.GET, "/event/events").permitAll()
                 // must be an admin if trying to access admin area (authentication is also required here)
                 .antMatchers("/gallery" + "/admin/**").hasRole("ADMIN")
@@ -47,7 +49,8 @@ public class SecurityTokenConfig extends WebSecurityConfigurerAdapter {
     //TODO This is to skip security for this path https://stackoverflow.com/questions/30366405/how-to-disable-spring-security-for-particular-url
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/event/events");
+        web.ignoring().antMatchers("/event/**");
+        web.ignoring().antMatchers("/scrap/**");
     }
 
     @Bean
