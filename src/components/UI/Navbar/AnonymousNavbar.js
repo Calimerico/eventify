@@ -54,6 +54,7 @@ class ScrollableTabsButtonForce extends React.Component {
                     >
 
                         <Tab label={<span className={classes.tabLabel}>Home</span>}  icon={<Home />} component={NavLink} to="/"/>
+                        <Tab label={<span className={classes.tabLabel}>Scrap events</span>}  icon={<Home />} component={NavLink} to="/scrap"/>
                         <Tab label={<span className={classes.tabLabel}>Contact us</span>} icon={<Phone />} component={NavLink} to="/contactus"/>
                         <Tab label={<span className={classes.tabLabel}>About us</span>} icon={<PersonPinIcon />} component={NavLink} to="/aboutus"/>
                         <Tab label={<span className={classes.tabLabel}>Careers</span>} icon={<Work />} component={NavLink} to="/careers"/>
