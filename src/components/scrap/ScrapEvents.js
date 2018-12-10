@@ -5,6 +5,7 @@ import React, {Component} from 'react';
 import axios from './../../axiosBase';
 import {Form, Col} from 'react-bootstrap';
 import Button from '@material-ui/core/Button';
+import { connect } from 'react-redux';
 
 class ScrapEvents extends Component {
 
@@ -30,7 +31,6 @@ class ScrapEvents extends Component {
     }
 
     scrapEvents(event) {
-        debugger;
         event.preventDefault();//TODO Prevent refreshing page(and refreshing state)
         axios.post( 'http://localhost:8762/scraper/scrap')
             .then( response => {
@@ -43,5 +43,10 @@ class ScrapEvents extends Component {
             } );
     }
 }
+const mapDispatchToProps = dispatch => {
+    return {
+        scrapEvents: () => dispatch({type: 'SCRAP_EVENTS'})
+    }
+};
 
-export default ScrapEvents
+export default connect(null,mapDispatchToProps)(ScrapEvents);

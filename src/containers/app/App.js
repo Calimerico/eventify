@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import './App.css';
 import Events from '../events/Events';
 import MainNavbar from '../../components/UI/Navbar/MainNavbar';
+import AdminNavbar from '../../components/UI/Navbar/AdminNavbar';
 import {BrowserRouter} from 'react-router-dom';
 import {Route} from 'react-router-dom';
 import AboutUs from './../../components/aboutus/AboutUs';

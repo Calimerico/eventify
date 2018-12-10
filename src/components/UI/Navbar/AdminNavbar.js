@@ -19,7 +19,9 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
-import axios from './../../../axiosBase';
+import { connect } from 'react-redux';
+import authActions from './../../../redux/auth/actions';
+import scrapActions from './../../../redux/scrap/actions';
 
 const styles = theme => ({
     root: {
@@ -37,30 +39,6 @@ const styles = theme => ({
         [theme.breakpoints.up('sm')]: {
             display: 'block',
         },
-    },
-    search: {
-        position: 'relative',
-        borderRadius: theme.shape.borderRadius,
-        backgroundColor: fade(theme.palette.common.white, 0.15),
-        '&:hover': {
-            backgroundColor: fade(theme.palette.common.white, 0.25),
-        },
-        marginRight: theme.spacing.unit * 2,
-        marginLeft: 0,
-        width: '100%',
-        [theme.breakpoints.up('sm')]: {
-            marginLeft: theme.spacing.unit * 3,
-            width: 'auto',
-        },
-    },
-    searchIcon: {
-        width: theme.spacing.unit * 9,
-        height: '100%',
-        position: 'absolute',
-        pointerEvents: 'none',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
     },
     inputRoot: {
         color: 'inherit',
@@ -96,7 +74,7 @@ class AdminNavbar extends React.Component {
 
     constructor(props) {
         super(props);
-        this.logout = this.logout.bind(this);
+        this.onLogout = this.onLogout.bind(this);
         this.scrapEvents = this.scrapEvents.bind(this);
     }
 
@@ -115,11 +93,10 @@ class AdminNavbar extends React.Component {
         this.handleMobileMenuClose();
     };
 
-    logout = () => {
+    onLogout = () => {
         this.setState({ anchorEl: null });
         this.handleMobileMenuClose();
-        localStorage.removeItem("token");
-        window.location.replace("/");
+        this.props.logout();
     };
 
     scrapEvents = (event) => {
@@ -151,7 +128,7 @@ class AdminNavbar extends React.Component {
                 <MenuItem onClick={this.handleMenuClose}>Profile</MenuItem>
                 <MenuItem onClick={this.handleMenuClose}>My account</MenuItem>
                 <MenuItem onClick={this.scrapEvents}>Scrap events</MenuItem>
-                <MenuItem onClick={this.logout}>Logout</MenuItem>
+                <MenuItem onClick={this.onLogout}>Logout</MenuItem>
             </Menu>
         );
 
@@ -192,24 +169,9 @@ class AdminNavbar extends React.Component {
             <div className={classes.root}>
                 <AppBar position="static">
                     <Toolbar>
-                        <IconButton className={classes.menuButton} color="inherit" aria-label="Open drawer">
-                            <MenuIcon />
-                        </IconButton>
                         <Typography className={classes.title} variant="h6" color="inherit" noWrap>
-                            Material-UI
+                            Eventify
                         </Typography>
-                        <div className={classes.search}>
-                            <div className={classes.searchIcon}>
-                                <SearchIcon />
-                            </div>
-                            <InputBase
-                                placeholder="Search…"
-                                classes={{
-                                    root: classes.inputRoot,
-                                    input: classes.inputInput,
-                                }}
-                            />
-                        </div>
                         <div className={classes.grow} />
                         <div className={classes.sectionDesktop}>
                             <IconButton color="inherit">
@@ -249,4 +211,15 @@ AdminNavbar.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(AdminNavbar);
+const mapStateToProps = state => {
+
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        scrapEvents: () => dispatch(scrapActions.scrapEvents()),
+        logout: () => dispatch(authActions.logout())
+    }
+};
+
+export default connect(mapStateToProps,mapDispatchToProps)(withStyles(styles)(AdminNavbar));

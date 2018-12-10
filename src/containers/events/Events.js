@@ -14,8 +14,8 @@ import FirstPageIcon from '@material-ui/icons/FirstPage';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import LastPageIcon from '@material-ui/icons/LastPage';
-import Button from '@material-ui/core/Button';
-import axios from './../../axiosBase';
+import { connect } from 'react-redux';
+import eventActions from './../../redux/event/actions'
 
 const actionsStyles = theme => ({
     root: {
@@ -116,19 +116,7 @@ class CustomPaginationActionsTable extends React.Component {
 
     constructor(props) {
         super(props);
-        axios.get( 'http://localhost:8762/event/events')
-            .then( response => {
-                const events = []
-                response.data.map(event => {
-                    events.push(event)
-                });
-                this.setState({events:events});
-            } )
-            .catch( error => {
-                console.log('greska')
-                console.log(error)
-                this.setState( { error: true } );
-            } );
+        this.props.getEvents();
     }
 
     state = {
@@ -207,4 +195,13 @@ CustomPaginationActionsTable.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(CustomPaginationActionsTable);
+const mapStateToProps = state => {
+
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        getEvents: () => dispatch(eventActions.getEvents())
+    }
+};
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(CustomPaginationActionsTable));

@@ -9,6 +9,9 @@ import axios from './../../axiosBase';
 import PropTypes from 'prop-types';
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
+import authActions from './../../redux/auth/actions'
+import { connect } from 'react-redux';
+
 
 class Login extends Component {
 
@@ -40,7 +43,7 @@ class Login extends Component {
             }
         }
         this.inputChangedHandler = this.inputChangedHandler.bind(this);
-        this.login = this.login.bind(this);
+        this.onLogin = this.onLogin.bind(this);
     }
 
     inputChangedHandler = (event, inputIdentifier) =>{
@@ -53,20 +56,9 @@ class Login extends Component {
         });
     };
 
-    login = (event) => {
+    onLogin = (event) => {
         event.preventDefault();//TODO Prevent refreshing page(and refreshing state)
-        axios.defaults.headers.common['Content-Type'] = 'application/json';
-        axios.post( 'http://localhost:8762/auth', {username:this.state.loginForm.email.value,password:this.state.loginForm.password.value} )
-            .then( response => {
-                let authorizationTOken = response.headers.authorization;//TODO
-                localStorage.setItem("token",authorizationTOken);
-                window.location.replace("/");
-            } )
-            .catch( error => {
-                console.log('greska')
-                console.log(error)
-                this.setState( { error: true } );
-            } );
+        this.props.login(this.state.loginForm.email.value,this.state.loginForm.password.value);
     };
 
     render() {
@@ -89,7 +81,7 @@ class Login extends Component {
         ))
         return(
             <div style={{width: '25%', margin:'auto'}}>
-                <Form onSubmit={this.login} horizontal>
+                <Form onSubmit={this.onLogin} horizontal>
                     {formInputs}
                     <Col smOffset={2}>
                         <Button variant="contained" className={classes.button}>
@@ -122,4 +114,16 @@ Login.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(translate()(Login));
+const mapStateToProps = state => {
+    return {
+
+    }
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        login: (username,password) => dispatch(authActions.login(username,password))
+    }
+};
+
+export default connect(mapStateToProps,mapDispatchToProps)(withStyles(styles)(translate()(Login)));
