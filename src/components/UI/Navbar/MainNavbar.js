@@ -5,16 +5,17 @@ import React from 'react';
 import AnonymousNavbar from './AnonymousNavbar';
 import NormalUserNavbar from './NormalUserNavbar';
 import AdminNavbar from './AdminNavbar';
-
+import authSelectors from './../../../redux/auth/selector'
+import { connect } from 'react-redux';
 class MainNavbar extends React.Component {
 
     constructor(props) {
         super(props);
-        this.parseJwt = this.parseJwt.bind(this);
     }
 
     render() {
-        const token = this.parseJwt(localStorage.getItem("token"));
+        debugger;
+        const token = this.props.token;
         if(token === null){
             return <AnonymousNavbar/>
         }
@@ -24,15 +25,12 @@ class MainNavbar extends React.Component {
         return <NormalUserNavbar/>
     }
 
-    parseJwt = (token) => {
-        if(token === null) {
-            return null;
-        }
-        const base64Url = token.split('.')[1];
-        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-        return JSON.parse(window.atob(base64));
-    };
-
 }
 
-export default MainNavbar;
+const mapStateToProps = state => {
+    return {
+        token: authSelectors.getToken(state)
+    }
+};
+
+export default connect(mapStateToProps,null)(MainNavbar);

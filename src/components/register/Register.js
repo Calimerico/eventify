@@ -57,6 +57,7 @@ class Register extends Component {
                 config: this.state.loginForm[key]
             })
         }
+        //TODO The same as in login form, use these, dont hardcode fields!
         const formInputs = formElementsArray.map(element => (
             <Input  key={element.id} elementType={element.config.elementType}
                    elementConfig={element.config.elementConfig} value={element.config.value} label={element.config.label}/>

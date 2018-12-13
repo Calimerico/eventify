@@ -40,6 +40,7 @@ class ScrollableTabsButtonForce extends React.Component {
     render() {
         const { classes } = this.props;
         const { value } = this.state;
+        //TODO Add change language option in anonymous menu!
 
         return (
             <div className={classes.root}>

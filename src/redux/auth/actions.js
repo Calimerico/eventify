@@ -17,6 +17,20 @@ export const login = (username,password) => {
             } );
     }
 };
+
+export const register = (newUser) => {
+    return (dispatch) => {
+        dispatch({type:types.REGISTER});
+        axios.defaults.headers.common['Content-Type'] = 'application/json';
+        axios.post( 'http://localhost:8762/auth/register', {newUser} )//TODO You need this /auth/register path
+            .then( response => {
+                dispatch({type:types.REGISTER_SUCCESS,token:response.headers.authorization});
+            } )
+            .catch( error => {
+                dispatch({type:types.REGISTER_FAIL,error:error});
+            } );
+    }
+};
 export const logout = () => {
     return (dispatch) => {
         dispatch({type:types.LOGOUT});
@@ -24,7 +38,8 @@ export const logout = () => {
 };
 const actions = {
     logout:logout,
-    login:login
+    login:login,
+    register:register
 }
 
 export default actions;
