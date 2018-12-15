@@ -37,6 +37,8 @@ public class SecurityTokenConfig extends WebSecurityConfigurerAdapter {
                 // allow all who are accessing "auth" service
                 .antMatchers(HttpMethod.OPTIONS, jwtConfig.getUri()).permitAll()
                 .antMatchers(HttpMethod.POST, jwtConfig.getUri()).permitAll()
+                .antMatchers(HttpMethod.OPTIONS, "/auth/register").permitAll()
+                .antMatchers(HttpMethod.POST, "/auth/register").permitAll()
                 .antMatchers(HttpMethod.OPTIONS, "/scraper/scrap").permitAll()
                 .antMatchers(HttpMethod.POST, "/scraper/scrap").permitAll()
                 .antMatchers(HttpMethod.GET, "/event/events").permitAll()
