@@ -4,19 +4,18 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import InputBase from '@material-ui/core/InputBase';
 import Badge from '@material-ui/core/Badge';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import { fade } from '@material-ui/core/styles/colorManipulator';
 import { withStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
-import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
-
+import { connect } from 'react-redux';
+import authActions from './../../../redux/auth/actions';
 const styles = theme => ({
     root: {
         width: '100%',
@@ -33,30 +32,6 @@ const styles = theme => ({
         [theme.breakpoints.up('sm')]: {
             display: 'block',
         },
-    },
-    search: {
-        position: 'relative',
-        borderRadius: theme.shape.borderRadius,
-        backgroundColor: fade(theme.palette.common.white, 0.15),
-        '&:hover': {
-            backgroundColor: fade(theme.palette.common.white, 0.25),
-        },
-        marginRight: theme.spacing.unit * 2,
-        marginLeft: 0,
-        width: '100%',
-        [theme.breakpoints.up('sm')]: {
-            marginLeft: theme.spacing.unit * 3,
-            width: 'auto',
-        },
-    },
-    searchIcon: {
-        width: theme.spacing.unit * 9,
-        height: '100%',
-        position: 'absolute',
-        pointerEvents: 'none',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
     },
     inputRoot: {
         color: 'inherit',
@@ -102,6 +77,12 @@ class NormalUserNavbar extends React.Component {
         this.handleMobileMenuClose();
     };
 
+    onLogout = () => {
+        this.setState({ anchorEl: null });
+        this.handleMobileMenuClose();
+        this.props.logout();
+    };
+
     handleMobileMenuOpen = event => {
         this.setState({ mobileMoreAnchorEl: event.currentTarget });
     };
@@ -126,6 +107,7 @@ class NormalUserNavbar extends React.Component {
             >
                 <MenuItem onClick={this.handleMenuClose}>Profile</MenuItem>
                 <MenuItem onClick={this.handleMenuClose}>My account</MenuItem>
+                <MenuItem onClick={this.onLogout}>Logout</MenuItem>
             </Menu>
         );
 
@@ -172,18 +154,6 @@ class NormalUserNavbar extends React.Component {
                         <Typography className={classes.title} variant="h6" color="inherit" noWrap>
                             Material-UI
                         </Typography>
-                        <div className={classes.search}>
-                            <div className={classes.searchIcon}>
-                                <SearchIcon />
-                            </div>
-                            <InputBase
-                                placeholder="Search…"
-                                classes={{
-                                    root: classes.inputRoot,
-                                    input: classes.inputInput,
-                                }}
-                            />
-                        </div>
                         <div className={classes.grow} />
                         <div className={classes.sectionDesktop}>
                             <IconButton color="inherit">
@@ -223,4 +193,14 @@ NormalUserNavbar.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(NormalUserNavbar);
+const mapStateToProps = state => {
+
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        logout: () => dispatch(authActions.logout())
+    }
+};
+
+export default connect(mapStateToProps,mapDispatchToProps)(withStyles(styles)(NormalUserNavbar));
