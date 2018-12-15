@@ -14,7 +14,8 @@ const reducer = (state = {}, action) => {
             window.location.replace("/");//TODO This redirect does not work!
             return {...state, token:null};
         case types.REGISTER_SUCCESS:
-            return state;//TODO Implement here logic for register
+            //TODO Implement here logic for register.
+            return state;
         default:
             return state;
     }

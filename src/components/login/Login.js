@@ -4,15 +4,11 @@
 import React, {Component} from 'react';
 import {translate} from 'react-i18next';
 
-import {Form, Col} from 'react-bootstrap';
-import axios from './../../axiosBase';
 import PropTypes from 'prop-types';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import FormControl from '@material-ui/core/FormControl';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import LockIcon from '@material-ui/icons/LockOutlined';
@@ -87,16 +83,17 @@ class Login extends Component {
                     label: 'rememberMeLabel'
                 }
             },
-            email:null,
+            userName:null,
             password:null,
 
         };
         this.inputChangedHandler = this.inputChangedHandler.bind(this);
-        this.onEmailChange = this.onEmailChange.bind(this);
+        this.onUserNameChange = this.onUserNameChange.bind(this);
         this.onPasswordChange = this.onPasswordChange.bind(this);
         this.onLogin = this.onLogin.bind(this);
     }
 
+    //TODO This is called in dynamic inputs
     inputChangedHandler = (event, inputIdentifier) =>{
         const updatedLoginForm = {...this.state.loginForm};
         const updatedFormElement = {...updatedLoginForm[inputIdentifier]};
@@ -109,12 +106,11 @@ class Login extends Component {
 
     onLogin = (event) => {
         event.preventDefault();//TODO Prevent refreshing page(and refreshing state)
-        this.props.login(this.state.email,this.state.password);
+        this.props.login(this.state.userName,this.state.password);
     };
 
-    onEmailChange = (event) => {
-        debugger;
-        this.setState({...this.state, email:event.target.value});
+    onUserNameChange = (event) => {
+        this.setState({...this.state, userName:event.target.value});
     };
 
     onPasswordChange = (event) => {
@@ -153,12 +149,12 @@ class Login extends Component {
                     </Typography>
                     <form onSubmit={this.onLogin} className={classes.form}>
                         <FormControl margin="normal" required fullWidth>
-                            <InputLabel className={classes.formLabel} htmlFor="email">Email Address</InputLabel>
-                            <Input value={this.state.email} onChange={this.onEmailChange} id="email" name="email" autoComplete="email" autoFocus />
+                            <InputLabel className={classes.formLabel} htmlFor="userName">Username</InputLabel>
+                            <Input value={this.state.userName} onChange={this.onUserNameChange} id="userName" name="userName" autoFocus />
                         </FormControl>
                         <FormControl margin="normal" required fullWidth>
                             <InputLabel className={classes.formLabel} htmlFor="password">Password</InputLabel>
-                            <Input value={this.state.password} onChange={this.onPasswordChange} name="password" type="password" id="password" autoComplete="current-password" />
+                            <Input value={this.state.password} onChange={this.onPasswordChange} name="password" type="password" id="password" />
                         </FormControl>
                         <Button
                             type="submit"

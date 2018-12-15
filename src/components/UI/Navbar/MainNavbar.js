@@ -14,7 +14,6 @@ class MainNavbar extends React.Component {
     }
 
     render() {
-        debugger;
         const token = this.props.token;
         if(token === null){
             return <AnonymousNavbar/>
