@@ -41,7 +41,7 @@ public class Consumer {
         List<Event> events = eventsScraped
                 .getEventsScraped()
                 .stream()
-                .map(EventFactory::create).collect(Collectors.toList());
+                .map(EventBuilder::create).collect(Collectors.toList());
         eventRepository.saveAll(events);
     }
 }

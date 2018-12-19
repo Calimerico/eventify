@@ -1,9 +1,11 @@
 package com.example.demo;
 
+import lombok.Builder;
+
 /**
  * Created by spasoje on 21-Nov-18.
  */
-public class EventFactory {
+public class EventBuilder {
     public static Event create(EventScraped eventScraped) {
         if (eventScraped == null) {
             return null;
@@ -26,4 +28,9 @@ public class EventFactory {
                 throw new RuntimeException("");
         }
     }
+    //TODO Make builder
+//    @Builder(builderMethodName = "aEvent")
+//    public static Event create(String eventType, String eventName, String description, ) {
+//        return null;
+//    }
 }

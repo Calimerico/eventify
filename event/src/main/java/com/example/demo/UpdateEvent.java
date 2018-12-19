@@ -1,20 +1,16 @@
 package com.example.demo;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Value;
 
 import java.time.LocalDateTime;
 
 /**
- * Created by spasoje on 30-Nov-18.
+ * Created by spasoje on 15-Dec-18.
  */
-@NoArgsConstructor
-@AllArgsConstructor
-@Data
+@Value
 @Builder
-public class CreateEventRequest {
+public class UpdateEvent implements Command<Void>{
     private String eventName;
     private String eventType;
     private String placeId;
