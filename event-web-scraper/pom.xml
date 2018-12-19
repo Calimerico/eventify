@@ -61,7 +61,7 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>eventify</groupId>
+            <groupId>com.eventify</groupId>
             <artifactId>eventify-shared</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>

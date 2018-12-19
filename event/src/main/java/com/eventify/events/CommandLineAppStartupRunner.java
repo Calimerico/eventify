@@ -1,5 +1,7 @@
 package com.eventify.events;
 
+import com.eventify.events.domain.TheaterEvent;
+import com.eventify.events.infrastructure.EventRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
