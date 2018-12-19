@@ -1,7 +1,6 @@
 package com;
 
-import com.example.demo.Command;
-import com.net.CommandHandler;
+import com.eventifyshared.demo.Command;
 import lombok.Builder;
 import lombok.Value;
 

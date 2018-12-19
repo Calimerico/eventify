@@ -11,7 +11,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
-    <groupId>eventify</groupId>
+    <groupId>com.eventify</groupId>
     <artifactId>zuul-server</artifactId>
     <version>1.0-SNAPSHOT</version>
     <properties>

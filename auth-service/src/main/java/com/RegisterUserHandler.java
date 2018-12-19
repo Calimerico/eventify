@@ -1,6 +1,6 @@
 package com;
 
-import com.net.CommandHandler;
+import com.eventifyshared.net.CommandHandler;
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
  */
 @CommandHandler
 @RequiredArgsConstructor
-public class RegisterUserHandler implements com.example.demo.CommandHandler<RegisterUser,Void> {
+public class RegisterUserHandler implements com.eventifyshared.demo.CommandHandler<RegisterUser,Void> {
 
     private final UserRepository userRepository;
 
