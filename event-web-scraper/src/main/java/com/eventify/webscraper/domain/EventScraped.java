@@ -13,6 +13,7 @@ import java.util.UUID;
  */
 @Value
 @Builder
+//TODO Is this appropriate package for output event?Introduce domain and external events?
 public class EventScraped {
     private String eventId;
     private String eventName;

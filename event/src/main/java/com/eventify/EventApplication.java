@@ -1,6 +1,6 @@
-package com.eventify.events;
+package com.eventify;
 
-import com.eventifyshared.demo.DomainEvent;
+import com.eventify.shared.demo.DomainEvent;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.boot.SpringApplication;

@@ -1,4 +1,4 @@
-package com.eventifyshared.demo;
+package com.eventify.shared.demo;
 
 /**
  * Created by spasoje on 22-Nov-18.

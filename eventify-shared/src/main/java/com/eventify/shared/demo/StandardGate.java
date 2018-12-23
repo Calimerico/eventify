@@ -1,4 +1,4 @@
-package com.eventifyshared.demo;
+package com.eventify.shared.demo;
 
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;

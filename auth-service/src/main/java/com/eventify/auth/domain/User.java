@@ -2,9 +2,12 @@ package com.eventify.auth.domain;
 
 import lombok.*;
 
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.util.List;
+import java.util.Set;
+import java.util.UUID;
 
 /**
  * Created by spasoje on 13-Dec-18.
@@ -13,7 +16,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter(AccessLevel.PUBLIC)
 @Setter(AccessLevel.PUBLIC)
-@AllArgsConstructor(access = AccessLevel.PUBLIC)//TODO Getters settes and constructor should be package level
+@AllArgsConstructor(access = AccessLevel.PUBLIC)//TODO Getters setters and constructor should be package level?I should create userbuilder
 public class User {
     private String email;
     @Id
@@ -23,4 +26,6 @@ public class User {
     private String lastName;
     private String sex;
     private String role;
+    @ElementCollection
+    private Set<UUID> eventIdsThatUserOrganize;
 }

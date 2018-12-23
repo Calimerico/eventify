@@ -1,4 +1,4 @@
-package com.eventifyshared.net;
+package com.eventify.shared.net;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

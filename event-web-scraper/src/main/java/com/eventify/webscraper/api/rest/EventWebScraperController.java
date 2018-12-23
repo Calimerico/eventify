@@ -1,7 +1,7 @@
 package com.eventify.webscraper.api.rest;
 
 import com.eventify.webscraper.application.commands.ScrapEvents;
-import com.eventifyshared.demo.Gate;
+import com.eventify.shared.demo.Gate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;

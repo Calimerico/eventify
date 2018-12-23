@@ -1,4 +1,4 @@
-package com.eventify.webscraper.infrasturcture;
+package com.eventify.events.infrastructure;
 
 import com.eventify.shared.demo.DomainEvent;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
@@ -12,7 +12,7 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
 /**
- * Created by spasoje on 30-Nov-18.
+ * Created by spasoje on 20-Dec-18.
  */
 @Component
 //TODO I will duplicate this one for now, should be in com.eventify.shared folder
@@ -27,8 +27,8 @@ public class KafkaEventProducer {
         mapper.registerModule(new JavaTimeModule());
         mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         try {
-            //TODO Rename topic name
-            kafkaTemplate.send("cqrs",mapper.writeValueAsString(event));
+            //TODO rename topic names
+            kafkaTemplate.send("cqrs1",mapper.writeValueAsString(event));
         } catch (JsonProcessingException e) {
             //TODO
             e.printStackTrace();

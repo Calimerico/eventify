@@ -1,4 +1,4 @@
-package com.eventify.zuul;
+package com.eventify;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -1,6 +1,6 @@
 package com.eventify.auth.application.commands;
 
-import com.eventifyshared.demo.Command;
+import com.eventify.shared.demo.Command;
 import lombok.Builder;
 import lombok.Value;
 

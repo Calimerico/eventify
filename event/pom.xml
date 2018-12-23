@@ -57,7 +57,7 @@
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
 		</dependency>
-		<!--TODO Import shared in all projects as part of some shared dependency, don't import in every module-->
+		<!--TODO Import com.eventify.shared in all projects as part of some com.eventify.shared dependency, don't import in every module-->
 		<dependency>
 			<groupId>com.eventify</groupId>
 			<artifactId>eventify-shared</artifactId>
@@ -69,7 +69,7 @@
 			<version>2.2.0.RELEASE</version>
 			<scope>compile</scope>
 		</dependency>
-		<!--TODO Import lombok in all projects as part of some shared dependency, don't import in every module-->
+		<!--TODO Import lombok in all projects as part of some com.eventify.shared dependency, don't import in every module-->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>

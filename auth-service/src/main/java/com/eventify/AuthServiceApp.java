@@ -1,13 +1,12 @@
-package com.eventify.webscraper;
+package com.eventify;
 
-import com.eventifyshared.demo.DomainEvent;
+import com.eventify.shared.demo.DomainEvent;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.Bean;
-import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
@@ -17,15 +16,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by spasoje on 18-Nov-18.
+ * Created by spasoje on 25-Nov-18.
  */
 @SpringBootApplication
-@EnableKafka
 @EnableEurekaClient
-public class EventWebScraperApplication {
+public class AuthServiceApp {
 
     public static void main(String[] args) {
-        SpringApplication.run(EventWebScraperApplication.class, args);
+        SpringApplication.run(AuthServiceApp.class, args);
     }
 
     @Bean

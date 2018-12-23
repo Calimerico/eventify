@@ -11,6 +11,8 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.util.List;
+import java.util.Set;
+import java.util.UUID;
 
 /**
  * Created by spasoje on 15-Jun-17.
@@ -21,10 +23,12 @@ import java.util.List;
 @Table(name="event")
 @EqualsAndHashCode
 public abstract class Event {
+    //TODO All ids should be UUID, id is dependent on name, date and place, be careful if for example date change you don't have consistency!
     private String eventId;
     private String eventName;
-//    private List<UUID> eventHostsId;
+    private Set<UUID> hosts;
     private String eventType;
+    //TODO All ids should be UUID!
     private String placeId;
     private LocalDateTime eventDateAndTime;
     private String description;
@@ -100,6 +104,15 @@ public abstract class Event {
 
     public void setSource(String source) {
         this.source = source;
+    }
+
+    @ElementCollection
+    public Set<UUID> getHosts() {
+        return hosts;
+    }
+
+    public void setHosts(Set<UUID> hosts) {
+        this.hosts = hosts;
     }
 }
 

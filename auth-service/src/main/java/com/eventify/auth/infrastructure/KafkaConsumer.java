@@ -1,8 +1,8 @@
-package com.eventify.events.infrastructure;
+package com.eventify.auth.infrastructure;
 
-import com.eventify.events.api.msg.EventsScraped;
-import com.eventify.events.domain.Event;
-import com.eventify.events.domain.EventFactory;
+import com.eventify.auth.api.msg.EventAddedEvent;
+import com.eventify.auth.application.commands.MakeUserHostOfEvent;
+import com.eventify.shared.demo.Gate;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -13,38 +13,40 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
- * Created by spasoje on 23-Nov-18.
+ * Created by spasoje on 20-Dec-18.
  */
 @Service
 @RequiredArgsConstructor
-public class Consumer {
+public class KafkaConsumer {
 
-    private final EventRepository eventRepository;
+    private final Gate gate;
 
-    @KafkaListener(topics = "cqrs")
+    @KafkaListener(topics = "cqrs1")
     public void receiveTopic(ConsumerRecord<?, String> consumerRecord) {
-        //TODO Guess this assembling should be removed too
         String domainEventAsString = consumerRecord.value();
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new ParameterNamesModule());
         objectMapper.registerModule(new Jdk8Module());
         objectMapper.registerModule(new JavaTimeModule()); // new module, NOT JSR310Module
+        //TODO Obvious duplicate of this object mapper registering modules, check it
         //TODO Maybe I don't need all of 3 modules, look here https://stackoverflow.com/questions/27952472/serialize-deserialize-java-8-java-time-with-jackson-json-mapper
-        EventsScraped eventsScraped = null;
+        EventAddedEvent eventAddedEvent;
         try {
-            eventsScraped = objectMapper.readValue(domainEventAsString, EventsScraped.class);
+            eventAddedEvent = objectMapper.readValue(domainEventAsString, EventAddedEvent.class);
+            eventAddedEvent.getHosts().forEach(hostId -> {
+                gate.dispatch(MakeUserHostOfEvent
+                        .builder()
+                        .eventId(eventAddedEvent.getEventId())
+                        .userId(hostId)
+                        .build());
+            });
+
         } catch (IOException e) {
             //TODO
             e.printStackTrace();
         }
-        List<Event> events = eventsScraped
-                .getEventsScraped()
-                .stream()
-                .map(EventFactory::create).collect(Collectors.toList());
-        eventRepository.saveAll(events);
+
     }
 }

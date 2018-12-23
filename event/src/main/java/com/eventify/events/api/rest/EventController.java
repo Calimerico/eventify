@@ -5,7 +5,7 @@ import com.eventify.events.application.commands.DeleteEvent;
 import com.eventify.events.application.commands.UpdateEvent;
 import com.eventify.events.domain.Event;
 import com.eventify.events.infrastructure.EventFinder;
-import com.eventifyshared.demo.Gate;
+import com.eventify.shared.demo.Gate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
