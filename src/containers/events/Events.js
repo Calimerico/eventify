@@ -131,17 +131,19 @@ class CustomPaginationActionsTable extends React.Component {
         this.onSubmit = this.onSubmit.bind(this);
         this.onChange = this.onChange.bind(this);
         this.state = {
-            filter:{}
+            filter:{},
+            page: 0,
+            rowsPerPage: 5,
         }
     }
 
 
     handleChangePage = (event, page) => {
-        this.setState({ page });
+        this.setState({...this.state,page: event.target.value });
     };
 
     handleChangeRowsPerPage = event => {
-        this.setState({ rowsPerPage: event.target.value });
+        this.setState({...this.state, rowsPerPage: event.target.value });
     };
 
     onSubmit = event => {
@@ -164,7 +166,7 @@ class CustomPaginationActionsTable extends React.Component {
                 <form className={classes.root}>
                         <InputLabel htmlFor="eventType">Event type</InputLabel>
                         <Select
-                            value={this.state.filter}
+                            value={this.state.filter.eventType}
                             onChange={this.onChange}
                             inputProps={{
                                 className:classes.select,
@@ -208,7 +210,7 @@ class CustomPaginationActionsTable extends React.Component {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {events.slice(0).map(event => {//TODO .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage
+                                {events.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(event => {
                                     return (
 
                                         <TableRow >
