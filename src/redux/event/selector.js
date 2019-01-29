@@ -4,16 +4,25 @@
 import { createSelector } from 'reselect'
 
 const extractEventsFilter = state => {
-    if (state || state === undefined || state.events || state.events === undefined) {
-        return null;
-    }
-    return state.events.eventsFilter;
-}
+    return state.eventsReducer.eventsFilter;
+};
+
+
+const extractEvents = state => {
+    return state.eventsReducer.events;
+};
+
+
 const getEventsFilter = createSelector(
     extractEventsFilter,
     (eventsFilter) => eventsFilter
-)
+);
+const getEventsByFilter = createSelector(
+    extractEvents,
+    (events) => events
+);
 const selectors = {
-    getEventsFilter:getEventsFilter
-}
+    getEventsFilter:getEventsFilter,
+    getEventsByFilter:getEventsByFilter,
+};
 export default selectors;

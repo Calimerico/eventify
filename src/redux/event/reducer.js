@@ -3,17 +3,25 @@
  */
 import types from './types';
 
-const reducer = (state = {events:{}}, action) => {
+const initialState = {
+    events:[],
+    eventsFilter:{
+        priceFrom:null
+    }
+}
+
+const reducer = (state = initialState, action) => {
     switch (action.type) {
-        case types.GET_EVENTS_SUCCESS:
-            const events = {...state.events};
-            action.payload.data.map(event => {
-                events.push(event)
-            });
-            return {...state, events:{...state.events,events:events}};
-        case types.FILTER_CHANGED:
+
+        case types.GET_EVENTS_BY_FILTER_SUCCESS:
+            return {...state, events:action.payload.data};
+        case types.GET_EVENTS_BY_FILTER:
+            return {...state};
+        case types.GET_EVENTS_BY_FILTER_FAIL:
+            return {...state};
+        case types.CHANGE_FILTER_SUCCESS:
             const eventsFilter = action.eventsFilter;
-            return {...state,events:{...state.events, eventsFilter:eventsFilter}};
+            return {...state,eventsFilter:eventsFilter};
         default:
             return state;
     }
