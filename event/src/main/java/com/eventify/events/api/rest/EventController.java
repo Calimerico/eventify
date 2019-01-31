@@ -4,6 +4,7 @@ import com.eventify.events.application.commands.CreateEvent;
 import com.eventify.events.application.commands.DeleteEvent;
 import com.eventify.events.application.commands.UpdateEvent;
 import com.eventify.events.domain.Event;
+import com.eventify.events.domain.EventFactory;
 import com.eventify.events.infrastructure.EventFinder;
 import com.eventify.shared.demo.Gate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,11 +12,14 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+import static java.util.stream.Collectors.toList;
+
 
 /**
  * Created by spasoje on 01-Nov-18.
  */
-@RestController
+@RestController("/events")
 public class EventController {
 
     @Autowired
@@ -24,14 +28,23 @@ public class EventController {
     @Autowired
     private Gate gate;
 
-    @GetMapping(value = "/events")
-    public ResponseEntity<Iterable<Event>> getEvents(@RequestParam(required = false) String eventName, @RequestParam(required = false) String eventType) {
-
-        //TODO Domain object should not be exposed!
-        return ResponseEntity.ok().body(eventFinder.findAll());
+    @GetMapping
+    public ResponseEntity<Iterable<EventResource>> getEvents(@RequestParam(required = false) String eventName, @RequestParam(required = false) String eventType) {
+        return ResponseEntity.ok().body(eventFinder.findByExample(EventFactory.aEvent()
+                .eventName(eventName)
+                .eventType(eventType)
+                .build())
+                .stream()
+                .map(EventResource::fromEvent)
+                .collect(toList()));
     }
 
-    @PostMapping(value = "/addEvent",  consumes = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping("/{id}")
+    public ResponseEntity<EventResource> getEvent(@PathVariable UUID eventId) {
+        return ResponseEntity.ok().body(EventResource.fromEvent(eventFinder.findById(eventId.toString())));
+    }
+
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public void insertEvent(@RequestBody CreateEventRequest createEventRequest) {
         gate.dispatch(CreateEvent
                 .builder()
@@ -43,7 +56,7 @@ public class EventController {
                 .source(createEventRequest.getSource())
                 .build());
     }
-    @PatchMapping(value = "/updateEvent")//TODO You should check for null values and escape them so this can behave like PATHC. Now its like PUT!
+    @PutMapping
     public void updateEvent(@RequestBody UpdateEventRequest updateEventRequest) {
         gate.dispatch(UpdateEvent
                 .builder()
@@ -56,7 +69,7 @@ public class EventController {
                 .build());
     }
 
-    @DeleteMapping(value = "/deleteEvent")
+    @DeleteMapping
     //TODO Check in all controllers, all should return HttpEntity, not void or somthing like that
     public void deleteEvent(@PathVariable String eventId) {
         gate.dispatch(DeleteEvent

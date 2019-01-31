@@ -22,7 +22,7 @@ import java.util.UUID;
 @DiscriminatorColumn(name="event_type")
 @Table(name="event")
 @EqualsAndHashCode
-public abstract class Event {
+public class Event {
     //TODO All ids should be UUID, id is dependent on name, date and place, be careful if for example date change you don't have consistency!
     private String eventId;
     private String eventName;
