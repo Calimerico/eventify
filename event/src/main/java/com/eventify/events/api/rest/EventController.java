@@ -19,7 +19,8 @@ import static java.util.stream.Collectors.toList;
 /**
  * Created by spasoje on 01-Nov-18.
  */
-@RestController("/events")
+@RestController
+@RequestMapping(value = "/events")
 public class EventController {
 
     @Autowired
@@ -41,8 +42,8 @@ public class EventController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<EventResource> getEvent(@PathVariable UUID eventId) {
-        return ResponseEntity.ok().body(EventResource.fromEvent(eventFinder.findById(eventId.toString())));
+    public ResponseEntity<EventResource> getEvent(@PathVariable UUID id) {
+        return ResponseEntity.ok().body(EventResource.fromEvent(eventFinder.findById(id.toString())));
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
