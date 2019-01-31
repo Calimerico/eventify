@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
  */
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
+@Data//TODO AllArgs + Data = Value?
 @Builder
 public class UpdateEventRequest {
     private String eventName;

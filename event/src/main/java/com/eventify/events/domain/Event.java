@@ -71,8 +71,7 @@ public class Event {
         return eventType;
     }
 
-    //TODO Forbid for calling
-    protected void setEventType(String eventType) {
+    public void setEventType(String eventType) {
         this.eventType = eventType;
     }
 

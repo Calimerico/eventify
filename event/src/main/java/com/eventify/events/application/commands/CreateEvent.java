@@ -1,5 +1,6 @@
 package com.eventify.events.application.commands;
 
+import com.eventify.events.domain.Event;
 import com.eventify.shared.demo.Command;
 import lombok.Builder;
 import lombok.Value;
@@ -13,7 +14,7 @@ import java.util.UUID;
  */
 @Value
 @Builder
-public class CreateEvent implements Command<Void> {
+public class CreateEvent implements Command<Event> {
     private String eventName;
     private String eventType;
     private String placeId;

@@ -29,6 +29,7 @@ public class EventController {
     private Gate gate;
 
     @GetMapping
+    //TODO Use Resources instead of ResponseEntity? Check this out: https://stackoverflow.com/questions/28139856/how-can-i-get-spring-mvchateoas-to-encode-a-list-of-resources-into-hal
     public ResponseEntity<Iterable<EventResource>> getEvents(@RequestParam(required = false) String eventName, @RequestParam(required = false) String eventType) {
         return ResponseEntity.ok().body(eventFinder.findByExample(EventFactory.aEvent()
                 .eventName(eventName)
@@ -45,8 +46,8 @@ public class EventController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void insertEvent(@RequestBody CreateEventRequest createEventRequest) {
-        gate.dispatch(CreateEvent
+    public ResponseEntity<EventResource> insertEvent(@RequestBody CreateEventRequest createEventRequest) {
+        Event createdEvent = gate.dispatch(CreateEvent
                 .builder()
                 .description(createEventRequest.getDescription())
                 .eventDateAndTime(createEventRequest.getEventDateAndTime())
@@ -55,11 +56,13 @@ public class EventController {
                 .placeId(createEventRequest.getPlaceId())
                 .source(createEventRequest.getSource())
                 .build());
+        return ResponseEntity.ok(EventResource.fromEvent(createdEvent));
     }
     @PutMapping
-    public void updateEvent(@RequestBody UpdateEventRequest updateEventRequest) {
-        gate.dispatch(UpdateEvent
+    public ResponseEntity<EventResource> updateEvent(@PathVariable UUID id, @RequestBody UpdateEventRequest updateEventRequest) {
+        Event updatedEvent = gate.dispatch(UpdateEvent
                 .builder()
+                .id(id)
                 .description(updateEventRequest.getDescription())
                 .eventDateAndTime(updateEventRequest.getEventDateAndTime())
                 .eventName(updateEventRequest.getEventName())
@@ -67,14 +70,17 @@ public class EventController {
                 .placeId(updateEventRequest.getPlaceId())
                 .source(updateEventRequest.getSource())
                 .build());
+        return ResponseEntity.ok(EventResource.fromEvent(updatedEvent));
     }
 
     @DeleteMapping
     //TODO Check in all controllers, all should return HttpEntity, not void or somthing like that
-    public void deleteEvent(@PathVariable String eventId) {
+    //TODO Check this article https://www.logicbig.com/tutorials/spring-framework/spring-web-mvc/request-response-entity.html
+    public ResponseEntity<Void> deleteEvent(@PathVariable String eventId) {
         gate.dispatch(DeleteEvent
                 .builder()
                 .eventId(eventId)
                 .build());
+        return null;//TODO
     }
 }

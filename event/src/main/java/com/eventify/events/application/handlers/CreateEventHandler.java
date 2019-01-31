@@ -14,13 +14,13 @@ import lombok.RequiredArgsConstructor;
  */
 @com.eventify.shared.net.CommandHandler
 @RequiredArgsConstructor
-public class CreateEventHandler implements CommandHandler<CreateEvent, Void> {
+public class CreateEventHandler implements CommandHandler<CreateEvent, Event> {
 
     private final EventRepository eventRepository;
     private final KafkaEventProducer kafkaEventProducer;//TODO This should be part of domain class?
 
     @Override
-    public Void handle(CreateEvent createEvent) {
+    public Event handle(CreateEvent createEvent) {
         //TODO First check does event exist with event finder
         Event event = eventRepository.save(EventFactory
                 .aEvent()
@@ -37,6 +37,6 @@ public class CreateEventHandler implements CommandHandler<CreateEvent, Void> {
                 .eventId(event.getEventId())
                 .hosts(event.getHosts())
                 .build());
-        return null;
+        return event;
     }
 }
