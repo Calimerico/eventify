@@ -16,6 +16,6 @@ public class DeleteEventHandler implements CommandHandler<DeleteEvent,Boolean> {
 
     @Override
     public Boolean handle(DeleteEvent deleteEvent) {
-        return eventRepository.remove(deleteEvent.getId());
+        return eventRepository.removeByEventId(deleteEvent.getId());
     }
 }

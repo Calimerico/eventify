@@ -15,5 +15,5 @@ public interface EventRepository extends CrudRepository<Event,String> {
     Event findByEventName(String eventName);
     List<Event> findAll(Example example);
     Event findByEventId(UUID id);
-    boolean remove(UUID id);
+    boolean removeByEventId(UUID id);
 }

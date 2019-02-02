@@ -26,13 +26,11 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
         List<TheaterEvent> events = new ArrayList<>();
         TheaterEvent theaterEvent = new TheaterEvent("comedy");
         theaterEvent.setEventName("Gospodja ministarka");
-        theaterEvent.setEventId(UUID.randomUUID());//TODO This should be forbidden, eventId should be generated
         theaterEvent.setPlaceId("Narodno pozoriste");
         theaterEvent.setEventDateAndTime(LocalDateTime.now());
         events.add(theaterEvent);
         TheaterEvent theaterEvent2 = new TheaterEvent("comedy");
         theaterEvent2.setEventName("Gospodja ministarka2");
-        theaterEvent2.setEventId(UUID.randomUUID());//TODO This should be forbidden, eventId should be generated
         theaterEvent2.setPlaceId("Putujuce pozoriste");
         theaterEvent2.setEventDateAndTime(LocalDateTime.now());
         events.add(theaterEvent2);

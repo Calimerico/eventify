@@ -5,6 +5,7 @@ package com.eventify.events.domain;
  */
 
 import lombok.Builder;
+import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
@@ -21,11 +22,15 @@ import java.util.UUID;
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @DiscriminatorColumn(name="event_type")
 @Table(name="event")
+@Data
 @EqualsAndHashCode
 public class Event {
-    //TODO All ids should be UUID, id is dependent on name, date and place, be careful if for example date change you don't have consistency!
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID eventId;
     private String eventName;
+
+    @ElementCollection
     private Set<UUID> hosts;
     private String eventType;
     //TODO All ids should be UUID!
@@ -34,84 +39,5 @@ public class Event {
     private String description;
     private String source;
     //TODO Tickets should be added here
-
-    @Id
-    @Column
-    public UUID getEventId() {
-        return eventId;
-    }
-
-    public void setEventId(UUID eventId) {
-        this.eventId = eventId;
-    }
-
-    @Basic
-    @Column
-    public String getEventName() {
-        return eventName;
-    }
-
-    public void setEventName(String eventName) {
-        this.eventName = eventName;
-    }
-
-    @Basic
-    @Column
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    @Basic
-    @Column
-    public String getEventType() {
-        return eventType;
-    }
-
-    public void setEventType(String eventType) {
-        this.eventType = eventType;
-    }
-
-    @Basic
-    @Column
-    public String getPlaceId() {
-        return placeId;
-    }
-
-    public void setPlaceId(String placeId) {
-        this.placeId = placeId;
-    }
-
-    @Basic
-    @Column
-    public LocalDateTime getEventDateAndTime() {
-        return eventDateAndTime;
-    }
-
-    public void setEventDateAndTime(LocalDateTime eventDateAndTime) {
-        this.eventDateAndTime = eventDateAndTime;
-    }
-
-    @Basic
-    @Column
-    public String getSource() {
-        return source;
-    }
-
-    public void setSource(String source) {
-        this.source = source;
-    }
-
-    @ElementCollection
-    public Set<UUID> getHosts() {
-        return hosts;
-    }
-
-    public void setHosts(Set<UUID> hosts) {
-        this.hosts = hosts;
-    }
 }
 
