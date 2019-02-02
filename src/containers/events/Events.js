@@ -10,6 +10,7 @@ import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
+import { Route, Switch, BrowserRouter, Link, generatePath } from 'react-router-dom';
 
 import IconButton from '@material-ui/core/IconButton';
 import FirstPageIcon from '@material-ui/icons/FirstPage';
@@ -214,9 +215,12 @@ class CustomPaginationActionsTable extends React.Component {
                                     return (
 
                                         <TableRow >
-                                            <TableCell className={classes.tableCell} component="th" scope="row">
-                                                {event.eventName}
-                                            </TableCell>
+
+                                                <TableCell className={classes.tableCell} component="th" scope="row">
+                                                    <Link to={`/events/1`}>
+                                                    {event.eventName}
+                                                    </Link>
+                                                </TableCell>
                                             <TableCell className={classes.tableCell} >{event.placeId}</TableCell>
                                             <TableCell className={classes.tableCell} >{event.eventType}</TableCell>
                                         </TableRow>

@@ -26,7 +26,7 @@ export const changeFilter = (eventsFilter) => {
                 dispatch({type:types.GET_EVENTS_BY_FILTER_FAIL,error:error});
             } );
     }
-};//TODO This method is for deletion
+};//TODO This method is for deletion, I don't use it anywhere
 
 export const getEventsByFilter = (eventsFilter) => {
 
