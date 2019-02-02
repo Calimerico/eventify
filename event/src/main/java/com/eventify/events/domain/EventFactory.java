@@ -29,8 +29,7 @@ public class EventFactory {
         }
         event.setSource(eventScraped.getSource());
         event.setPlaceId(eventScraped.getPlaceId());
-        event.setEventId(eventScraped.getEventId());
-        event.setEventName(eventScraped.getEventName());
+        event.setEventName(eventScraped.getEventName());//TODO Event don't have id at all!!!
         event.setEventType("theater");
         event.setDescription(eventScraped.getDescription());
         event.setEventDateAndTime(eventScraped.getEventDateAndTime());

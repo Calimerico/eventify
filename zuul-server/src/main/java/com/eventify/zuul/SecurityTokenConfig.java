@@ -42,6 +42,9 @@ public class SecurityTokenConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.OPTIONS, "/scraper/scrap").permitAll()
                 .antMatchers(HttpMethod.POST, "/scraper/scrap").permitAll()
                 .antMatchers(HttpMethod.GET, "/event/**").permitAll()//TODO
+                .antMatchers(HttpMethod.PUT, "/event/**").permitAll()//TODO
+                .antMatchers(HttpMethod.POST, "/event/**").permitAll()//TODO
+                .antMatchers(HttpMethod.DELETE, "/event/**").permitAll()//TODO
                 // must be an admin if trying to access admin area (authentication is also required here)
                 .antMatchers("/gallery" + "/admin/**").hasRole("ADMIN")
                 // Any other request must be authenticated

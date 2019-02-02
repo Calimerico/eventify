@@ -42,8 +42,8 @@ public class EventController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<EventResource> getEvent(@PathVariable String id) {
-        return ResponseEntity.ok().body(EventResource.fromEvent(eventFinder.findById(id.toString())));
+    public ResponseEntity<EventResource> getEvent(@PathVariable UUID id) {
+        return ResponseEntity.ok().body(EventResource.fromEvent(eventFinder.findById(id)));
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -59,7 +59,7 @@ public class EventController {
                 .build());
         return ResponseEntity.ok(EventResource.fromEvent(createdEvent));
     }
-    @PutMapping
+    @PutMapping(value = "/{id}",consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<EventResource> updateEvent(@PathVariable UUID id, @RequestBody UpdateEventRequest updateEventRequest) {
         Event updatedEvent = gate.dispatch(UpdateEvent
                 .builder()
@@ -74,14 +74,12 @@ public class EventController {
         return ResponseEntity.ok(EventResource.fromEvent(updatedEvent));
     }
 
-    @DeleteMapping
-    //TODO Check in all controllers, all should return HttpEntity, not void or somthing like that
-    //TODO Check this article https://www.logicbig.com/tutorials/spring-framework/spring-web-mvc/request-response-entity.html
-    public ResponseEntity<Void> deleteEvent(@PathVariable String eventId) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteEvent(@PathVariable UUID id) {
         gate.dispatch(DeleteEvent
                 .builder()
-                .eventId(eventId)
+                .id(id)
                 .build());
-        return null;//TODO
+        return ResponseEntity.ok().build();
     }
 }

@@ -15,7 +15,6 @@ import java.util.UUID;
 @NoArgsConstructor //TODO This no args must be here cos of jackson
 @AllArgsConstructor //TODO Try to delete just this one...compile error on builder
 public class EventScraped implements DomainEvent {
-    private String eventId;
     private String eventName;
     private List<UUID> eventHostIds;
 //    private Integer eventSeriesId;

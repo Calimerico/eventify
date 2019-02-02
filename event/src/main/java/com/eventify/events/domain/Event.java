@@ -24,7 +24,7 @@ import java.util.UUID;
 @EqualsAndHashCode
 public class Event {
     //TODO All ids should be UUID, id is dependent on name, date and place, be careful if for example date change you don't have consistency!
-    private String eventId;
+    private UUID eventId;
     private String eventName;
     private Set<UUID> hosts;
     private String eventType;
@@ -37,11 +37,11 @@ public class Event {
 
     @Id
     @Column
-    public String getEventId() {
+    public UUID getEventId() {
         return eventId;
     }
 
-    public void setEventId(String eventId) {
+    public void setEventId(UUID eventId) {
         this.eventId = eventId;
     }
 

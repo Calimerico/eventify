@@ -14,7 +14,7 @@ import java.util.UUID;
 @Builder
 @Value
 public class EventResource {
-    private String eventId;
+    private UUID eventId;
     private String eventName;
     private Set<UUID> hosts;
     private String eventType;

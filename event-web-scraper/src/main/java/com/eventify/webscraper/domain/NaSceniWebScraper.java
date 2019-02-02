@@ -60,16 +60,13 @@ public class NaSceniWebScraper implements EventWebScraper {
 //                    eventScrapedBuilder.setPrices(prices);
 
                     Elements place = eventDocument.select(".placeContainer a");
-                    String placeText = null;
                     if (place != null){
-                        placeText = place.text();
-                        eventScrapedBuilder.placeId(placeText);
+                        eventScrapedBuilder.placeId(place.text());
                     }
                     Elements pictureElement = eventDocument.select(".programLarge img");
                     if (pictureElement != null) {
                         eventScrapedBuilder.picture(pictureElement.attr("src"));
                     }
-                    eventScrapedBuilder.eventId(eventName + datetime + placeText);
                     eventScrapedBuilder.eventType("theater");
                 } catch (IOException e) {
                     e.printStackTrace();

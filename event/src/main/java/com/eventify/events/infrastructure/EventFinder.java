@@ -23,7 +23,7 @@ public class EventFinder {
         return eventRepository.findByEventName(eventName);
     }
 
-    public Event findById(String id) {
+    public Event findById(UUID id) {
         return eventRepository.findByEventId(id);//TODO Read this https://tuhrig.de/anti-pattern-dont-use-optionals-for-data-repositories/ Change to Optional<Event> or not?
     }
 

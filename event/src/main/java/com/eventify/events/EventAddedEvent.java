@@ -17,6 +17,6 @@ import java.util.UUID;
 @NoArgsConstructor //TODO This no args must be here cos of jackson
 @AllArgsConstructor //TODO Try to delete just this one...compile error on builder
 public class EventAddedEvent implements DomainEvent {
-    private String eventId;//TODO Should be UUID
+    private UUID eventId;
     private Set<UUID> hosts;//TODO For now, just user module care about this event, if someone else should care about event adding, add new fields!
 }

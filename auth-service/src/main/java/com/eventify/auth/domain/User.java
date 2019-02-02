@@ -20,6 +20,7 @@ import java.util.UUID;
 public class User {
     private String email;
     @Id
+    private UUID id;
     private String username;
     private String password;
     private String firstName;

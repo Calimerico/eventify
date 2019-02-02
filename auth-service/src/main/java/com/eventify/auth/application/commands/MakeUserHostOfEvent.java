@@ -13,6 +13,6 @@ import java.util.UUID;
 @Builder
 public class MakeUserHostOfEvent implements Command<Void> {
     private final UUID userId;
-    private final String eventId;//TODO Should be changed to UUID
+    private final UUID eventId;
 
 }
