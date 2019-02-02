@@ -66,7 +66,7 @@ public class Event {
     }
 
     @Basic
-    @Column(insertable = false, updatable = false)
+    @Column
     public String getEventType() {
         return eventType;
     }

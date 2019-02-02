@@ -15,7 +15,18 @@ public class EventFactory {
         if (eventScraped == null) {
             return null;
         }
-        Event event = new Event();
+        Event event;
+        if (eventScraped.getEventType() == null) {
+            event = new Event();
+        } else {
+            switch (eventScraped.getEventType()) {
+                case "theater":
+                    event = new TheaterEvent();
+                    break;
+                default:
+                    throw new RuntimeException("");//TODO
+            }
+        }
         event.setSource(eventScraped.getSource());
         event.setPlaceId(eventScraped.getPlaceId());
         event.setEventId(eventScraped.getEventId());
@@ -24,31 +35,31 @@ public class EventFactory {
         event.setDescription(eventScraped.getDescription());
         event.setEventDateAndTime(eventScraped.getEventDateAndTime());
         event.setHosts(null);//TODO
-        switch (eventScraped.getEventType()) {
-            case "theater":
-                ((TheaterEvent) event).setGenre("default genre");//TODO
-                break;
-        }
         return event;
     }
 
     //TODO This builder smells like hell, something here is wrong
     @Builder(builderMethodName = "aEvent")
     public static Event create(String eventType, String eventName, String description, String source, LocalDateTime eventDateAndTime, Set<UUID> hosts, String placeId) {
-        Event event = new Event();
+        Event event;
+        if (eventType == null) {
+            event = new Event();
+        } else {
+            switch (eventType) {
+                case "theater":
+                    event = new TheaterEvent();
+                    break;
+                default:
+                    throw new RuntimeException("");//TODO
+            }
+        }
         event.setSource(source);
         event.setPlaceId(placeId);
-        event.setEventId(UUID.randomUUID().toString());//TODO DANGER RANDOM ID!!!
         event.setEventName(eventName);
         event.setEventType("theater");
         event.setDescription(description);
         event.setEventDateAndTime(eventDateAndTime);
-        event.setHosts(hosts);
-        switch (eventType) {
-            case "theater":
-                ((TheaterEvent) event).setGenre("default genre");//TODO
-                break;
-        }
+        event.setHosts(hosts);//TODO Event does not have ID !!!
         return event;
     }
 }
