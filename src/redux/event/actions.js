@@ -55,11 +55,24 @@ export const getEventsByFilter = (eventsFilter) => {
     }
 };
 
+export const getEventById = (id) => {
+    return (dispatch) => {
+        dispatch({type:types.GET_EVENT_BY_ID});
+        axios.get('http://localhost:8762/event/events/' + id)
+            .then( response => {
+                dispatch({type:types.GET_EVENT_BY_ID_SUCCESS,payload:response});
+            } )
+            .catch( error => {
+                dispatch({type:types.GET_EVENT_BY_ID_FAIL,error:error});
+            } );
+    }
+}
 
 
 const actions = {
     getEventsByFilter:getEventsByFilter,
-    changeFilter:changeFilter
+    changeFilter:changeFilter,
+    getEventById
 }
 
 export default actions;
