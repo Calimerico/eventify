@@ -42,7 +42,7 @@ public class EventController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<EventResource> getEvent(@PathVariable UUID id) {
+    public ResponseEntity<EventResource> getEvent(@PathVariable String id) {
         return ResponseEntity.ok().body(EventResource.fromEvent(eventFinder.findById(id.toString())));
     }
 
