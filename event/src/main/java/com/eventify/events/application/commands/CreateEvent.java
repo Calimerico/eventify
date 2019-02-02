@@ -18,8 +18,9 @@ public class CreateEvent implements Command<Event> {
     private String eventName;
     private String eventType;
     private String placeId;
-    private LocalDateTime eventDateAndTime;
+    private LocalDateTime eventDateTime;
     private String description;
     private String source;
     private Set<UUID> hosts;
+    private String profilePicture;
 }

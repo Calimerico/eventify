@@ -25,12 +25,13 @@ public class CreateEventHandler implements CommandHandler<CreateEvent, Event> {
         Event event = eventRepository.save(EventFactory
                 .aEvent()
                 .description(createEvent.getDescription())
-                .eventDateAndTime(createEvent.getEventDateAndTime())
+                .eventDateTime(createEvent.getEventDateTime())
                 .eventName(createEvent.getEventName())
                 .eventType(createEvent.getEventType())
                 .placeId(createEvent.getPlaceId())
                 .hosts(createEvent.getHosts())
                 .source(createEvent.getSource())
+                .profilePicture(createEvent.getProfilePicture())
                 .build());
         kafkaEventProducer.send(EventAddedEvent
                 .builder()

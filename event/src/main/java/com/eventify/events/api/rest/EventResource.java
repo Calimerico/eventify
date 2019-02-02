@@ -19,9 +19,10 @@ public class EventResource {
     private Set<UUID> hosts;
     private String eventType;
     private String placeId;
-    private LocalDateTime eventDateAndTime;
+    private LocalDateTime eventDateTime;
     private String description;
     private String source;
+    private String profilePicture;
 
     public static EventResource fromEvent(Event event) {
         return EventResource.builder()
@@ -30,9 +31,10 @@ public class EventResource {
                 .hosts(event.getHosts())
                 .eventType(event.getEventType())
                 .placeId(event.getPlaceId())
-                .eventDateAndTime(event.getEventDateAndTime())
+                .eventDateTime(event.getEventDateTime())
                 .description(event.getDescription())
                 .source(event.getSource())
+                .profilePicture(event.getProfilePicture())
                 .build();
     }
 }

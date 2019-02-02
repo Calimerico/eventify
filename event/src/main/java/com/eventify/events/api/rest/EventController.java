@@ -12,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 import static java.util.stream.Collectors.toList;
 
@@ -31,10 +32,19 @@ public class EventController {
 
     @GetMapping
     //TODO Use Resources instead of ResponseEntity? Check this out: https://stackoverflow.com/questions/28139856/how-can-i-get-spring-mvchateoas-to-encode-a-list-of-resources-into-hal
-    public ResponseEntity<Iterable<EventResource>> getEvents(@RequestParam(required = false) String eventName, @RequestParam(required = false) String eventType) {
-        return ResponseEntity.ok().body(eventFinder.findByExample(EventFactory.aEvent()
+    public ResponseEntity<Iterable<EventResource>> getEvents(@RequestParam(required = false) String eventName,
+                                                             @RequestParam(required = false) String eventType,
+                                                             @RequestParam(required = false) UUID hostId,
+                                                             @RequestParam(required = false) UUID placeId,
+                                                             @RequestParam(required = false) LocalDateTime timeFrom,
+                                                             @RequestParam(required = false) LocalDateTime timeTo) {
+        return ResponseEntity.ok().body(eventFinder.findByExample(EventFilter.builder()
                 .eventName(eventName)
                 .eventType(eventType)
+                .hostId(hostId)
+                .placeId(placeId)
+                .timeFrom(LocalDateTime.of(1993,12,2,10,15))
+                .timeTo(LocalDateTime.of(1999,12,2,10,15))
                 .build())
                 .stream()
                 .map(EventResource::fromEvent)
@@ -51,7 +61,7 @@ public class EventController {
         Event createdEvent = gate.dispatch(CreateEvent
                 .builder()
                 .description(createEventRequest.getDescription())
-                .eventDateAndTime(createEventRequest.getEventDateAndTime())
+                .eventDateTime(createEventRequest.getEventDateTime())
                 .eventName(createEventRequest.getEventName())
                 .eventType(createEventRequest.getEventType())
                 .placeId(createEventRequest.getPlaceId())
@@ -65,7 +75,7 @@ public class EventController {
                 .builder()
                 .id(id)
                 .description(updateEventRequest.getDescription())
-                .eventDateAndTime(updateEventRequest.getEventDateAndTime())
+                .eventDateTime(updateEventRequest.getEventDateTime())
                 .eventName(updateEventRequest.getEventName())
                 .eventType(updateEventRequest.getEventType())
                 .placeId(updateEventRequest.getPlaceId())

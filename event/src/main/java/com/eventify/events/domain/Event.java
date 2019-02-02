@@ -4,14 +4,11 @@ package com.eventify.events.domain;
  * Created by spasoje on 01-Nov-18.
  */
 
-import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
-import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -35,9 +32,10 @@ public class Event {
     private String eventType;
     //TODO All ids should be UUID!
     private String placeId;
-    private LocalDateTime eventDateAndTime;
+    private LocalDateTime eventDateTime;
     private String description;
     private String source;
+    private String profilePicture;
     //TODO Tickets should be added here
 }
 

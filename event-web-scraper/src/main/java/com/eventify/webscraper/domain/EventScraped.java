@@ -20,7 +20,7 @@ public class EventScraped {
 //    private Integer eventSeriesId;
     private String eventType;
     private String placeId;
-    private LocalDateTime eventDateAndTime;
+    private LocalDateTime eventDateTime;
     private String description;
 //    private List<Price> prices;
     private String source;

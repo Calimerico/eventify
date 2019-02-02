@@ -27,12 +27,12 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
         TheaterEvent theaterEvent = new TheaterEvent("comedy");
         theaterEvent.setEventName("Gospodja ministarka");
         theaterEvent.setPlaceId("Narodno pozoriste");
-        theaterEvent.setEventDateAndTime(LocalDateTime.now());
+        theaterEvent.setEventDateTime(LocalDateTime.now());
         events.add(theaterEvent);
         TheaterEvent theaterEvent2 = new TheaterEvent("comedy");
         theaterEvent2.setEventName("Gospodja ministarka2");
         theaterEvent2.setPlaceId("Putujuce pozoriste");
-        theaterEvent2.setEventDateAndTime(LocalDateTime.now());
+        theaterEvent2.setEventDateTime(LocalDateTime.now());
         events.add(theaterEvent2);
         eventRepository.saveAll(events);
     }

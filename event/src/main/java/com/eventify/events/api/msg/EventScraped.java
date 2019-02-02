@@ -20,7 +20,7 @@ public class EventScraped implements DomainEvent {
 //    private Integer eventSeriesId;
     private String eventType;
     private String placeId;
-    private LocalDateTime eventDateAndTime;//TODO Stack overflow problem
+    private LocalDateTime eventDateTime;//TODO Stack overflow problem
     private String description;
     //    private List<Price> prices;
     private String source;

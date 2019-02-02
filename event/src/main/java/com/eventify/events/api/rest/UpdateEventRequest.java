@@ -18,8 +18,9 @@ public class UpdateEventRequest {
     private String eventName;
     private String eventType;
     private String placeId;
-    private LocalDateTime eventDateAndTime;
+    private LocalDateTime eventDateTime;
     private String description;
     private String source;
+    private String profilePicture;
 
 }

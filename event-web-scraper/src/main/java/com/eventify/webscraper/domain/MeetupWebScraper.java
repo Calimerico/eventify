@@ -33,7 +33,7 @@ public class MeetupWebScraper implements EventWebScraper {
 //                    event.setEventHostIds(eventHostIds);
 //                    event.setEventName(eventDocument.select(".pageHead-headline").text());
 //                    event.setDescription(eventDocument.select(".event-description p").text());
-//                    event.setEventDateAndTime(ZonedDateTime.ofInstant(Instant.ofEpochMilli(datetime), ZoneId.of("Europe/Paris")));
+//                    event.setEventDateTime(ZonedDateTime.ofInstant(Instant.ofEpochMilli(datetime), ZoneId.of("Europe/Paris")));
 //                    event.setEventType("Technology");//TODO We are scraping tech events now
 //
 //

@@ -35,7 +35,7 @@ public class NaSceniWebScraper implements EventWebScraper {
                     eventScrapedBuilder.eventName(eventName);
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
                     LocalDateTime datetime = LocalDateTime.parse(eventDocument.select(".ticketTime").attr("datetime"), formatter);
-                    eventScrapedBuilder.eventDateAndTime(datetime);
+                    eventScrapedBuilder.eventDateTime(datetime);
 //                    ArrayList<Price> prices = new ArrayList<>();//TODO Implement this!!
 //                    Elements pricesAndDescriptions = eventDocument.select(".ticketBoxElem");
 //                    pricesAndDescriptions.forEach( priceAndDescription -> {
