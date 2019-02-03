@@ -25,7 +25,7 @@ public class UserDetailsServiceImpl implements UserDetailsService  {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
         // hard coding the users. All passwords must be encoded.
-        final User user = userRepository.findById(username).orElseThrow(() -> new UsernameNotFoundException("Username: " + username + " not found"));
+        final User user = userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("Username: " + username + " not found"));
         //TODO Check password here, wra re chekcing just username!
         // Remember that Spring needs roles to be in this format: "ROLE_" + userRole (i.e. "ROLE_ADMIN")
         // So, we need to set it to that format, so we can verify and compare roles (i.e. hasRole("ADMIN")).
