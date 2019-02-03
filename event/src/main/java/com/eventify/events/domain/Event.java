@@ -27,11 +27,12 @@ public class Event {
     private UUID eventId;
     private String eventName;
 
-    @ElementCollection
-    private Set<UUID> hosts;
+    @OneToMany
+    private Set<Host> hosts;
     private String eventType;
-    //TODO All ids should be UUID!
-    private String placeId;
+
+    @OneToOne
+    private Place place;
     private LocalDateTime eventDateTime;
     private String description;
     private String source;

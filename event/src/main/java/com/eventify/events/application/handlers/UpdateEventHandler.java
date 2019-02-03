@@ -22,7 +22,7 @@ public class UpdateEventHandler implements CommandHandler<UpdateEvent, Event> {
         Event event = eventRepository.findByEventId(updateEvent.getId());
         event.setEventName(updateEvent.getEventName());
         event.setEventType(updateEvent.getEventType());//TODO Should we allow type to be updated? In domain model we don't allow this
-        event.setPlaceId(updateEvent.getPlaceId());
+//        event.setPlace(updateEvent.getPlaceId());//TODO Add some placeRepository?
         event.setEventDateTime(updateEvent.getEventDateTime());
         event.setDescription(updateEvent.getDescription());
         event.setSource(updateEvent.getSource());

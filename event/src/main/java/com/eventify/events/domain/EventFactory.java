@@ -28,7 +28,7 @@ public class EventFactory {
             }
         }
         event.setSource(eventScraped.getSource());
-        event.setPlaceId(eventScraped.getPlaceId());
+//        event.setPlaceId(eventScraped.getPlaceId());//TODO
         event.setEventName(eventScraped.getEventName());//TODO Event don't have id at all!!!
         event.setEventType("theater");
         event.setDescription(eventScraped.getDescription());
@@ -40,7 +40,7 @@ public class EventFactory {
 
     //TODO This builder smells like hell, something here is wrong
     @Builder(builderMethodName = "aEvent")
-    public static Event create(String eventType, String eventName, String description, String source, LocalDateTime eventDateTime, Set<UUID> hosts, String placeId, String profilePicture) {
+    public static Event create(String eventType, String eventName, String description, String source, LocalDateTime eventDateTime, Set<UUID> hosts, Place place, String profilePicture) {
         Event event;
         if (eventType == null) {
             event = new Event();
@@ -54,12 +54,12 @@ public class EventFactory {
             }
         }
         event.setSource(source);
-        event.setPlaceId(placeId);
+        event.setPlace(place);
         event.setEventName(eventName);
         event.setEventType("theater");
         event.setDescription(description);
-        event.setEventDateTime(eventDateTime);
-        event.setHosts(hosts);//TODO Event does not have ID !!!
+        event.setEventDateTime(eventDateTime);//TODO Event does not have ID !!!
+//        event.setHosts(hosts);//TODO hostRepository?
         event.setProfilePicture(profilePicture);
         return event;
     }

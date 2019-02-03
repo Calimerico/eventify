@@ -4,10 +4,13 @@ import com.eventify.events.EventAddedEvent;
 import com.eventify.events.application.commands.CreateEvent;
 import com.eventify.events.domain.Event;
 import com.eventify.events.domain.EventFactory;
+import com.eventify.events.domain.Host;
 import com.eventify.events.infrastructure.EventRepository;
 import com.eventify.events.infrastructure.KafkaEventProducer;
 import com.eventify.shared.demo.CommandHandler;
 import lombok.RequiredArgsConstructor;
+
+import java.util.stream.Collectors;
 
 /**
  * Created by spasoje on 15-Dec-18.
@@ -28,7 +31,7 @@ public class CreateEventHandler implements CommandHandler<CreateEvent, Event> {
                 .eventDateTime(createEvent.getEventDateTime())
                 .eventName(createEvent.getEventName())
                 .eventType(createEvent.getEventType())
-                .placeId(createEvent.getPlaceId())
+//                .placeId(createEvent.getPlaceId())//TODO Add placeRepository
                 .hosts(createEvent.getHosts())
                 .source(createEvent.getSource())
                 .profilePicture(createEvent.getProfilePicture())
@@ -36,7 +39,7 @@ public class CreateEventHandler implements CommandHandler<CreateEvent, Event> {
         kafkaEventProducer.send(EventAddedEvent
                 .builder()
                 .eventId(event.getEventId())
-                .hosts(event.getHosts())
+                .hosts(event.getHosts().stream().map(Host::getId).collect(Collectors.toSet()))//TODO Null Pointer
                 .build());
         return event;
     }
