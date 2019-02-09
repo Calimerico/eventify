@@ -1,7 +1,6 @@
 package com.eventify.events.domain;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
@@ -12,7 +11,8 @@ import java.util.UUID;
  */
 @Entity
 @Data
-@Builder
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@AllArgsConstructor
 public class Place {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

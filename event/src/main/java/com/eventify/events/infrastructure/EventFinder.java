@@ -5,13 +5,10 @@ import com.eventify.events.domain.Event;
 import com.eventify.events.domain.EventFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 

@@ -40,7 +40,7 @@ public class EventFactory {
 
     //TODO This builder smells like hell, something here is wrong
     @Builder(builderMethodName = "aEvent")
-    public static Event create(String eventType, String eventName, String description, String source, LocalDateTime eventDateTime, Set<UUID> hosts, Place place, String profilePicture) {
+    private static Event create(String eventType, String eventName, String description, String source, LocalDateTime eventDateTime, Set<UUID> hosts, Place place, String profilePicture) {
         Event event;
         if (eventType == null) {
             event = new Event();

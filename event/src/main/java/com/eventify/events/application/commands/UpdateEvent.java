@@ -17,7 +17,7 @@ public class UpdateEvent implements Command<Event> {
     private UUID id;
     private String eventName;
     private String eventType;
-    private String placeId;
+    private UUID placeId;
     private LocalDateTime eventDateTime;
     private String description;
     private String source;

@@ -2,6 +2,7 @@ package com.eventify.auth.application.handlers;
 
 import com.eventify.auth.application.commands.RegisterUser;
 import com.eventify.auth.domain.User;
+import com.eventify.auth.domain.UserBuilders;
 import com.eventify.auth.infrastructure.UserRepository;
 import com.eventify.shared.net.CommandHandler;
 import lombok.RequiredArgsConstructor;
@@ -19,10 +20,18 @@ public class RegisterUserHandler implements com.eventify.shared.demo.CommandHand
 
     @Override
     public Void handle(RegisterUser registerUser) {
-        if (userRepository.existsById(registerUser.getUsername())) {
+        if (userRepository.findByUsername(registerUser.getUsername()).isPresent()) {
             throw new RuntimeException("Here I should implement 409 status code");//TODO https://stackoverflow.com/questions/3825990/http-response-code-for-post-when-resource-already-exists
         }
-        userRepository.save(new User(registerUser.getEmail(),registerUser.getUsername(),registerUser.getPassword(),registerUser.getFirstName(),registerUser.getLastName(),registerUser.getSex(),registerUser.getRole(), new HashSet<>()));
+        userRepository.save(UserBuilders.aUser()
+                .email(registerUser.getEmail())
+                .password(registerUser.getPassword())
+                .username(registerUser.getUsername())
+                .firstName(registerUser.getFirstName())
+                .lastName(registerUser.getLastName())
+                .sex(registerUser.getSex())
+                .build()
+        );
         return null;
     }
 }

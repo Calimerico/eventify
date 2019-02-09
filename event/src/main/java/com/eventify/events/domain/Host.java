@@ -3,10 +3,7 @@ package com.eventify.events.domain;
 import lombok.Builder;
 import lombok.Data;
 
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
+import javax.persistence.*;
 import java.util.List;
 import java.util.UUID;
 
@@ -18,6 +15,7 @@ import java.util.UUID;
 @Builder
 public class Host {
 
+    @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
     @ElementCollection

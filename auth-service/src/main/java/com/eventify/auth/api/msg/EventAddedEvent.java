@@ -13,9 +13,9 @@ import java.util.UUID;
  * Created by spasoje on 20-Dec-18.
  */
 @Builder
-@Data //TODO Should be immutable Value here and final on field but jackson is complaining
-@NoArgsConstructor //TODO This no args must be here cos of jackson
-@AllArgsConstructor //TODO Try to delete just this one...compile error on builder
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class EventAddedEvent implements DomainEvent {
     private UUID eventId;
     private Set<UUID> hosts;

@@ -7,6 +7,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
@@ -15,20 +16,17 @@ import org.springframework.stereotype.Component;
  * Created by spasoje on 30-Nov-18.
  */
 @Component
+@RequiredArgsConstructor
 //TODO I will duplicate this one for now, should be in com.eventify.shared folder
 public class KafkaEventProducer {
-    @Autowired
-    private KafkaTemplate<String, String> kafkaTemplate;
 
+    private final KafkaTemplate<String, String> kafkaTemplate;
+    private final ObjectMapper objectMapper;
     //TODO Hardcoded topic name, think about it
     public void send(DomainEvent event) {
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
-        mapper.registerModule(new JavaTimeModule());
-        mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         try {
             //TODO Rename topic name
-            kafkaTemplate.send("cqrs",mapper.writeValueAsString(event));
+            kafkaTemplate.send("cqrs",objectMapper.writeValueAsString(event));
         } catch (JsonProcessingException e) {
             //TODO
             e.printStackTrace();

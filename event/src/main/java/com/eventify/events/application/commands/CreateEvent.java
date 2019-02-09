@@ -17,7 +17,7 @@ import java.util.UUID;
 public class CreateEvent implements Command<Event> {
     private String eventName;
     private String eventType;
-    private String placeId;
+    private UUID placeId;
     private LocalDateTime eventDateTime;
     private String description;
     private String source;

@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * Created by spasoje on 21-Nov-18.
@@ -17,7 +18,7 @@ import java.time.LocalDateTime;
 public class UpdateEventRequest {
     private String eventName;
     private String eventType;
-    private String placeId;
+    private UUID placeId;
     private LocalDateTime eventDateTime;
     private String description;
     private String source;

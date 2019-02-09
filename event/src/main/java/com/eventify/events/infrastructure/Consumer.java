@@ -21,19 +21,16 @@ import java.util.stream.Collectors;
  */
 @Service
 @RequiredArgsConstructor
-public class Consumer {
+public class Consumer {//TODO Rename
 
+    private final ObjectMapper objectMapper;
     private final EventRepository eventRepository;
 
     @KafkaListener(topics = "cqrs")
+    //TODO This listener is invoked twice instead of once every time, check kafka messages!
     public void receiveTopic(ConsumerRecord<?, String> consumerRecord) {
         //TODO Guess this assembling should be removed too
         String domainEventAsString = consumerRecord.value();
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.registerModule(new ParameterNamesModule());
-        objectMapper.registerModule(new Jdk8Module());
-        objectMapper.registerModule(new JavaTimeModule()); // new module, NOT JSR310Module
-        //TODO Maybe I don't need all of 3 modules, look here https://stackoverflow.com/questions/27952472/serialize-deserialize-java-8-java-time-with-jackson-json-mapper
         EventsScraped eventsScraped = null;
         try {
             eventsScraped = objectMapper.readValue(domainEventAsString, EventsScraped.class);

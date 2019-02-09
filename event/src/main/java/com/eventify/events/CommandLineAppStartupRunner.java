@@ -1,7 +1,9 @@
 package com.eventify.events;
 
+import com.eventify.events.domain.Place;
 import com.eventify.events.domain.TheaterEvent;
 import com.eventify.events.infrastructure.EventRepository;
+import com.eventify.events.infrastructure.PlaceRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -20,20 +22,31 @@ import java.util.UUID;
 public class CommandLineAppStartupRunner implements CommandLineRunner {
 
     private final EventRepository eventRepository;//TODO Here I should add controller, not repo, but handlers are not implemented yet.
+    private final PlaceRepository placeRepository;
 
     @Override
     public void run(String... strings) throws Exception {
+
+        Place place = getPlace();
+        placeRepository.save(place);
         List<TheaterEvent> events = new ArrayList<>();
         TheaterEvent theaterEvent = new TheaterEvent("comedy");
         theaterEvent.setEventName("Gospodja ministarka");
-//        theaterEvent.setPlace("Narodno pozoriste");//TODO Add placeRepo?
+        theaterEvent.setPlace(place);
         theaterEvent.setEventDateTime(LocalDateTime.now());
         events.add(theaterEvent);
         TheaterEvent theaterEvent2 = new TheaterEvent("comedy");
         theaterEvent2.setEventName("Gospodja ministarka2");
-//        theaterEvent2.setPlaceId("Putujuce pozoriste");//TODO Add placeRepo?
+        theaterEvent2.setPlace(place);
         theaterEvent2.setEventDateTime(LocalDateTime.now());
         events.add(theaterEvent2);
         eventRepository.saveAll(events);
+    }
+
+    public Place getPlace() {
+        UUID placeId = UUID.randomUUID();
+        List<String> placeNames = new ArrayList<>();
+        placeNames.add("Narodno pozoriste");
+        return new Place(placeId, placeNames);
     }
 }
