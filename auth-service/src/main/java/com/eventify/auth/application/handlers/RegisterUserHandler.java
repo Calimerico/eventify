@@ -6,6 +6,7 @@ import com.eventify.auth.domain.UserBuilders;
 import com.eventify.auth.infrastructure.UserRepository;
 import com.eventify.shared.net.CommandHandler;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 
 import java.util.HashSet;
 
@@ -21,7 +22,7 @@ public class RegisterUserHandler implements com.eventify.shared.demo.CommandHand
     @Override
     public Void handle(RegisterUser registerUser) {
         if (userRepository.findByUsername(registerUser.getUsername()).isPresent()) {
-            throw new RuntimeException("Here I should implement 409 status code");//TODO https://stackoverflow.com/questions/3825990/http-response-code-for-post-when-resource-already-exists
+            throw new DataIntegrityViolationException("User already exist");
         }
         userRepository.save(UserBuilders.aUser()
                 .email(registerUser.getEmail())

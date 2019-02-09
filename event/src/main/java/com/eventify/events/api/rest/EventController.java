@@ -37,7 +37,7 @@ public class EventController {
                                                              @RequestParam(required = false) UUID hostId,
                                                              @RequestParam(required = false) UUID placeId,
                                                              @RequestParam(required = false) LocalDateTime timeFrom,
-                                                             @RequestParam(required = false) LocalDateTime timeTo) {
+                                                             @RequestParam(required = false) LocalDateTime timeTo) {//TODO Gray dates
         return ResponseEntity.ok().body(eventFinder.findByExample(EventFilter.builder()
                 .eventName(eventName)
                 .eventType(eventType)
