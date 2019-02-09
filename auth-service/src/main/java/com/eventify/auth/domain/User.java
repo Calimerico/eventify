@@ -1,5 +1,6 @@
 package com.eventify.auth.domain;
 
+import com.eventify.shared.demo.Sex;
 import lombok.*;
 
 import javax.persistence.*;
@@ -23,7 +24,8 @@ public class User {
     private String password;
     private String firstName;
     private String lastName;
-    private String sex;//TODO
+    @Enumerated(EnumType.STRING)
+    private Sex sex;
     private String role;
     @ElementCollection
     private Set<UUID> eventIdsThatUserOrganize;

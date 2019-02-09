@@ -53,6 +53,13 @@
             <version>2.2.3.RELEASE</version>
             <scope>compile</scope>
         </dependency>
+        <!--TODO Import lombok in all projects as part of some com.eventify.shared dependency, don't import in every module-->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.4</version>
+            <scope>provided</scope>
+        </dependency>
 
 
     </dependencies>

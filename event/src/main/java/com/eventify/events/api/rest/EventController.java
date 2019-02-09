@@ -7,6 +7,7 @@ import com.eventify.events.domain.Event;
 import com.eventify.events.domain.EventFactory;
 import com.eventify.events.infrastructure.EventFinder;
 import com.eventify.shared.demo.Gate;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -22,29 +23,22 @@ import static java.util.stream.Collectors.toList;
  */
 @RestController
 @RequestMapping(value = "/events")
+@RequiredArgsConstructor
 public class EventController {
 
-    @Autowired
-    private EventFinder eventFinder;
-
-    @Autowired
-    private Gate gate;
+    private final EventFinder eventFinder;
+    private final Gate gate;
 
     @GetMapping
     //TODO Use Resources instead of ResponseEntity? Check this out: https://stackoverflow.com/questions/28139856/how-can-i-get-spring-mvchateoas-to-encode-a-list-of-resources-into-hal
-    public ResponseEntity<Iterable<EventResource>> getEvents(@RequestParam(required = false) String eventName,
-                                                             @RequestParam(required = false) String eventType,
-                                                             @RequestParam(required = false) UUID hostId,
-                                                             @RequestParam(required = false) UUID placeId,
-                                                             @RequestParam(required = false) LocalDateTime timeFrom,
-                                                             @RequestParam(required = false) LocalDateTime timeTo) {//TODO Gray dates
+    public ResponseEntity<Iterable<EventResource>> getEvents(@ModelAttribute EventFilterBean eventFilterBean) {
         return ResponseEntity.ok().body(eventFinder.findByExample(EventFilter.builder()
-                .eventName(eventName)
-                .eventType(eventType)
-                .hostId(hostId)
-                .placeId(placeId)
-                .timeFrom(LocalDateTime.of(1993,12,2,10,15))
-                .timeTo(LocalDateTime.of(1999,12,2,10,15))
+                .eventName(eventFilterBean.getEventName())
+                .eventType(eventFilterBean.getEventType())
+                .hostId(eventFilterBean.getHostId())
+                .placeId(eventFilterBean.getPlaceId())
+                .timeFrom(LocalDateTime.of(1993,12,2,10,15))//TODO
+                .timeTo(LocalDateTime.of(1999,12,2,10,15))//TODO
                 .build())
                 .stream()
                 .map(EventResource::fromEvent)

@@ -21,7 +21,7 @@ import java.util.UUID;
 //TODO If this doesn't work check is kafka is running because kafka is blocking...kafka should be optional not mandatory?
 public class CommandLineAppStartupRunner implements CommandLineRunner {
 
-    private final EventRepository eventRepository;//TODO Here I should add controller, not repo, but handlers are not implemented yet.
+    private final EventRepository eventRepository;//TODO Seeding should be done through SQL scripts.
     private final PlaceRepository placeRepository;
 
     @Override

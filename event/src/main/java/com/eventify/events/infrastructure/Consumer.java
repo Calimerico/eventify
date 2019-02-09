@@ -24,12 +24,11 @@ import java.util.stream.Collectors;
 public class Consumer {//TODO Rename
 
     private final ObjectMapper objectMapper;
-    private final EventRepository eventRepository;
+    private final EventRepository eventRepository;//TODO Controller instead of repo?
 
     @KafkaListener(topics = "cqrs")
     //TODO This listener is invoked twice instead of once every time, check kafka messages!
     public void receiveTopic(ConsumerRecord<?, String> consumerRecord) {
-        //TODO Guess this assembling should be removed too
         String domainEventAsString = consumerRecord.value();
         EventsScraped eventsScraped = null;
         try {

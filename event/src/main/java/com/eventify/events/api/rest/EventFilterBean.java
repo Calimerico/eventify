@@ -6,16 +6,14 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 /**
- * Created by spasoje on 21-Nov-18.
+ * Created by spasoje on 10-Feb-19.
  */
 @Data
-public class UpdateEventRequest {
+public class EventFilterBean {
     private String eventName;
     private String eventType;
+    private UUID hostId;
     private UUID placeId;
-    private LocalDateTime eventDateTime;
-    private String description;
-    private String source;
-    private String profilePicture;
-
+    private LocalDateTime timeFrom;
+    private LocalDateTime timeTo;
 }
