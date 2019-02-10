@@ -66,13 +66,27 @@ export const getEventById = (id) => {
                 dispatch({type:types.GET_EVENT_BY_ID_FAIL,error:error});
             } );
     }
-}
+};
+
+export const updateEvent = (id, request) => {
+    return (dispatch) => {
+        dispatch({type:types.UPDATE_EVENT});
+        axios.put('http://localhost:8762/event/events/' + id, request)
+            .then( response => {
+                dispatch({type:types.UPDATE_EVENT_SUCCESS,payload:response});
+            } )
+            .catch( error => {
+                dispatch({type:types.UPDATE_EVENT_FAIL,error:error});
+            } );
+    }
+};
 
 
 const actions = {
     getEventsByFilter:getEventsByFilter,
     changeFilter:changeFilter,
-    getEventById
+    getEventById:getEventById,
+    updateEvent:updateEvent
 }
 
 export default actions;
