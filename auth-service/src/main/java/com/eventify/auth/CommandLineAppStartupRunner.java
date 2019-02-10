@@ -25,7 +25,7 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
                 .email("spale@gmail.com")
                 .password("12345")
                 .role("ADMIN")
-                .sex("M")
+                .sex("MALE")
                 .build());
         registerController.registerUser(RegisterUserRequest
                 .builder()
@@ -35,7 +35,7 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
                 .email("spale@gmail.com")
                 .password("12345")
                 .role("NORMAL")
-                .sex("M")
+                .sex("MALE")
                 .build());
     }
 }

@@ -1,5 +1,6 @@
 package com.eventify.auth.domain;
 
+import com.eventify.shared.demo.Sex;
 import lombok.Builder;
 import java.util.Set;
 import java.util.UUID;
@@ -18,7 +19,7 @@ public class UserBuilders {
         user.setPassword(password);
         user.setFirstName(firstName);
         user.setLastName(lastName);
-        user.setSex(sex);
+        user.setSex(Sex.valueOf(sex));
         user.setRole(role);
         user.setEventIdsThatUserOrganize(eventIdsThatUserOrganize);
         return user;
