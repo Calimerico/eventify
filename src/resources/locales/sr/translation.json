@@ -1,0 +1,23 @@
+{
+  "navbar.aboutUs": "O nama",
+  "navbar.careers": "Karijera",
+  "navbar.addEvent": "Dodaj dogadjaj",
+  "navbar.home": "Pocetna",
+  "navbar.signIn": "Prijavi se",
+  "navbar.register": "Registruj se",
+  "navbar.changeLanguage.serbian": "Srpski",
+  "navbar.language": "Jezik",
+  "navbar.signInDrowdown": "Prijavi se",
+  "navbar.changeLanguage.english": "Engleski",
+  "labels.emailLabel": "Elektronska posta",
+  "labels.rememberMeLabel": "Zapamti me",
+  "labels.passwordLabel": "Lozinka",
+  "labels.firstNameLabel": "Ime",
+  "labels.lastNameLabel": "Prezime",
+  "event.eventName": "Ime dogadjaja",
+  "event.price": "Cena",
+  "event.date": "Datum",
+  "event.time": "Vreme",
+  "event.place": "Mesto",
+  "event.type": "Vrsta dogadjaja"
+}

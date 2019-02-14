@@ -1,0 +1,22 @@
+{
+  "navbar.aboutUs": "About us",
+  "navbar.careers": "Careers",
+  "navbar.addEvent": "Add event",
+  "navbar.home": "Home",
+  "navbar.signIn": "Sign in",
+  "navbar.register": "Register",
+  "navbar.changeLanguage.serbian": "Serbian",
+  "navbar.language": "Language",
+  "navbar.signInDrowdown": "Sign in",
+  "navbar.changeLanguage.english": "English",
+  "labels.emailLabel": "Email",
+  "labels.rememberMeLabel": "Remember me",
+  "labels.passwordLabel": "Password",
+  "labels.firstNameLabel": "First name",
+  "labels.lastNameLabel": "Last name",
+  "event.eventName": "Event name",
+  "event.price": "Price",
+  "event.date": "Date",
+  "event.time": "Time",
+  "event.place": "Place"
+}
