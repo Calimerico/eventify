@@ -25,4 +25,5 @@ public class EventScraped {
 //    private List<Price> prices;
     private String source;
     private String picture;
+    private List<Ticket> tickets;
 }

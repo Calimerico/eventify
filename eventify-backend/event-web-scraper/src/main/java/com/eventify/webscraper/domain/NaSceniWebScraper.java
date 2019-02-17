@@ -2,6 +2,7 @@ package com.eventify.webscraper.domain;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Component;
 
@@ -21,62 +22,59 @@ public class NaSceniWebScraper implements EventWebScraper {
 
     @Override
     public EventsScraped scrapEvents() {
-        Elements linkOfEvents;
-        List<EventScraped> scrapedList = new ArrayList<>();
+        List<EventScraped> scrapedEvents = new ArrayList<>();
+        String baseUrl = "https://nasceni.tickets.rs/event/category/pozoriste-1";
         try {
-            linkOfEvents = Jsoup.connect("https://nasceni.tickets.rs/event/category/pozoriste-1").get().select(".infoContent > a");
-
-            linkOfEvents.forEach(link -> {
-                EventScraped eventScraped;
-                EventScraped.EventScrapedBuilder eventScrapedBuilder = EventScraped.builder().source(link.attr("href"));
-                try {
-                    Document eventDocument = Jsoup.connect(link.attr("href")).get();
-                    String eventName = eventDocument.select(".programLarge h1").text();
-                    eventScrapedBuilder.eventName(eventName);
-                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-                    LocalDateTime datetime = LocalDateTime.parse(eventDocument.select(".ticketTime").attr("datetime"), formatter);
-                    eventScrapedBuilder.eventDateTime(datetime);
-//                    ArrayList<Price> prices = new ArrayList<>();//TODO Implement this!!
-//                    Elements pricesAndDescriptions = eventDocument.select(".ticketBoxElem");
-//                    pricesAndDescriptions.forEach( priceAndDescription -> {
-//                        Price price = new Price();
-//                        priceAndDescription.select("div").stream().filter(priceOrSeatDescription -> "price".equals(priceOrSeatDescription.className())).forEach( priceElement -> {
-//                            //Replace all method is added for case where price is 1 000. Purpose is to strip whitespace
-//                            price.setPriceAmmount(Integer.parseInt(priceElement.text().substring(0, priceElement.text().length() - 7).replaceAll("\\s+","")));
-//                        });
-//                        priceAndDescription.select("div")
-//                                .stream()
-//                                .filter(priceOrSeatDescription -> !"price".equals(priceOrSeatDescription.className()) &&
-//                                        priceOrSeatDescription.text() != null &&
-//                                        !priceOrSeatDescription.text().equals("") &&
-//                                        isDigit(priceOrSeatDescription.text().charAt(0)) &&
-//                                        !priceOrSeatDescription.text().endsWith("RSD"))
-//                                .forEach( priceElement -> {
-//                                    //Replace all method is added for case where price is 1 000. Purpose is to strip whitespace
-//                                    price.setSeatDescription(priceElement.text().split("RSD")[1].trim());
-//                                });
-//                        prices.add(price);
-//                    });
-//                    eventScrapedBuilder.setPrices(prices);
-
-                    Elements place = eventDocument.select(".placeContainer a");
-                    if (place != null){
-                        eventScrapedBuilder.placeId(place.text());
-                    }
-                    Elements pictureElement = eventDocument.select(".programLarge img");
-                    if (pictureElement != null) {
-                        eventScrapedBuilder.picture(pictureElement.attr("src"));
-                    }
-                    eventScrapedBuilder.eventType("theater");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                eventScraped = eventScrapedBuilder.build();
-                scrapedList.add(eventScraped);
-            });
+            scrapEvents(scrapedEvents, baseUrl);
         } catch (IOException e) {
-            e.printStackTrace();
+            e.printStackTrace();//TODO
         }
-        return EventsScraped.builder().eventsScraped(scrapedList).build();
+        return new EventsScraped(scrapedEvents);
+    }
+
+    public static void scrapEvents(List<EventScraped> scrapedEvents, String url) throws IOException {
+        Elements linkOfEvents;
+        linkOfEvents = Jsoup.connect(url).get().select(".infoContent > a");
+
+        linkOfEvents.forEach(link -> {
+            EventScraped eventScraped;
+            EventScraped.EventScrapedBuilder eventScrapedBuilder = EventScraped.builder().source(link.attr("href"));
+            try {
+                Document eventDocument = Jsoup.connect(link.attr("href")).get();
+                String eventName = eventDocument.select(".programLarge h1").text();
+                eventScrapedBuilder.eventName(eventName);
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                LocalDateTime datetime = LocalDateTime.parse(eventDocument.select(".ticketTime").attr("datetime"), formatter);
+                eventScrapedBuilder.eventDateTime(datetime);
+                List<Ticket> tickets = new ArrayList<>();
+                for (Element element : eventDocument.select(".price")) {
+                    if (element.text().contains("RSD")) {
+                        Ticket ticket = new Ticket(Integer.parseInt(element.text().replace(" ","").split("\\.")[0]));
+                        if (ticket.getPrice() > 0) {//TODO HARDCODED We maybe need alerting module for this situations
+                            tickets.add(ticket);
+                        }
+                    }
+                }
+                eventScrapedBuilder.tickets(tickets);
+
+                Elements place = eventDocument.select(".placeContainer a");
+                if (place != null){
+                    eventScrapedBuilder.placeId(place.text());
+                }
+                Elements pictureElement = eventDocument.select(".programLarge img");
+                if (pictureElement != null) {
+                    eventScrapedBuilder.picture(pictureElement.attr("src"));
+                }
+                eventScrapedBuilder.eventType("theater");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            eventScraped = eventScrapedBuilder.build();
+            scrapedEvents.add(eventScraped);
+        });
+        Element nextPageButton = Jsoup.connect(url).get().selectFirst("[rel=\"next\"]");
+        if (nextPageButton != null) {
+            scrapEvents(scrapedEvents, "https://nasceni.tickets.rs" + nextPageButton.attr("href"));
+        }
     }
 }
