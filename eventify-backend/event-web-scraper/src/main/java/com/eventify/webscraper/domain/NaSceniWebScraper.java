@@ -46,16 +46,16 @@ public class NaSceniWebScraper implements EventWebScraper {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
                 LocalDateTime datetime = LocalDateTime.parse(eventDocument.select(".ticketTime").attr("datetime"), formatter);
                 eventScrapedBuilder.eventDateTime(datetime);
-                List<Ticket> tickets = new ArrayList<>();
+                List<Integer> prices = new ArrayList<>();
                 for (Element element : eventDocument.select(".price")) {
                     if (element.text().contains("RSD")) {
-                        Ticket ticket = new Ticket(Integer.parseInt(element.text().replace(" ","").split("\\.")[0]));
-                        if (ticket.getPrice() > 0) {//TODO HARDCODED We maybe need alerting module for this situations
-                            tickets.add(ticket);
+                        int price = Integer.parseInt(element.text().replace(" ", "").split("\\.")[0]);
+                        if (price > 0) {//TODO HARDCODED We maybe need alerting module for this situations
+                            prices.add(price);
                         }
                     }
                 }
-                eventScrapedBuilder.tickets(tickets);
+                eventScrapedBuilder.prices(prices);
 
                 Elements place = eventDocument.select(".placeContainer a");
                 if (place != null){

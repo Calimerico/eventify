@@ -3,6 +3,7 @@ package com.eventify.events.api.rest;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -17,5 +18,5 @@ public class UpdateEventRequest {
     private String description;
     private String source;
     private String profilePicture;
-
+    private List<Integer> prices;
 }

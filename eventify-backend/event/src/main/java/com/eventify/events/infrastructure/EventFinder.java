@@ -29,7 +29,8 @@ public class EventFinder {
         return eventRepository.findByEventId(id);
     }
 
-    public List<Event> findByExample(EventFilter eventFilter) {
+    public List<Event> findByExample(EventFilter eventFilter) {//TODO Handle if dateFrom,dateTo,priceFrom and proceTo are null
+        //TODO https://stackoverflow.com/questions/39784344/check-date-between-two-other-dates-spring-data-jpa
         Example<Event> example = Example.of(EventFactory
                 .aEvent()
                 .eventName(eventFilter.getEventName())
@@ -39,6 +40,8 @@ public class EventFinder {
                 .stream()
                 .filter(event -> event.getEventDateTime() == null || event.getEventDateTime().isAfter(eventFilter.getTimeFrom()))
                 .filter(event -> event.getEventDateTime() == null || event.getEventDateTime().isBefore(eventFilter.getTimeTo()))
+                .filter(event -> event.getPrices() == null || event.getPrices().isEmpty() || event.getPrices().stream().filter(price -> price >= eventFilter.getPriceFrom()).collect(Collectors.toList()).size() > 0)
+                .filter(event -> event.getPrices() == null || event.getPrices().isEmpty() || event.getPrices().stream().filter(price -> price <= eventFilter.getPriceTo()).collect(Collectors.toList()).size() > 0)
                 //TODO This solution with filtering is a little bit hacky since we should somehow filter events in sql query, not here
                 .collect(Collectors.toList());
     }

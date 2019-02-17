@@ -41,6 +41,7 @@ public class CreateEventHandler implements CommandHandler<CreateEvent, Event> {
                 .hosts(createEvent.getHosts())
                 .source(createEvent.getSource())
                 .profilePicture(createEvent.getProfilePicture())
+                .prices(createEvent.getPrices())
                 .build());
         HashSet<UUID> hosts = new HashSet<>();
         hosts.add(UUID.randomUUID());//TODO

@@ -9,6 +9,7 @@ import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -37,6 +38,7 @@ public class Event {
     private String description;
     private String source;
     private String profilePicture;
-    //TODO Tickets should be added here
+    @ElementCollection
+    private List<Integer> prices;//TODO Introduce Ticket entity or maybe embeddable?
 }
 

@@ -16,4 +16,6 @@ public class EventFilterBean {
     private UUID placeId;
     private LocalDateTime timeFrom;
     private LocalDateTime timeTo;
+    private Integer priceFrom;
+    private Integer priceTo;
 }

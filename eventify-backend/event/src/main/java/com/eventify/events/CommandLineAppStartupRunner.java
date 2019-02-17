@@ -38,7 +38,7 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
         TheaterEvent theaterEvent2 = new TheaterEvent("comedy");
         theaterEvent2.setEventName("Gospodja ministarka2");
         theaterEvent2.setPlace(place);
-        theaterEvent2.setEventDateTime(LocalDateTime.now());
+        theaterEvent2.setEventDateTime(LocalDateTime.of(1991,2,2,2,2));
         events.add(theaterEvent2);
         eventRepository.saveAll(events);
     }

@@ -31,6 +31,7 @@ public class UpdateEventHandler implements CommandHandler<UpdateEvent, Event> {
         event.setDescription(updateEvent.getDescription());
         event.setSource(updateEvent.getSource());
         event.setProfilePicture(updateEvent.getProfilePicture());
+        event.setPrices(updateEvent.getPrices());
         return eventRepository.save(event);
     }
 }

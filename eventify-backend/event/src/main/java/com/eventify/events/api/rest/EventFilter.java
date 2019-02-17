@@ -19,4 +19,6 @@ public class EventFilter {
     private final UUID placeId;
     private final LocalDateTime timeFrom;
     private final LocalDateTime timeTo;
+    private final Integer priceFrom;
+    private final Integer priceTo;
 }

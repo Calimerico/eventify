@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Value;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -22,4 +23,5 @@ public class UpdateEvent implements Command<Event> {
     private String description;
     private String source;
     private String profilePicture;
+    private List<Integer> prices;
 }

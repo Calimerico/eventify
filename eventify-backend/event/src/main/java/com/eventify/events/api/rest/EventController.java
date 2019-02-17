@@ -37,8 +37,10 @@ public class EventController {
                 .eventType(eventFilterBean.getEventType())
                 .hostId(eventFilterBean.getHostId())
                 .placeId(eventFilterBean.getPlaceId())
-                .timeFrom(LocalDateTime.of(1993,12,2,10,15))//TODO
-                .timeTo(LocalDateTime.of(1999,12,2,10,15))//TODO
+                .timeFrom(LocalDateTime.of(1990,12,2,10,15))//TODO
+                .timeTo(LocalDateTime.of(1994,12,2,10,15))//TODO
+                .priceFrom(100)
+                .priceTo(200)
                 .build())
                 .stream()
                 .map(EventResource::fromEvent)
@@ -60,6 +62,7 @@ public class EventController {
                 .eventType(createEventRequest.getEventType())
                 .placeId(createEventRequest.getPlaceId())
                 .source(createEventRequest.getSource())
+                .prices(createEventRequest.getPrices())
                 .build());
         return ResponseEntity.ok(EventResource.fromEvent(createdEvent));
     }
@@ -74,6 +77,7 @@ public class EventController {
                 .eventType(updateEventRequest.getEventType())
                 .placeId(updateEventRequest.getPlaceId())
                 .source(updateEventRequest.getSource())
+                .prices(updateEventRequest.getPrices())
                 .build());
         return ResponseEntity.ok(EventResource.fromEvent(updatedEvent));
     }

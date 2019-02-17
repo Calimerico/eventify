@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Value;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -25,6 +26,7 @@ public class EventResource {
     private String description;
     private String source;
     private String profilePicture;
+    private List<Integer> prices;
 
     public static EventResource fromEvent(Event event) {
         return EventResource.builder()
@@ -37,6 +39,7 @@ public class EventResource {
                 .description(event.getDescription())
                 .source(event.getSource())
                 .profilePicture(event.getProfilePicture())
+                .prices(event.getPrices())
                 .build();
     }
 }

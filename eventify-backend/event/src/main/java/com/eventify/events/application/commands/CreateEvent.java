@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Value;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -23,4 +24,5 @@ public class CreateEvent implements Command<Event> {
     private String source;
     private Set<UUID> hosts;
     private String profilePicture;
+    private List<Integer> prices;
 }
