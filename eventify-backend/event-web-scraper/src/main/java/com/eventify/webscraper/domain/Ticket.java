@@ -1,5 +1,7 @@
 package com.eventify.webscraper.domain;
 
+import lombok.Value;
+
 /**
  * Created by spasoje on 17-Feb-19.
  */
