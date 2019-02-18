@@ -12,11 +12,14 @@ import java.util.UUID;
 @Entity
 @Data
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-@AllArgsConstructor
 public class Place {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
     @ElementCollection
     private List<String> names;
+
+    public Place(List<String> names) {
+        this.names = names;
+    }
 }

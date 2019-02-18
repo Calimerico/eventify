@@ -44,9 +44,8 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
     }
 
     public Place getPlace() {
-        UUID placeId = UUID.randomUUID();
         List<String> placeNames = new ArrayList<>();
         placeNames.add("Narodno pozoriste");
-        return new Place(placeId, placeNames);
+        return new Place(placeNames);
     }
 }

@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class EventFinder {
     private final EventRepository eventRepository;
+    private final PlaceRepository placeRepository;
 
     public Event findByName(String eventName) {
         return eventRepository.findByEventName(eventName);
@@ -30,6 +31,8 @@ public class EventFinder {
     }
 
     public List<Event> findByExample(EventFilter eventFilter) {//TODO Handle if dateFrom,dateTo,priceFrom and proceTo are null
+        placeRepository.findAll();//TODO DON'T DELETE THIS LINE OR YOU WILL INTRODUCE BUG. THIS IS TEMPORARY SOLUTION
+        //TODO For line above take a look here https://stackoverflow.com/questions/13539050/entitynotfoundexception-in-hibernate-many-to-one-mapping-however-data-exist
         //TODO https://stackoverflow.com/questions/39784344/check-date-between-two-other-dates-spring-data-jpa
         Example<Event> example = Example.of(EventFactory
                 .aEvent()

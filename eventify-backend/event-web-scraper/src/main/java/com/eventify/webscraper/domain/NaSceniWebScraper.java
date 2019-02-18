@@ -32,7 +32,7 @@ public class NaSceniWebScraper implements EventWebScraper {
         return new EventsScraped(scrapedEvents);
     }
 
-    public static void scrapEvents(List<EventScraped> scrapedEvents, String url) throws IOException {
+    private void scrapEvents(List<EventScraped> scrapedEvents, String url) throws IOException {
         Elements linkOfEvents;
         linkOfEvents = Jsoup.connect(url).get().select(".infoContent > a");
 
