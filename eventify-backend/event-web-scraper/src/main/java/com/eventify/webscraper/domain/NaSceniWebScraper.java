@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static java.lang.Character.isDigit;
 
@@ -18,63 +19,86 @@ import static java.lang.Character.isDigit;
  * Created by spasoje on 21-Nov-18.
  */
 @Component
-public class NaSceniWebScraper implements EventWebScraper {
+public class NaSceniWebScraper extends BaseEventWebScraper {
 
     @Override
-    public EventsScraped scrapEvents() {
-        List<EventScraped> scrapedEvents = new ArrayList<>();
-        String baseUrl = "https://nasceni.tickets.rs/event/category/pozoriste-1";
+    protected String getBaseUrl() {
+        return "https://nasceni.tickets.rs/event/category/pozoriste-1";
+    }
+
+    @Override
+    protected List<String> getLinksToEvents(String url) {
         try {
-            scrapEvents(scrapedEvents, baseUrl);
+            return Jsoup.connect(url).get().select(".infoContent > a").stream().map(element -> element.attr("href")).collect(Collectors.toList());
         } catch (IOException e) {
             e.printStackTrace();//TODO
         }
-        return new EventsScraped(scrapedEvents);
+        return null;
     }
 
-    private void scrapEvents(List<EventScraped> scrapedEvents, String url) throws IOException {
-        Elements linkOfEvents;
-        linkOfEvents = Jsoup.connect(url).get().select(".infoContent > a");
+    @Override
+    protected String getEventName(Document document) {
+        return document.select(".programLarge h1").text();
+    }
 
-        linkOfEvents.forEach(link -> {
-            EventScraped eventScraped;
-            EventScraped.EventScrapedBuilder eventScrapedBuilder = EventScraped.builder().source(link.attr("href"));
-            try {
-                Document eventDocument = Jsoup.connect(link.attr("href")).get();
-                String eventName = eventDocument.select(".programLarge h1").text();
-                eventScrapedBuilder.eventName(eventName);
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-                LocalDateTime datetime = LocalDateTime.parse(eventDocument.select(".ticketTime").attr("datetime"), formatter);
-                eventScrapedBuilder.eventDateTime(datetime);
-                List<Integer> prices = new ArrayList<>();
-                for (Element element : eventDocument.select(".price")) {
-                    if (element.text().contains("RSD")) {
-                        int price = Integer.parseInt(element.text().replace(" ", "").split("\\.")[0]);
-                        if (price > 0) {//TODO HARDCODED We maybe need alerting module for this situations
-                            prices.add(price);
-                        }
-                    }
-                }
-                eventScrapedBuilder.prices(prices);
+    @Override
+    protected LocalDateTime getEventDateTime(Document document, DateTimeFormatter formatter) {
+        return LocalDateTime.parse(document.select(".ticketTime").attr("datetime"), formatter);
+    }
 
-                Elements place = eventDocument.select(".placeContainer a");
-                if (place != null){
-                    eventScrapedBuilder.placeId(place.text());
+    @Override
+    protected DateTimeFormatter getEventDateTimeFormatter() {
+        return DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    }
+
+    @Override
+    protected List<Integer> getPrices(Document document) {
+        List<Integer> prices = new ArrayList<>();
+        for (Element element : document.select(".price")) {
+            if (element.text().contains("RSD")) {
+                int price = Integer.parseInt(element.text().replace(" ", "").split("\\.")[0]);
+                if (price > 0) {//TODO HARDCODED We maybe need alerting module for this situations
+                    prices.add(price);
                 }
-                Elements pictureElement = eventDocument.select(".programLarge img");
-                if (pictureElement != null) {
-                    eventScrapedBuilder.picture(pictureElement.attr("src"));
-                }
-                eventScrapedBuilder.eventType("theater");
-            } catch (IOException e) {
-                e.printStackTrace();
             }
-            eventScraped = eventScrapedBuilder.build();
-            scrapedEvents.add(eventScraped);
-        });
-        Element nextPageButton = Jsoup.connect(url).get().selectFirst("[rel=\"next\"]");
-        if (nextPageButton != null) {
-            scrapEvents(scrapedEvents, "https://nasceni.tickets.rs" + nextPageButton.attr("href"));
         }
+        return prices;
+    }
+
+    @Override
+    protected String getPlaceName(Document document) {
+        Elements place = document.select(".placeContainer a");
+        if (place != null){
+            return place.text();
+        }
+        return null;
+    }
+
+    @Override
+    protected String getProfilePicture(Document document) {
+        Elements pictureElement = document.select(".programLarge img");
+        if (pictureElement != null) {
+            return pictureElement.attr("src");
+        }
+        return null;
+    }
+
+    @Override
+    protected String getEventType() {
+        return "theater";
+    }
+
+    @Override
+    protected String getNextPageUrl() {
+        Element nextPageButton = null;
+        try {
+            nextPageButton = Jsoup.connect(getBaseUrl()).get().selectFirst("[rel=\"next\"]");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if (nextPageButton != null) {
+            return "https://nasceni.tickets.rs" + nextPageButton.attr("href");
+        }
+        return null;
     }
 }
