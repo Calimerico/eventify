@@ -89,10 +89,10 @@ public class NaSceniWebScraper extends BaseEventWebScraper {
     }
 
     @Override
-    protected String getNextPageUrl() {
+    protected String getNextPageUrl(String currentUrl) {
         Element nextPageButton = null;
         try {
-            nextPageButton = Jsoup.connect(getBaseUrl()).get().selectFirst("[rel=\"next\"]");
+            nextPageButton = Jsoup.connect(currentUrl).get().selectFirst("[rel=\"next\"]");
         } catch (IOException e) {
             e.printStackTrace();
         }

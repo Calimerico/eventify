@@ -20,7 +20,7 @@ public abstract class BaseEventWebScraper implements EventWebScraper {
     protected abstract String getPlaceName(Document document);
     protected abstract String getProfilePicture(Document document);
     protected abstract String getEventType();
-    protected abstract String getNextPageUrl();
+    protected abstract String getNextPageUrl(String currentUrl);
 
     @Override
     public EventsScraped scrapEvents() {
@@ -53,8 +53,9 @@ public abstract class BaseEventWebScraper implements EventWebScraper {
             }
 
         });
-        if (getNextPageUrl() != null) {
-            scrapEvents(scrapedEvents, getNextPageUrl());
+        String nextPageUrl = getNextPageUrl(url);
+        if (nextPageUrl != null) {
+            scrapEvents(scrapedEvents, nextPageUrl);
         }
     }
 }
