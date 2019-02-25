@@ -4,6 +4,8 @@ import com.eventify.webscraper.application.commands.ScrapEvents;
 import com.eventify.shared.demo.Gate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,7 +22,7 @@ public class EventWebScraperController {
     private final Gate gate;
 
     @PostMapping(value = "/scrap")
-    public void scrapEvents() throws IOException {
+    public ResponseEntity<Void> scrapEvents() throws IOException {
         ArrayList<String> linksToScrap = new ArrayList<>();
         linksToScrap.add("meetup");
         linksToScrap.add("naSceni");
@@ -28,5 +30,6 @@ public class EventWebScraperController {
                 .builder()
                 .linksToScrap(linksToScrap)
                 .build());
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 }

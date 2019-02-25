@@ -40,6 +40,11 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
         theaterEvent2.setPlace(place);
         theaterEvent2.setEventDateTime(LocalDateTime.of(1991,2,2,2,2));
         events.add(theaterEvent2);
+        TheaterEvent theaterEvent3 = new TheaterEvent("comedy");
+        theaterEvent3.setEventName("Gospodja ministarka22");
+        theaterEvent3.setPlace(place);
+        theaterEvent3.setEventDateTime(LocalDateTime.of(1992,2,2,2,2));
+        events.add(theaterEvent3);
         eventRepository.saveAll(events);
     }
 

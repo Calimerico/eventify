@@ -2,9 +2,11 @@ package com.eventify.events.api.rest;
 
 import com.eventify.events.domain.Event;
 import com.eventify.events.domain.Host;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Value;
 import org.apache.commons.collections4.CollectionUtils;
+import org.springframework.hateoas.ResourceSupport;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -20,7 +22,9 @@ import static org.apache.commons.collections4.CollectionUtils.emptyIfNull;
  */
 @Builder
 @Value
-public class EventResource {
+public class EventResource extends ResourceSupport {
+
+    @JsonProperty("id")
     private UUID eventId;
     private String eventName;
     private Set<UUID> hosts;

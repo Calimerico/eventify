@@ -9,8 +9,15 @@ import com.eventify.events.infrastructure.EventFinder;
 import com.eventify.shared.demo.Gate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.PagedResources;
+import org.springframework.hateoas.mvc.ResourceAssemblerSupport;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -31,20 +38,21 @@ public class EventController {
 
     @GetMapping
     //TODO Use Resources instead of ResponseEntity? Check this out: https://stackoverflow.com/questions/28139856/how-can-i-get-spring-mvchateoas-to-encode-a-list-of-resources-into-hal
-    public ResponseEntity<Iterable<EventResource>> getEvents(@ModelAttribute EventFilterBean eventFilterBean) {
-        return ResponseEntity.ok().body(eventFinder.findByExample(EventFilter.builder()
+    public ResponseEntity<PagedResources<EventResource>> getEvents(@ModelAttribute EventFilterBean eventFilterBean,
+                                                                   @PageableDefault Pageable pageable,
+                                                                   PagedResourcesAssembler<Event> pagedAssembler) {
+        Page<Event> pageOfEvents = eventFinder.findByExample(EventFilter.builder()
                 .eventName(eventFilterBean.getEventName())
                 .eventType(eventFilterBean.getEventType())
                 .hostId(eventFilterBean.getHostId())
                 .placeId(eventFilterBean.getPlaceId())
-                .timeFrom(LocalDateTime.of(1990,12,2,10,15))//TODO
-                .timeTo(LocalDateTime.of(1994,12,2,10,15))//TODO
+                .timeFrom(LocalDateTime.of(1990, 12, 2, 10, 15))//TODO
+                .timeTo(LocalDateTime.of(1994, 12, 2, 10, 15))//TODO
                 .priceFrom(100)
                 .priceTo(200)
-                .build())
-                .stream()
-                .map(EventResource::fromEvent)
-                .collect(toList()));
+                .build(), pageable);
+
+        return ResponseEntity.ok().body(pagedAssembler.toResource(pageOfEvents,new EventPagedResourcesAssembler()));
     }
 
     @GetMapping("/{id}")
@@ -89,5 +97,18 @@ public class EventController {
                 .id(id)
                 .build());
         return ResponseEntity.ok().build();
+    }
+
+    @Component
+    public class EventPagedResourcesAssembler extends ResourceAssemblerSupport<Event, EventResource> {
+
+        public EventPagedResourcesAssembler() {
+            super(EventController.class, EventResource.class);
+        }
+
+        @Override
+        public EventResource toResource(Event event) {
+            return EventResource.fromEvent(event);
+        }
     }
 }

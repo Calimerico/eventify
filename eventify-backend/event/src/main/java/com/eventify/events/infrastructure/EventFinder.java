@@ -4,7 +4,7 @@ import com.eventify.events.api.rest.EventFilter;
 import com.eventify.events.domain.Event;
 import com.eventify.events.domain.EventFactory;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Example;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -30,7 +30,7 @@ public class EventFinder {
         return eventRepository.findByEventId(id);
     }
 
-    public List<Event> findByExample(EventFilter eventFilter) {//TODO Handle if dateFrom,dateTo,priceFrom and proceTo are null
+    public Page<Event> findByExample(EventFilter eventFilter, Pageable pageable) {//TODO Handle if dateFrom,dateTo,priceFrom and proceTo are null
         placeRepository.findAll();//TODO DON'T DELETE THIS LINE OR YOU WILL INTRODUCE BUG. THIS IS TEMPORARY SOLUTION
         //TODO For line above take a look here https://stackoverflow.com/questions/13539050/entitynotfoundexception-in-hibernate-many-to-one-mapping-however-data-exist
         //TODO https://stackoverflow.com/questions/39784344/check-date-between-two-other-dates-spring-data-jpa
@@ -39,7 +39,7 @@ public class EventFinder {
                 .eventName(eventFilter.getEventName())
                 .eventType(eventFilter.getEventType())
                 .build());//TODO Places and hosts filter?
-        return eventRepository.findAll(example)
+        List<Event> events = eventRepository.findAll(example, pageable)
                 .stream()
                 .filter(event -> event.getEventDateTime() == null || event.getEventDateTime().isAfter(eventFilter.getTimeFrom()))
                 .filter(event -> event.getEventDateTime() == null || event.getEventDateTime().isBefore(eventFilter.getTimeTo()))
@@ -47,6 +47,7 @@ public class EventFinder {
                 .filter(event -> event.getPrices() == null || event.getPrices().isEmpty() || event.getPrices().stream().filter(price -> price <= eventFilter.getPriceTo()).collect(Collectors.toList()).size() > 0)
                 //TODO This solution with filtering is a little bit hacky since we should somehow filter events in sql query, not here
                 .collect(Collectors.toList());
+        return new PageImpl<>(events,pageable,events.size());
     }
 
     public List<Event> findAll() {
