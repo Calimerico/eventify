@@ -1,0 +1,11 @@
+spring:
+  cloud:
+    stream:
+      kafka:
+        binder:
+          brokers: localhost:9092
+      bindings:
+        authInput:
+#        TODO RENAME THIS TOPIC!
+          destination: cqrs1
+          contentType: application/json

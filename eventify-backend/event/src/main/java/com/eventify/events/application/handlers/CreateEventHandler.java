@@ -11,12 +11,15 @@ import com.eventify.events.infrastructure.KafkaEventProducer;
 import com.eventify.events.infrastructure.PlaceRepository;
 import com.eventify.shared.demo.CommandHandler;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.collections4.CollectionUtils;
 
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
+
+import static org.apache.commons.collections4.CollectionUtils.emptyIfNull;
 
 /**
  * Created by spasoje on 15-Dec-18.
@@ -32,13 +35,17 @@ public class CreateEventHandler implements CommandHandler<CreateEvent, Event> {
     @Override
     public Event handle(CreateEvent createEvent) {
         //TODO First check does event exist with event finder
+        Place place = null;
+        if (createEvent.getPlaceId() != null) {
+            place = placeRepository.findById(createEvent.getPlaceId()).orElse(new Place(Collections.singletonList("Place")));
+        }
         Event event = eventRepository.save(EventFactory
                 .aEvent()
                 .description(createEvent.getDescription())
                 .eventDateTime(createEvent.getEventDateTime())
                 .eventName(createEvent.getEventName())
                 .eventType(createEvent.getEventType())
-                .place(placeRepository.findById(createEvent.getPlaceId()).orElse(new Place(Collections.singletonList("Place"))))//TODO
+                .place(place)//TODO
                 .hosts(createEvent.getHosts())
                 .source(createEvent.getSource())
                 .profilePicture(createEvent.getProfilePicture())
@@ -47,7 +54,7 @@ public class CreateEventHandler implements CommandHandler<CreateEvent, Event> {
         kafkaEventProducer.send(EventAddedEvent
                 .builder()
                 .eventId(event.getEventId())
-                .hosts(event.getHosts().stream().filter(Objects::nonNull).map(Host::getId).collect(Collectors.toSet()))
+                .hosts(emptyIfNull(event.getHosts()).stream().filter(Objects::nonNull).map(Host::getId).collect(Collectors.toSet()))
                 .build());
         return event;
     }

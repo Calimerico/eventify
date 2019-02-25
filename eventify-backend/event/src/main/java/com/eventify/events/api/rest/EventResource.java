@@ -4,6 +4,7 @@ import com.eventify.events.domain.Event;
 import com.eventify.events.domain.Host;
 import lombok.Builder;
 import lombok.Value;
+import org.apache.commons.collections4.CollectionUtils;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -11,6 +12,8 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
+
+import static org.apache.commons.collections4.CollectionUtils.emptyIfNull;
 
 /**
  * Created by spasoje on 02-Dec-18.
@@ -33,7 +36,7 @@ public class EventResource {
         return EventResource.builder()
                 .eventId(event.getEventId())
                 .eventName(event.getEventName())
-                .hosts(event.getHosts().stream().filter(Objects::nonNull).map(Host::getId).collect(Collectors.toSet()))
+                .hosts(emptyIfNull(event.getHosts()).stream().filter(Objects::nonNull).map(Host::getId).collect(Collectors.toSet()))
                 .eventType(event.getEventType())
                 .placeId(event.getPlace() != null ? event.getPlace().getId() : null)
                 .eventDateTime(event.getEventDateTime())

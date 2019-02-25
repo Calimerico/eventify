@@ -1,5 +1,6 @@
 package com.eventify.events.infrastructure;
 
+import com.eventify.KafkaStreams;
 import com.eventify.shared.demo.DomainEvent;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
@@ -10,7 +11,11 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.messaging.MessageChannel;
+import org.springframework.messaging.MessageHeaders;
+import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Component;
+import org.springframework.util.MimeTypeUtils;
 
 /**
  * Created by spasoje on 20-Dec-18.
@@ -19,18 +24,13 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 //TODO I will duplicate this one for now, should be in com.eventify.shared folder
 public class KafkaEventProducer {
+    private final KafkaStreams kafkaStreams;
 
-    private final KafkaTemplate<String, String> kafkaTemplate;
-    private final ObjectMapper objectMapper;
-
-    //TODO Hardcoded topic name, think about it
     public void send(DomainEvent event) {
-        try {
-            //TODO rename topic names
-            kafkaTemplate.send("cqrs1",objectMapper.writeValueAsString(event));
-        } catch (JsonProcessingException e) {
-            //TODO
-            e.printStackTrace();
-        }
+        MessageChannel messageChannel = kafkaStreams.outputChannel();
+        messageChannel.send(MessageBuilder
+                .withPayload(event)
+                .setHeader(MessageHeaders.CONTENT_TYPE, MimeTypeUtils.APPLICATION_JSON)
+                .build());
     }
 }

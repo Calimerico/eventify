@@ -1,12 +1,15 @@
 package com.eventify.events.infrastructure;
 
+import com.eventify.KafkaStreams;
 import com.eventify.events.api.msg.EventsScraped;
 import com.eventify.events.domain.Event;
 import com.eventify.events.domain.EventFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
+import org.springframework.cloud.stream.annotation.StreamListener;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,20 +24,10 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class Consumer {//TODO Rename
 
-    private final ObjectMapper objectMapper;
     private final EventRepository eventRepository;//TODO Controller instead of repo?
 
-    @KafkaListener(topics = "cqrs")
-    //TODO This listener is invoked twice instead of once every time, check kafka messages!
-    public void receiveTopic(ConsumerRecord<?, String> consumerRecord) {
-        String domainEventAsString = consumerRecord.value();
-        EventsScraped eventsScraped = null;
-        try {
-            eventsScraped = objectMapper.readValue(domainEventAsString, EventsScraped.class);
-        } catch (IOException e) {
-            //TODO
-            e.printStackTrace();
-        }
+    @StreamListener(KafkaStreams.INPUT)//TODO rename method
+    public void handleEventsScraped(@Payload EventsScraped eventsScraped) {
         List<Event> events = eventsScraped
                 .getEventsScraped()
                 .stream()
