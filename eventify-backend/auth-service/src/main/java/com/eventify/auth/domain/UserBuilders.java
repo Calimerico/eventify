@@ -12,8 +12,8 @@ import java.util.UUID;
 public class UserBuilders {
 
     @Builder(builderMethodName = "aUser")
-    private static User createUser(String email, String username, String password, String firstName, String lastName, String sex, String role, Set<UUID> eventIdsThatUserOrganize) {
-        User user = new User();
+    private static UserAccount createUser(String email, String username, String password, String firstName, String lastName, String sex, String role, Set<UUID> eventIdsThatUserOrganize) {
+        UserAccount user = new UserAccount();
         user.setEmail(email);
         user.setUsername(username);
         user.setPassword(password);

@@ -1,14 +1,11 @@
 package com.eventify.auth.application.handlers;
 
 import com.eventify.auth.application.commands.RegisterUser;
-import com.eventify.auth.domain.User;
 import com.eventify.auth.domain.UserBuilders;
 import com.eventify.auth.infrastructure.UserRepository;
 import com.eventify.shared.net.CommandHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
-
-import java.util.HashSet;
 
 /**
  * Created by spasoje on 13-Dec-18.
@@ -22,7 +19,7 @@ public class RegisterUserHandler implements com.eventify.shared.demo.CommandHand
     @Override
     public Void handle(RegisterUser registerUser) {
         if (userRepository.findByUsername(registerUser.getUsername()).isPresent()) {
-            throw new DataIntegrityViolationException("User already exist");
+            throw new DataIntegrityViolationException("UserAccount already exist");
         }
         userRepository.save(UserBuilders.aUser()
                 .email(registerUser.getEmail())

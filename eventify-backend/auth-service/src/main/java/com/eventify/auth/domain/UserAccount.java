@@ -15,7 +15,7 @@ import java.util.UUID;
 @NoArgsConstructor(access = AccessLevel.PACKAGE)
 @Getter(AccessLevel.PUBLIC)
 @Setter(AccessLevel.PUBLIC)
-public class User {
+public class UserAccount {
     private String email;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
