@@ -1,0 +1,122 @@
+version: "2"
+
+services:
+  postgres:
+    container_name: postgres
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: changeme
+      POSTGRES_DB: eventify
+      PGDATA: /data/postgres
+    volumes:
+       - postgres:/data/postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - event-network
+    restart: unless-stopped
+  
+  pgadmin:
+    container_name: pgadmin_container
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: pgadmin4@pgadmin.org
+      PGADMIN_DEFAULT_PASSWORD: admin
+    volumes:
+       - pgadmin:/root/.pgadmin
+    ports:
+      - "5050:80"
+    networks:
+      - event-network
+    restart: unless-stopped
+    depends_on:
+      - postgres
+
+  zookeeper:
+    container_name: zookeper_container
+    image: wurstmeister/zookeeper:3.4.6
+    ports:
+    - "2181:2181"
+
+  kafka:
+    container_name: kafka_container
+    image: wurstmeister/kafka:2.11-2.0.0
+    depends_on:
+        - zookeeper
+    ports:
+        - "9092:9092"
+    environment:
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092 
+      KAFKA_CREATE_TOPICS: "cqrs:1:1,cqrs1:1:1"
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+
+  eureka:
+    container_name: eureka_container
+    build:
+      context: .
+      dockerfile: eureka.Dockerfile
+    image: eureka-service
+    ports: 
+      - "8761:8761"
+    networks:
+      - event-network
+
+  zuul:
+    container_name: zuul_container
+    build:
+      context: .
+      dockerfile: zuul.Dockerfile
+    image: zuul-service
+    ports: 
+      - "8762:8762"
+    networks:
+      - event-network
+
+  event:
+    container_name: event_container
+    build:
+      context: .
+      dockerfile: event.Dockerfile
+    image: event-service
+    ports: 
+      - "8200:8200"
+    networks:
+      - event-network
+    depends_on:
+      - postgres
+      - kafka
+
+  event-web-scraper:
+    container_name: event-web-scraper_container
+    build:
+      context: .
+      dockerfile: event-web-scraper.Dockerfile
+    image: event-web-scraper-service
+    ports: 
+      - "8222:8222"
+    networks:
+      - event-network
+
+  auth:
+    container_name: auth_container
+    build:
+      context: .
+      dockerfile: auth.Dockerfile
+    image: auth-service
+    ports: 
+      - "9100:9100"
+    networks:
+      - event-network
+    depends_on:
+      - postgres
+      - kafka
+
+networks:
+  event-network:
+    driver: bridge
+
+volumes:
+    postgres:
+    pgadmin:
