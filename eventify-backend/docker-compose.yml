@@ -18,7 +18,7 @@ services:
     restart: unless-stopped
   
   pgadmin:
-    container_name: pgadmin_container
+    container_name: pgadmin
     image: dpage/pgadmin4
     environment:
       PGADMIN_DEFAULT_EMAIL: pgadmin4@pgadmin.org
@@ -34,13 +34,14 @@ services:
       - postgres
 
   zookeeper:
-    container_name: zookeper_container
+    container_name: zookeper
     image: wurstmeister/zookeeper:3.4.6
     ports:
     - "2181:2181"
-
+    networks:
+      - event-network
   kafka:
-    container_name: kafka_container
+    container_name: kafka
     image: wurstmeister/kafka:2.11-2.0.0
     depends_on:
         - zookeeper
@@ -51,9 +52,11 @@ services:
       KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092 
       KAFKA_CREATE_TOPICS: "cqrs:1:1,cqrs1:1:1"
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+    networks:
+      - event-network
 
   eureka:
-    container_name: eureka_container
+    container_name: eureka
     build:
       context: .
       dockerfile: eureka.Dockerfile
@@ -64,7 +67,7 @@ services:
       - event-network
 
   zuul:
-    container_name: zuul_container
+    container_name: zuul
     build:
       context: .
       dockerfile: zuul.Dockerfile
@@ -75,7 +78,7 @@ services:
       - event-network
 
   event:
-    container_name: event_container
+    container_name: event
     build:
       context: .
       dockerfile: event.Dockerfile
@@ -89,7 +92,7 @@ services:
       - kafka
 
   event-web-scraper:
-    container_name: event-web-scraper_container
+    container_name: event-web-scraper
     build:
       context: .
       dockerfile: event-web-scraper.Dockerfile
@@ -100,7 +103,7 @@ services:
       - event-network
 
   auth:
-    container_name: auth_container
+    container_name: auth
     build:
       context: .
       dockerfile: auth.Dockerfile
