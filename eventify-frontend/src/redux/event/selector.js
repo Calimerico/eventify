@@ -29,7 +29,10 @@ const getEventsFilter = createSelector(
 
 const getEventsByFilter = createSelector(
     extractEvents,
-    (events) => events
+    (events) => {
+        debugger;
+        return events;
+    }
 );
 const isEventLoaded = createSelector(
     extractLoaded,
