@@ -21,7 +21,7 @@ const rootReducer = combineReducers({
     authReducer:authReducer
 });
 
-const store = compose(applyMiddleware(thunk,logger))(createStore)(rootReducer);
+const store = compose(applyMiddleware(thunk,logger))(createStore)(rootReducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 
 ReactDOM.render( <I18nextProvider i18n={ i18n } ><Provider store={store}><App /></Provider></I18nextProvider>, document.getElementById('root'));
 
