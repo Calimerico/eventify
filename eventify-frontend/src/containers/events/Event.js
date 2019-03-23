@@ -7,38 +7,55 @@ import { connect } from 'react-redux';
 import eventSelectors from './../../redux/event/selector'
 import eventActions from './../../redux/event/actions'
 import Button from '@material-ui/core/Button';
+import { withStyles } from '@material-ui/core/styles';
+import CircularProgress from '@material-ui/core/CircularProgress';
+
+const styles = theme => ({
+    progress: {
+        margin: theme.spacing.unit * 2,
+    },
+});
 
 class Event extends React.Component {
 
     constructor(props) {
         super(props);
-        const {eventExist,eventLoaded, loadEvent} = this.props;
-        if (eventExist && !eventLoaded){
-            loadEvent(this.props.match.params.id);
-        }
         this.onUpdateSubmit = this.onUpdateSubmit.bind(this);
     }
 
     onUpdateSubmit() {
-        this.props.updateEvent(this.props.match.params.id, {eventName:"pera",eventType:"sport",description:"desc"})
+        const {updateEvent, match:{params:{id}}} = this.props;
+        updateEvent(id, {eventName:"pera",eventType:"sport",description:"desc"})
+    }
+
+    componentDidMount() {
+        const {eventLoaded, loadEvent, match:{params:{id}}} = this.props;
+        if (!eventLoaded){
+            loadEvent(id);
+        }
+    }
+
+    isPageLoaded() {
+        const {event} = this.props;
+        return event;
     }
 
     render() {
-        if (this.props.event !== null) {
+        const { classes } = this.props;
+        if (this.isPageLoaded()) {
             return <div>
                 {"Proba " + this.props.match.params.id + this.props.event.eventName}
                 <Button onClick={this.onUpdateSubmit}>Update</Button>
             </div>
+        } else {
+            return <CircularProgress size={140} className={classes.progress} />
         }
-        return "Loading";
-
     }
 }
 
 const mapStateToProps = (state,props) => {
     return{
         event:eventSelectors.getEventById(state, props),
-        eventExist:eventSelectors.doesEventExist(state,props),
         eventLoaded:eventSelectors.isEventLoaded(state,props)
     }
 };
@@ -51,4 +68,4 @@ const mapDispatchToProps = dispatch => {
 };
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(Event);
+export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(Event));

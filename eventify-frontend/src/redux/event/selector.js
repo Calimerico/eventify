@@ -13,10 +13,6 @@ const extractLoaded = (state,props) => {
     return state.eventsReducer.loading;
 };
 
-const extractEventById = state => {
-    return state.eventsReducer.eventById;
-};
-
 const extractEvents = state => {
     return state.eventsReducer.events;
 };
@@ -30,29 +26,27 @@ const getEventsFilter = createSelector(
 const getEventsByFilter = createSelector(
     extractEvents,
     (events) => {
-        debugger;
-        return events;
+        return Object.values(events);
     }
 );
 const isEventLoaded = createSelector(
     extractLoaded,
     (loading) => loading
 );
-const doesEventExist = createSelector(
-    extractEvents,
-    (events) => true //TODO
-);
 
 const getEventById = createSelector(
-    extractEventById,
-    (event) => {
-        return event;
+    extractEvents,
+    extractEventId,
+    (events, eventId) => {
+        if (events == null) {
+            return null;
+        }
+        return events[eventId];
     }
 );
 const selectors = {
     getEventsFilter:getEventsFilter,
     getEventById:getEventById,
-    doesEventExist:doesEventExist,
     isEventLoaded:isEventLoaded,
     getEventsByFilter:getEventsByFilter,
 };
