@@ -5,10 +5,10 @@ import Event from '../events/Event';
 import MainNavbar from '../../components/UI/Navbar/MainNavbar';
 import {Route, Switch, BrowserRouter} from 'react-router-dom';
 import AboutUs from './../../components/aboutus/AboutUs';
-import ContactUs from './../../components/contactus/ContactUs';
+import ContactUs from '../contactus/ContactUs';
 import Careers from './../../components/careers/Careers';
-import Login from './../../components/login/Login';
-import Register from './../../components/register/Register';
+import Login from '../login/Login';
+import Register from '../register/Register';
 import ScrapEvents from './../../components/scrap/ScrapEvents';
 import AddEvent from '../events/AddEvent';
 
