@@ -1,273 +1,118 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableHead from '@material-ui/core/TableHead';
-import TableCell from '@material-ui/core/TableCell';
-import TableFooter from '@material-ui/core/TableFooter';
-import TablePagination from '@material-ui/core/TablePagination';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
-import Button from '@material-ui/core/Button';
-import { Route, Switch, BrowserRouter, Link, generatePath } from 'react-router-dom';
+import React from "react";
+// @material-ui/core components
+import withStyles from "@material-ui/core/styles/withStyles";
+// core components
+import GridItem from "components/Grid/GridItem.jsx";
+import GridContainer from "components/Grid/GridContainer.jsx";
+import Table from "components/Table/Table.jsx";
+import Card from "components/Card/Card.jsx";
+import CardHeader from "components/Card/CardHeader.jsx";
+import CardBody from "components/Card/CardBody.jsx";
+import Fab from '@material-ui/core/Fab';
+import Icon from '@material-ui/core/Icon';
+import eventSelectors from "../../redux/event/selector";
+import eventActions from "../../redux/event/actions";
+import {connect} from "react-redux";
+import { Link } from 'react-router-dom';
 
-import IconButton from '@material-ui/core/IconButton';
-import FirstPageIcon from '@material-ui/icons/FirstPage';
-import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
-import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
-import LastPageIcon from '@material-ui/icons/LastPage';
-import { connect } from 'react-redux';
-import eventActions from './../../redux/event/actions'
-
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
-import TextField from '@material-ui/core/TextField';
-import eventSelectors from './../../redux/event/selector'
-import Input from '@material-ui/core/Input'
-import InputLabel from '@material-ui/core/InputLabel'
-
-
-const actionsStyles = theme => ({
-    root: {
-        flexShrink: 0,
-        color: theme.palette.text.secondary,
-        marginLeft: theme.spacing.unit * 2.5,
+const styles = {
+    cardCategoryWhite: {
+        "&,& a,& a:hover,& a:focus": {
+            color: "rgba(255,255,255,.62)",
+            margin: "0",
+            fontSize: "14px",
+            marginTop: "0",
+            marginBottom: "0"
+        },
+        "& a,& a:hover,& a:focus": {
+            color: "#FFFFFF"
+        }
     },
-});
-
-class TablePaginationActions extends React.Component {
-    handleFirstPageButtonClick = event => {
-        this.props.onChangePage(event, 0);
-    };
-
-    handleBackButtonClick = event => {
-        this.props.onChangePage(event, this.props.page - 1);
-    };
-
-    handleNextButtonClick = event => {
-        this.props.onChangePage(event, this.props.page + 1);
-    };
-
-    handleLastPageButtonClick = event => {
-        this.props.onChangePage(
-            event,
-            Math.max(0, Math.ceil(this.props.count / this.props.rowsPerPage) - 1),
-        );
-    };
-
-    render() {
-        const { classes, count, page, rowsPerPage, theme } = this.props;
-
-        return (
-            <div className={classes.root}>
-
-                <IconButton
-                    onClick={this.handleFirstPageButtonClick}
-                    disabled={page === 0}
-                    aria-label="First Page"
-                >
-                    {theme.direction === 'rtl' ? <LastPageIcon /> : <FirstPageIcon />}
-                </IconButton>
-                <IconButton
-                    onClick={this.handleBackButtonClick}
-                    disabled={page === 0}
-                    aria-label="Previous Page"
-                >
-                    {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
-                </IconButton>
-                <IconButton
-                    onClick={this.handleNextButtonClick}
-                    disabled={page >= Math.ceil(count / rowsPerPage) - 1}
-                    aria-label="Next Page"
-                >
-                    {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
-                </IconButton>
-                <IconButton
-                    onClick={this.handleLastPageButtonClick}
-                    disabled={page >= Math.ceil(count / rowsPerPage) - 1}
-                    aria-label="Last Page"
-                >
-                    {theme.direction === 'rtl' ? <FirstPageIcon /> : <LastPageIcon />}
-                </IconButton>
-            </div>
-        );
+    cardTitleWhite: {
+        color: "#FFFFFF",
+        marginTop: "0px",
+        minHeight: "auto",
+        fontWeight: "300",
+        fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
+        marginBottom: "3px",
+        textDecoration: "none",
+        "& small": {
+            color: "#777",
+            fontSize: "65%",
+            fontWeight: "400",
+            lineHeight: "1"
+        }
     }
-}
-
-TablePaginationActions.propTypes = {
-    classes: PropTypes.object.isRequired,
-    count: PropTypes.number.isRequired,
-    onChangePage: PropTypes.func.isRequired,
-    page: PropTypes.number.isRequired,
-    rowsPerPage: PropTypes.number.isRequired,
-    theme: PropTypes.object.isRequired,
 };
 
-const TablePaginationActionsWrapped = withStyles(actionsStyles, { withTheme: true })(
-    TablePaginationActions,
-);
-
-const styles = theme => ({
-    root: {
-        width: '100%',
-        marginTop: theme.spacing.unit * 3,
-    },
-    table: {
-        minWidth: 500,
-    },
-    tableWrapper: {
-        overflowX: 'auto',
-    },
-    tableCell: {
-        fontSize:"14px"
-    }
-});
-
-class CustomPaginationActionsTable extends React.Component {
+class EventTablePage extends React.Component {
 
     constructor(props) {
         super(props);
-        this.onSubmit = this.onSubmit.bind(this);
-        this.onChange = this.onChange.bind(this);
-        this.state = {
-            filter:{},
+        this.state={
+            editView: false,
             page: 0,
             rowsPerPage: 5,
-        }
+        };
     }
 
-
     handleChangePage = (event, page) => {
-        this.setState({...this.state,page: event.target.value });
+        this.setState({ page });
     };
 
     handleChangeRowsPerPage = event => {
         this.setState({...this.state, rowsPerPage: event.target.value });
     };
 
-    onSubmit = event => {
-        this.props.getEventsByFilter(this.state.filter);
-    };
+    render(){
+        const { classes,events } = this.props;
+        let { editView } = this.state;
+        const { page, rowsPerPage } = this.state;
 
-    onChange = event => {
-        this.setState({...this.state,filter:{...this.state.filter,[event.target.name]:event.target.value}});
-    };
-
-    render() {
-        const { classes } = this.props;
-        const { rowsPerPage, page } = this.state;
-        let events = this.props.events;
-        if (events === null || events === undefined) {//TODO Workaroud for TypeError: events.slice is not a function https://stackoverflow.com/questions/37458004/slice-is-not-a-function-although-called-on-string
-            events = [];//TODO This should be fixed with spinner this whole todo is just workaround
-        }
-        const emptyRows = rowsPerPage - Math.min(rowsPerPage, events.length - page * rowsPerPage);
-        return <div>
-                <form className={classes.root}>
-                        <InputLabel htmlFor="eventType">Event type</InputLabel>
-                        <Select
-                            value={this.state.filter.eventType}
-                            onChange={this.onChange}
-                            inputProps={{
-                                className:classes.select,
-                                name: 'eventType',
-                                id: 'eventType',
-                            }}
-                        >
-                            <MenuItem classes={classes.menuItem} value="">
-                                <em>All</em>
-                            </MenuItem>
-                            <MenuItem value="theater">Theater</MenuItem>
-                            <MenuItem value="sport">Sport</MenuItem>
-                            <MenuItem value="cinema">Cinema</MenuItem>
-                        </Select>
-                        <TextField
-                            id="dateFrom"
-                            type="date"
-                            className={classes.textField}
-                            InputProps={{
-                                className: classes.textField,
-                            }}
-                        />
-                        <TextField
-                            id="dateTo"
-                            type="date"
-                            className={classes.textField}
-                            InputProps={{
-                                className: classes.textField,
-                            }}
-                        />
-                        <Button onClick={this.onSubmit}>Search events</Button>
-                </form>
-                <Paper className={classes.root}>
-                    <div className={classes.tableWrapper}>
-                        <Table className={classes.table}>
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell>Event name</TableCell>
-                                    <TableCell>Place</TableCell>
-                                    <TableCell>Type</TableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {events.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(event => {
-                                    return (
-
-                                        <TableRow >
-
-                                                <TableCell className={classes.tableCell} component="th" scope="row">
-                                                    <Link to={`/events/1`}>
-                                                    {event.eventName}
-                                                    </Link>
-                                                </TableCell>
-                                            <TableCell className={classes.tableCell} >{event.placeId}</TableCell>
-                                            <TableCell className={classes.tableCell} >{event.eventType}</TableCell>
-                                        </TableRow>
-                                    );
-                                })}
-                                {emptyRows > 0 && (
-                                    <TableRow style={{ height: 48 * emptyRows }}>
-                                        <TableCell className={classes.tableCell} colSpan={6} />
-                                    </TableRow>
-                                )}
-                            </TableBody>
-                            <TableFooter>
-                                <TableRow>
-                                    <TablePagination
-                                        rowsPerPageOptions={[5, 10, 15]}
-                                        colSpan={3}
-                                        count={events.length}
-                                        rowsPerPage={rowsPerPage}
-                                        page={page}
-                                        className={classes.tableCell}
-                                        onChangePage={this.handleChangePage}
-                                        onChangeRowsPerPage={this.handleChangeRowsPerPage}
-                                        ActionsComponent={TablePaginationActionsWrapped}
-                                    />
-                                </TableRow>
-                            </TableFooter>
-                        </Table>
-                    </div>
-                </Paper>
-            </div>
+        return (
+            <GridContainer>
+                <GridItem xs={12} sm={12} md={12}>
+                    <Card>
+                        <CardHeader color="primary">
+                            <GridContainer>
+                                <GridItem xs={12} sm={12} md={8}>
+                                    <h4 className={classes.cardTitleWhite}>Event Table</h4>
+                                    <p className={classes.cardCategoryWhite}>
+                                        Here is a subtitle for this table
+                                    </p>
+                                </GridItem>
+                                <GridItem xs={12} sm={12} md={4}>
+                                    <Fab onClick={() => this.setState({editView: !editView})}
+                                         style={{ float: "right", marginRight: "10px", backgroundColor: "#e0e0e0", width:"40px", height:"40px"}} color="primary"
+                                         aria-label="Edit">
+                                        <Icon style={{ color: "black"}}>add_icon</Icon>
+                                    </Fab>
+                                </GridItem>
+                            </GridContainer>
+                        </CardHeader>
+                        <CardBody>
+                            <Table
+                                tableHeaderColor="primary"
+                                handleChangePage={this.handleChangePage}
+                                handleChangeRowsPerPage={this.handleChangeRowsPerPage}
+                                page={page}
+                                rowsPerPage={rowsPerPage}
+                                tableHead={["Name", "Type", "Date and time"]}
+                                tableData={events.map(event => [<Link to={`/events/` + event.id}>{event.eventName}</Link>, event.eventType, event.eventDateTime])}
+                            />
+                        </CardBody>
+                    </Card>
+                </GridItem>
+            </GridContainer>
+        );
     }
 }
 
-CustomPaginationActionsTable.propTypes = {
-    classes: PropTypes.object.isRequired,
-};
 
 const mapStateToProps = (state,props) => {
     return{
-        events:eventSelectors.getEventsByFilter(state),
-        filter:eventSelectors.getEventsFilter(state)
+        events:eventSelectors.getEvents(state)
     }
 };
 
-const mapDispatchToProps = dispatch => {
-    return {
-        getEventsByFilter: (newFilter) => dispatch(eventActions.getEventsByFilter(newFilter))
-    }
-};
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(CustomPaginationActionsTable));
+export default withStyles(styles)(connect(mapStateToProps, null)(EventTablePage));
