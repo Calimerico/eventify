@@ -2,7 +2,7 @@
  * Created by spasoje on 01-Dec-18.
  */
 import React, {Component} from 'react';
-import axios from './../../axiosBase';
+import axios from '../../axiosBase';
 import {Form, Col} from 'react-bootstrap';
 import Button from '@material-ui/core/Button';
 import { connect } from 'react-redux';

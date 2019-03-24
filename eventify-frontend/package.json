@@ -8,6 +8,7 @@
     "axios": "^0.18.0",
     "i18next": "^11.10.0",
     "moment": "^2.22.2",
+    "prop-types": "15.7.1",
     "react": "^16.5.2",
     "react-bootstrap": "^0.32.4",
     "react-datepicker": "^1.8.0",
