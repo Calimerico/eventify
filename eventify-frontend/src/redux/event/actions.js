@@ -37,10 +37,12 @@ export const getEventsByFilter = (eventsFilter) => {
         let eventsFilterRequestParams = "";
         if (eventsFilter != null) {
             for (const key in eventsFilter) {
-                if (eventsFilterRequestParams !== "") {
+                if (eventsFilterRequestParams !== "" && eventsFilter[key]) {
                     eventsFilterRequestParams += "&";
                 }
-                eventsFilterRequestParams += key + "=" + encodeURIComponent(eventsFilter[key]);
+                if (eventsFilter[key] != null) {
+                    eventsFilterRequestParams += key + "=" + encodeURIComponent(eventsFilter[key]);
+                }
             }
         }
         axios.defaults.headers.common['Content-Type'] = 'application/json';

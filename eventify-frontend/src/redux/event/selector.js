@@ -23,12 +23,16 @@ const getEventsFilter = createSelector(
     (eventsFilter) => eventsFilter
 );
 
-const getEventsByFilter = createSelector(
+const getEvents = createSelector(
     extractEvents,
     (events) => {
+        if (events == null) {
+            return null;
+        }
         return Object.values(events);
     }
 );
+
 const isEventLoaded = createSelector(
     extractLoaded,
     (loading) => loading
@@ -48,6 +52,6 @@ const selectors = {
     getEventsFilter:getEventsFilter,
     getEventById:getEventById,
     isEventLoaded:isEventLoaded,
-    getEventsByFilter:getEventsByFilter,
+    getEvents:getEvents
 };
 export default selectors;
