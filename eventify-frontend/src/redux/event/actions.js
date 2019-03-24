@@ -83,12 +83,26 @@ export const updateEvent = (id, request) => {
     }
 };
 
+export const deleteEvent = (id) => {
+    return (dispatch) => {
+        dispatch({type:types.DELETE_EVENT});
+        axios.delete('http://localhost:8762/event/events/' + id)
+            .then( response => {
+                dispatch({type:types.DELETE_EVENT_SUCCESS,payload:id});
+            } )
+            .catch( error => {
+                dispatch({type:types.DELETE_EVENT_FAIL,error:error});
+            } );
+    }
+};
+
 
 const actions = {
     getEventsByFilter:getEventsByFilter,
     changeFilter:changeFilter,
     getEventById:getEventById,
-    updateEvent:updateEvent
+    updateEvent:updateEvent,
+    deleteEvent:deleteEvent
 }
 
 export default actions;

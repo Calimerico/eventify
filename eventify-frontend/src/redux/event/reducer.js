@@ -27,6 +27,10 @@ const byId = (resource,prevState) => {
     return {...prevState,[resource.id]:resource};
 }
 
+const removeById = (id,prevState) => {
+    return {...prevState};
+}
+
 const asMap = (resources, prevState) => {
     return resources.reduce((accumulator, currentValue) => {return {...accumulator, [currentValue.id]:currentValue}}, prevState);
 }
@@ -49,6 +53,18 @@ const reducer = (state = initialState, action) => {
         case types.CHANGE_FILTER_SUCCESS:
             const eventsFilter = action.eventsFilter;
             return {...state,eventsFilter:eventsFilter};
+        case types.DELETE_EVENT:
+            return {...state, loadings:storeLoadingByAction(true, action)};
+        case types.DELETE_EVENT_SUCCESS:
+            return {...state,loadings:storeLoadingByAction(false, action), events:removeById(action.payload,...state.events)};
+        case types.DELETE_EVENT_FAIL:
+            return {...state, loadings:storeLoadingByAction(false, action)};
+        case types.UPDATE_EVENT:
+            return {...state, loadings:storeLoadingByAction(true, action)};
+        case types.UPDATE_EVENT_SUCCESS:
+            return {...state,loadings:storeLoadingByAction(false, action), events:byId(action.payload,...state.events)};
+        case types.UPDATE_EVENT_FAIL:
+            return {...state, loadings:storeLoadingByAction(false, action)};
         default:
             return state;
     }

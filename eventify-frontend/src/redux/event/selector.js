@@ -42,7 +42,7 @@ const getEventById = createSelector(
     extractEvents,
     extractEventId,
     (events, eventId) => {
-        if (events == null) {
+        if (events[eventId] == null) {
             return null;
         }
         return events[eventId];

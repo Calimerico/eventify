@@ -19,8 +19,9 @@ import {connect} from "react-redux";
 import eventSelectors from "../../redux/event/selector";
 import eventActions from "../../redux/event/actions";
 import avatar from "assets/img/faces/marc.jpg";
+import CircularProgress from '@material-ui/core/CircularProgress';
 
-const styles = {
+const styles = theme => ({
     cardCategoryWhite: {
         color: "rgba(255,255,255,.62)",
         margin: "0",
@@ -36,23 +37,50 @@ const styles = {
         fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
         marginBottom: "3px",
         textDecoration: "none"
+    },
+    progress: {
+        margin: theme.spacing.unit * 2
     }
-};
+});
 
-class EventPage extends React.Component {
+class Event extends React.Component {
 
     constructor(props) {
         super(props);
         this.state={
             editView: false,
+            editRequest: {}
         };
+        this.onEventDelete = this.onEventDelete.bind(this);
+        this.onEventNameChange = this.onEventNameChange.bind(this);
+        this.onEventUpdate = this.onEventUpdate.bind(this);
     }
 
     componentDidMount() {
         const {event, loadEvent, match: {params: {id}}} = this.props;
-        if (event) {
+        if (!event) {
             loadEvent(id);
         }
+    }
+
+    isPageLoaded() {
+        const {event} = this.props;
+        return event;
+    }
+
+    onEventDelete() {
+        const {match: {params: {id}},deleteEvent} = this.props;
+        deleteEvent(id);
+    }
+
+    onEventNameChange(event) {
+        this.setState({...this.state, editRequest: {...this.state.editRequest, eventName:event.target.value}});
+    }
+
+    onEventUpdate() {
+        const {updateEvent, match: {params: { id } } } = this.props;
+        const {editRequest} = this.state;
+        updateEvent(id, editRequest);
     }
 
     renderEditEvent(){
@@ -62,8 +90,9 @@ class EventPage extends React.Component {
                     <GridContainer>
                         <GridItem xs={12} sm={12} md={6}>
                             <CustomInput
-                                labelText="Username"
-                                id="username"
+                                onChange={this.onEventNameChange}
+                                labelText="Event name"
+                                id="eventName"
                                 formControlProps={{
                                     fullWidth: true
                                 }}
@@ -145,7 +174,7 @@ class EventPage extends React.Component {
                         </GridItem>
                     </GridContainer>
                     <CardFooter>
-                        <Button color="primary">Update Profile</Button>
+                        <Button color="primary" onClick={this.onEventUpdate}>Update event!</Button>
                     </CardFooter>
                 </CardBody>
             </div>
@@ -163,7 +192,8 @@ class EventPage extends React.Component {
                         <p className={classes.cardCategoryWhite}>Complete your event</p>
                     </GridItem>
                     <GridItem xs={12} sm={12} md={4}>
-                        <Fab style={{ float: "right", width:"40px", height:"40px" }} aria-label="Delete">
+                        <Fab onClick={this.onEventDelete}
+                             style={{ float: "right", width:"40px", height:"40px" }} aria-label="Delete">
                             <DeleteIcon/>
                         </Fab>
                         <Fab onClick={() => this.setState({editView: !editView})}
@@ -231,42 +261,42 @@ class EventPage extends React.Component {
     }
 
     render() {
-        const { classes } = this.props;
+        const { classes, event } = this.props;
         let {editView} = this.state;
-        return (
-            <div>
-                <GridContainer>
-                    <GridItem xs={12} sm={12} md={8}>
-                        <Card>
-                            {this.renderCardHeader()}
-                            {editView ? this.renderEditEvent(): this.renderCardBody()}
-                        </Card>
-                    </GridItem>
+        if (this.isPageLoaded()) {
+            return (
+                <div>
+                    <GridContainer>
+                        <GridItem xs={12} sm={12} md={8}>
+                            <Card>
+                                {this.renderCardHeader()}
+                                {editView ? this.renderEditEvent(): this.renderCardBody()}
+                            </Card>
+                        </GridItem>
 
-                    <GridItem xs={12} sm={12} md={4}>
-                        <Card profile>
-                            <CardAvatar profile>
-                                <a href="#pablo" onClick={e => e.preventDefault()}>
-                                    <img src={avatar} alt="..."/>
-                                </a>
-                            </CardAvatar>
-                            <CardBody profile>
-                                <h6 className={classes.cardCategory}>CEO / CO-FOUNDER</h6>
-                                <h4 className={classes.cardTitle}>Alec Thompson</h4>
-                                <p className={classes.description}>
-                                    Don't be scared of the truth because we need to restart the
-                                    human foundation in truth And I love you like Kanye loves Kanye
-                                    I love Rick Owens’ bed design but the back is...
-                                </p>
-                                <Button color="primary" round>
-                                    Follow
-                                </Button>
-                            </CardBody>
-                        </Card>
-                    </GridItem>
-                </GridContainer>
-            </div>
-        );
+                        <GridItem xs={12} sm={12} md={4}>
+                            <Card profile>
+                                <CardAvatar profile>
+                                    <a href="#pablo" onClick={e => e.preventDefault()}>
+                                        <img src={avatar} alt="..."/>
+                                    </a>
+                                </CardAvatar>
+                                <CardBody profile>
+                                    <h6 className={classes.cardCategory}>{event.eventType}</h6>
+                                    <h4 className={classes.cardTitle}>{event.eventName}</h4>
+                                    <p className={classes.description}>
+                                        {event.description}
+                                    </p>
+                                </CardBody>
+                            </Card>
+                        </GridItem>
+                    </GridContainer>
+                </div>
+            );
+        } else {
+            return <CircularProgress size={140}/>
+        }
+
     }
 }
 
@@ -279,9 +309,10 @@ const mapStateToProps = (state,props) => {
 const mapDispatchToProps = dispatch => {
     return {
         loadEvent: (id) => dispatch(eventActions.getEventById(id)),
-        updateEvent: (id, request) => dispatch(eventActions.updateEvent(id, request))
+        updateEvent: (id, request) => dispatch(eventActions.updateEvent(id, request)),
+        deleteEvent: (id) => dispatch(eventActions.deleteEvent(id))
     }
 };
 
 
-export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(EventPage));
+export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(Event));

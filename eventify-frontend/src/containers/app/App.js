@@ -30,6 +30,7 @@ class App extends Component {
                         <Route exact path = "/login" render={(props) => <Layout {...props} header={<MainNavbar/>} main={<Login/>}/>} />
                         <Route exact path = "/register" render={(props) => <Layout {...props} header={<MainNavbar/>} main={<Register/>}/>} />
                         <Route exact path = "/" render={(props) => <Layout {...props} header={<MainNavbar/>} main={<Events/>} sidebar={<EventSearchSidebar/>}/>} />
+                        <Route exact path = "/events" render={(props) => <Layout {...props} header={<MainNavbar/>} main={<Events/>} sidebar={<EventSearchSidebar/>}/>} />
                         <Route exact path = "/events/:id" render={(props) => <Layout {...props} header={<MainNavbar/>} main={<Event {...props}/>}/>} />
                     </Switch>
                 </div>
