@@ -27,7 +27,7 @@ public class EventFinder {
 
     public Event findById(UUID id) {
         //TODO Read this https://tuhrig.de/anti-pattern-dont-use-optionals-for-data-repositories/ Change to Optional<Event> or not? Provide both method obtain and get
-        return eventRepository.findByEventId(id);
+        return eventRepository.findById(id).orElseThrow(() -> new RuntimeException("Fix this runtime exception"));
     }
 
     public Page<Event> findByExample(EventFilter eventFilter, Pageable pageable) {//TODO Handle if dateFrom,dateTo,priceFrom and proceTo are null

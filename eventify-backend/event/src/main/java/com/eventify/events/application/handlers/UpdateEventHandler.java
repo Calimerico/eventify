@@ -22,11 +22,13 @@ public class UpdateEventHandler implements CommandHandler<UpdateEvent, Event> {
 
     @Override
     public Event handle(UpdateEvent updateEvent) {
-        Event event = eventRepository.findByEventId(updateEvent.getId());
-        Place place = placeRepository.findById(updateEvent.getPlaceId()).orElseThrow(RuntimeException::new);//TODO Handle better
+        Event event = eventRepository.findById(updateEvent.getId()).orElseThrow(RuntimeException::new);//TODO
+        if (updateEvent.getPlaceId() != null) {
+            Place place = placeRepository.findById(updateEvent.getPlaceId()).orElseThrow(RuntimeException::new);//TODO Handle better
+            event.setPlace(place);
+        }
         event.setEventName(updateEvent.getEventName());
         event.setEventType(updateEvent.getEventType());//TODO Should we allow type to be updated? In domain model we don't allow this
-        event.setPlace(place);
         event.setEventDateTime(updateEvent.getEventDateTime());
         event.setDescription(updateEvent.getDescription());
         event.setSource(updateEvent.getSource());

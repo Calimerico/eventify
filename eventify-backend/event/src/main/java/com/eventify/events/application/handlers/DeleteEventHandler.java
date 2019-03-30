@@ -10,12 +10,13 @@ import lombok.RequiredArgsConstructor;
  */
 @com.eventify.shared.net.CommandHandler
 @RequiredArgsConstructor
-public class DeleteEventHandler implements CommandHandler<DeleteEvent,Boolean> {
+public class DeleteEventHandler implements CommandHandler<DeleteEvent,Void> {
 
     private final EventRepository eventRepository;
 
     @Override
-    public Boolean handle(DeleteEvent deleteEvent) {
-        return eventRepository.removeByEventId(deleteEvent.getId());
+    public Void handle(DeleteEvent deleteEvent) {
+        eventRepository.deleteById(deleteEvent.getId());
+        return null;
     }
 }

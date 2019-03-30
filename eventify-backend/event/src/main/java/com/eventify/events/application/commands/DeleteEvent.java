@@ -11,6 +11,6 @@ import java.util.UUID;
  */
 @Value
 @Builder
-public class DeleteEvent implements Command<Boolean> {
+public class DeleteEvent implements Command<Void> {
     private UUID id;
 }

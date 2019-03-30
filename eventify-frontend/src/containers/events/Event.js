@@ -51,7 +51,6 @@ class Event extends React.Component {
             editView: false,
             editRequest: {}
         };
-        this.onEventDelete = this.onEventDelete.bind(this);
         this.onEventNameChange = this.onEventNameChange.bind(this);
         this.onEventUpdate = this.onEventUpdate.bind(this);
     }
@@ -66,11 +65,6 @@ class Event extends React.Component {
     isPageLoaded() {
         const {event} = this.props;
         return event;
-    }
-
-    onEventDelete() {
-        const {match: {params: {id}},deleteEvent} = this.props;
-        deleteEvent(id);
     }
 
     onEventNameChange(event) {
@@ -192,7 +186,7 @@ class Event extends React.Component {
                         <p className={classes.cardCategoryWhite}>Complete your event</p>
                     </GridItem>
                     <GridItem xs={12} sm={12} md={4}>
-                        <Fab onClick={this.onEventDelete}
+                        <Fab onClick={() => this.props.deleteEvent(this.props.match.params.id)}
                              style={{ float: "right", width:"40px", height:"40px" }} aria-label="Delete">
                             <DeleteIcon/>
                         </Fab>

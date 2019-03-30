@@ -7,15 +7,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 /**
  * Created by spasoje on 01-Nov-18.
  */
 
-public interface EventRepository extends CrudRepository<Event,String> {
+public interface EventRepository extends CrudRepository<Event,UUID> {//TODO String as ID???
     Event findByEventName(String eventName);
     Page<Event> findAll(Example example, Pageable pageable);
-    Event findByEventId(UUID id);
-    boolean removeByEventId(UUID id);
 }
