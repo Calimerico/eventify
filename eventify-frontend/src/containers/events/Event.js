@@ -14,11 +14,11 @@ import CardBody from "components/Card/CardBody.jsx";
 import CardFooter from "components/Card/CardFooter.jsx";
 import Fab from '@material-ui/core/Fab';
 import Icon from '@material-ui/core/Icon';
-import DeleteIcon from '@material-ui/icons/Delete';
 import {connect} from "react-redux";
 import eventSelectors from "../../redux/event/selector";
 import eventActions from "../../redux/event/actions";
 import avatar from "assets/img/faces/marc.jpg";
+
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 const styles = theme => ({
@@ -186,10 +186,6 @@ class Event extends React.Component {
                         <p className={classes.cardCategoryWhite}>Complete your event</p>
                     </GridItem>
                     <GridItem xs={12} sm={12} md={4}>
-                        <Fab onClick={() => this.props.deleteEvent(this.props.match.params.id)}
-                             style={{ float: "right", width:"40px", height:"40px" }} aria-label="Delete">
-                            <DeleteIcon/>
-                        </Fab>
                         <Fab onClick={() => this.setState({editView: !editView})}
                              style={{ float: "right", marginRight: "10px", backgroundColor: "#e0e0e0", width:"40px", height:"40px" }} color="primary"
                              aria-label="Edit">
@@ -303,8 +299,7 @@ const mapStateToProps = (state,props) => {
 const mapDispatchToProps = dispatch => {
     return {
         loadEvent: (id) => dispatch(eventActions.getEventById(id)),
-        updateEvent: (id, request) => dispatch(eventActions.updateEvent(id, request)),
-        deleteEvent: (id) => dispatch(eventActions.deleteEvent(id))
+        updateEvent: (id, request) => dispatch(eventActions.updateEvent(id, request))
     }
 };
 

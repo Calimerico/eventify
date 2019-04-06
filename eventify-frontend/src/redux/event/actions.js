@@ -70,6 +70,19 @@ export const getEventById = (id) => {
     }
 };
 
+export const addEvent = (request) => {
+    return (dispatch) => {
+        dispatch({type:types.ADD_EVENT});
+        axios.post('http://localhost:8762/event/events/', request)
+            .then( response => {
+                dispatch({type:types.ADD_EVENT_SUCCESS,payload:response.data});
+            } )
+            .catch( error => {
+                dispatch({type:types.ADD_EVENT_FAIL,error:error});
+            } );
+    }
+};
+
 export const updateEvent = (id, request) => {
     return (dispatch) => {
         dispatch({type:types.UPDATE_EVENT});
@@ -100,6 +113,7 @@ export const deleteEvent = (id) => {
 const actions = {
     getEventsByFilter:getEventsByFilter,
     changeFilter:changeFilter,
+    addEvent,
     getEventById:getEventById,
     updateEvent:updateEvent,
     deleteEvent:deleteEvent

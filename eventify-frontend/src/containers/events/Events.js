@@ -11,9 +11,16 @@ import CardBody from "components/Card/CardBody.jsx";
 import Fab from '@material-ui/core/Fab';
 import Icon from '@material-ui/core/Icon';
 import eventSelectors from "../../redux/event/selector";
-import eventActions from "../../redux/event/actions";
+import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import TextField from '@material-ui/core/TextField';
 import {connect} from "react-redux";
 import { Link } from 'react-router-dom';
+import eventActions from "../../redux/event/actions";
+import DeleteIcon from '@material-ui/icons/Delete';
 
 const styles = {
     cardCategoryWhite: {
@@ -45,7 +52,7 @@ const styles = {
     }
 };
 
-class EventTablePage extends React.Component {
+class Events extends React.Component {
 
     constructor(props) {
         super(props);
@@ -53,7 +60,12 @@ class EventTablePage extends React.Component {
             editView: false,
             page: 0,
             rowsPerPage: 5,
+            addEventDialogOpen:false,
+            newEvent:{}
         };
+        this.renderAddEventDialog = this.renderAddEventDialog.bind(this);
+        this.handleAddEventDialogClose = this.handleAddEventDialogClose.bind(this);
+        this.addEvent = this.addEvent.bind(this);
     }
 
     handleChangePage = (event, page) => {
@@ -64,46 +76,100 @@ class EventTablePage extends React.Component {
         this.setState({...this.state, rowsPerPage: event.target.value });
     };
 
+    handleAddEventDialogClose() {
+        this.setState({...this.state, addEventDialogOpen:false});
+    }
+
+    addEvent() {
+        const {addEvent} = this.props;
+        const {newEvent} = this.state;
+        this.setState({...this.state, addEventDialogOpen:false});
+        addEvent(newEvent);
+    }
+
+    renderAddEventDialog() {
+        const {addEventDialogOpen} = this.state;
+        return <Dialog
+            open={addEventDialogOpen}
+            onClose={this.handleAddEventDialogClose}
+            aria-labelledby="form-dialog-title"
+        >
+            <DialogTitle id="form-dialog-title">Add event dialog</DialogTitle>
+            <DialogContent>
+                <TextField
+                    onChange={(event) => this.setState({...this.state, newEvent:{...this.state.newEvent, eventName:event.target.value}})}
+                    autoFocus
+                    margin="dense"
+                    id="name"
+                    label="Event name"
+                    fullWidth
+                />
+                <TextField
+                    onChange={(event) => this.setState({...this.state, newEvent:{...this.state.newEvent, source:event.target.value}})}
+                    autoFocus
+                    margin="dense"
+                    id="source"
+                    label="Event source"
+                    fullWidth
+                />
+            </DialogContent>
+            <DialogActions>
+                <Button onClick={this.handleAddEventDialogClose} color="primary">
+                    Cancel
+                </Button>
+                <Button onClick={this.addEvent} color="primary">
+                    Add event
+                </Button>
+            </DialogActions>
+        </Dialog>
+    }
+
     render(){
         const { classes,events } = this.props;
-        let { editView } = this.state;
-        const { page, rowsPerPage } = this.state;
+        const { page, rowsPerPage, addEventDialogOpen } = this.state;
 
         return (
-            <GridContainer>
-                <GridItem xs={12} sm={12} md={12}>
-                    <Card>
-                        <CardHeader color="primary">
-                            <GridContainer>
-                                <GridItem xs={12} sm={12} md={8}>
-                                    <h4 className={classes.cardTitleWhite}>Event Table</h4>
-                                    <p className={classes.cardCategoryWhite}>
-                                        Here is a subtitle for this table
-                                    </p>
-                                </GridItem>
-                                <GridItem xs={12} sm={12} md={4}>
-                                    <Fab onClick={() => this.setState({editView: !editView})}
-                                         style={{ float: "right", marginRight: "10px", backgroundColor: "#e0e0e0", width:"40px", height:"40px"}} color="primary"
-                                         aria-label="Edit">
-                                        <Icon style={{ color: "black"}}>add_icon</Icon>
-                                    </Fab>
-                                </GridItem>
-                            </GridContainer>
-                        </CardHeader>
-                        <CardBody>
-                            <Table
-                                tableHeaderColor="primary"
-                                handleChangePage={this.handleChangePage}
-                                handleChangeRowsPerPage={this.handleChangeRowsPerPage}
-                                page={page}
-                                rowsPerPage={rowsPerPage}
-                                tableHead={["Name", "Type", "Date and time"]}
-                                tableData={events.map(event => [<Link to={`/events/` + event.id}>{event.eventName}</Link>, event.eventType, event.eventDateTime])}
-                            />
-                        </CardBody>
-                    </Card>
-                </GridItem>
-            </GridContainer>
+            <div>
+                <GridContainer>
+                    <GridItem xs={12} sm={12} md={12}>
+                        <Card>
+                            <CardHeader color="primary">
+                                <GridContainer>
+                                    <GridItem xs={12} sm={12} md={8}>
+                                        <h4 className={classes.cardTitleWhite}>Event Table</h4>
+                                        <p className={classes.cardCategoryWhite}>
+                                            Here is a subtitle for this table
+                                        </p>
+                                    </GridItem>
+                                    <GridItem xs={12} sm={12} md={4}>
+                                        <Fab onClick={() => this.setState({addEventDialogOpen: !addEventDialogOpen})}
+                                             style={{ float: "right", marginRight: "10px", backgroundColor: "#e0e0e0", width:"40px", height:"40px"}} color="primary"
+                                             aria-label="Edit">
+                                            <Icon style={{ color: "black"}}>add_icon</Icon>
+                                        </Fab>
+                                    </GridItem>
+                                </GridContainer>
+                            </CardHeader>
+                            <CardBody>
+                                <Table
+                                    tableHeaderColor="primary"
+                                    handleChangePage={this.handleChangePage}
+                                    handleChangeRowsPerPage={this.handleChangeRowsPerPage}
+                                    page={page}
+                                    rowsPerPage={rowsPerPage}
+                                    tableHead={["Name", "Type", "Date and time", "Delete"]}
+                                    tableData={events.map(event => [<Link to={`/events/` + event.id}>{event.eventName}</Link>, event.eventType, event.eventDateTime,
+                                        <Fab onClick={() => this.props.deleteEvent(event.id)}
+                                             style={{width:"35px", height:"35px" }} aria-label="Delete">
+                                            <DeleteIcon/>
+                                        </Fab>])}
+                                />
+                            </CardBody>
+                        </Card>
+                    </GridItem>
+                </GridContainer>
+                {this.renderAddEventDialog()}
+            </div>
         );
     }
 }
@@ -115,4 +181,16 @@ const mapStateToProps = (state,props) => {
     }
 };
 
-export default withStyles(styles)(connect(mapStateToProps, null)(EventTablePage));
+const mapDispatchToProps = dispatch => {
+    return {
+        addEvent: (request) => {
+            return dispatch(eventActions.addEvent(request));
+        },
+        deleteEvent: (id) => {
+            return dispatch(eventActions.deleteEvent(id))
+        }
+
+    }
+};
+
+export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(Events));
