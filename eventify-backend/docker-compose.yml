@@ -93,6 +93,17 @@ services:
       - postgres
       - kafka
 
+  spring-admin:
+    container_name: spring-admin
+    build:
+      context: .
+      dockerfile: spring-admin.Dockerfile
+    image: spring-admin-service
+    ports:
+      - "5060:5060"
+    networks:
+      - event-network
+
   event-web-scraper:
     container_name: event-web-scraper
     build:
