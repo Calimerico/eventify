@@ -104,6 +104,17 @@ services:
     networks:
       - event-network
 
+  frontend:
+    container_name: frontend
+    build:
+      context: ../eventify-frontend
+      dockerfile: frontend.Dockerfile
+    image: frontend
+    ports:
+      - "8080:3000"
+    networks:
+      - event-network
+
   event-web-scraper:
     container_name: event-web-scraper
     build:
