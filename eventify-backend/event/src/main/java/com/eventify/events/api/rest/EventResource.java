@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Value;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.hateoas.ResourceSupport;
+import org.springframework.hateoas.core.Relation;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -22,6 +23,7 @@ import static org.apache.commons.collections4.CollectionUtils.emptyIfNull;
  */
 @Builder
 @Value
+@Relation(value = "resource", collectionRelation = "resources")
 public class EventResource extends ResourceSupport {
 
     @JsonProperty("id")
