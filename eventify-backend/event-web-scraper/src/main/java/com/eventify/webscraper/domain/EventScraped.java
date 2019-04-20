@@ -1,6 +1,7 @@
 package com.eventify.webscraper.domain;
 
 import lombok.Builder;
+import lombok.ToString;
 import lombok.Value;
 
 import java.time.LocalDateTime;
@@ -13,6 +14,7 @@ import java.util.UUID;
  */
 @Value
 @Builder
+@ToString
 //TODO Is this appropriate package for output event?Introduce domain and external events?
 public class EventScraped {
     private String eventName;

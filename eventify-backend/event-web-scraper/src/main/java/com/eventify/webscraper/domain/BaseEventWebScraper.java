@@ -1,5 +1,6 @@
 package com.eventify.webscraper.domain;
 
+import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
@@ -9,6 +10,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 public abstract class BaseEventWebScraper implements EventWebScraper {
 
     protected abstract String getBaseUrl();
@@ -26,6 +28,7 @@ public abstract class BaseEventWebScraper implements EventWebScraper {
     public EventsScraped scrapEvents() {
         List<EventScraped> scrapedEvents = new ArrayList<>();
         String baseUrl = getBaseUrl();
+        log.info("I am scraping url:" + baseUrl);
         scrapEvents(scrapedEvents, baseUrl);
         return new EventsScraped(scrapedEvents);
     }
@@ -47,15 +50,17 @@ public abstract class BaseEventWebScraper implements EventWebScraper {
                 eventScrapedBuilder.picture(getProfilePicture(eventDocument));
                 eventScrapedBuilder.eventType(getEventType());
                 eventScraped = eventScrapedBuilder.build();
+                log.debug("Event " + eventScraped + " is scraped!");
                 scrapedEvents.add(eventScraped);
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
         });
-        String nextPageUrl = getNextPageUrl(url);
-        if (nextPageUrl != null) {
-            scrapEvents(scrapedEvents, nextPageUrl);
-        }
+        //TODO For development purposes is commented
+//        String nextPageUrl = getNextPageUrl(url);
+//        if (nextPageUrl != null) {
+//            scrapEvents(scrapedEvents, nextPageUrl);
+//        }
     }
 }

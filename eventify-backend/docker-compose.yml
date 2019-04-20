@@ -30,8 +30,6 @@ services:
     networks:
       - event-network
     restart: unless-stopped
-    depends_on:
-      - postgres
 
   zookeeper:
     container_name: zookeper
@@ -42,9 +40,10 @@ services:
       - event-network
   kafka:
     container_name: kafka
-    image: wurstmeister/kafka:2.11-2.0.0
-    depends_on:
-        - zookeeper
+    build:
+      context: .
+      dockerfile: kafka.Dockerfile
+    image: kafka-service
     ports:
         - "9092:9092"
     environment:
@@ -89,9 +88,6 @@ services:
       - "8200:8200"
     networks:
       - event-network
-    depends_on:
-      - postgres
-      - kafka
 
   spring-admin:
     container_name: spring-admin
@@ -136,9 +132,6 @@ services:
       - "9100:9100"
     networks:
       - event-network
-    depends_on:
-      - postgres
-      - kafka
 
 networks:
   event-network:

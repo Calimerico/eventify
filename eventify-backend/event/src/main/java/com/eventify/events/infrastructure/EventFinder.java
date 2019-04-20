@@ -41,10 +41,10 @@ public class EventFinder {
                 .build());//TODO Places and hosts filter?
         List<Event> events = eventRepository.findAll(example, pageable)
                 .stream()
-                .filter(event -> event.getEventDateTime() == null || event.getEventDateTime().isAfter(eventFilter.getTimeFrom()))
-                .filter(event -> event.getEventDateTime() == null || event.getEventDateTime().isBefore(eventFilter.getTimeTo()))
-                .filter(event -> event.getPrices() == null || event.getPrices().isEmpty() || event.getPrices().stream().filter(price -> price >= eventFilter.getPriceFrom()).collect(Collectors.toList()).size() > 0)
-                .filter(event -> event.getPrices() == null || event.getPrices().isEmpty() || event.getPrices().stream().filter(price -> price <= eventFilter.getPriceTo()).collect(Collectors.toList()).size() > 0)
+                .filter(event -> eventFilter.getTimeFrom() == null || (event.getEventDateTime() == null || !event.getEventDateTime().isBefore(eventFilter.getTimeFrom())))
+                .filter(event -> eventFilter.getTimeTo() == null || (event.getEventDateTime() == null || !event.getEventDateTime().isAfter(eventFilter.getTimeTo())))
+                .filter(event -> eventFilter.getPriceFrom() == null || event.getPrices() == null || event.getPrices().isEmpty() || event.getPrices().stream().filter(price -> price >= eventFilter.getPriceFrom()).collect(Collectors.toList()).size() > 0)
+                .filter(event -> eventFilter.getPriceTo() == null || event.getPrices() == null || event.getPrices().isEmpty() || event.getPrices().stream().filter(price -> price <= eventFilter.getPriceTo()).collect(Collectors.toList()).size() > 0)
                 //TODO This solution with filtering is a little bit hacky since we should somehow filter events in sql query, not here
                 .collect(Collectors.toList());
         return new PageImpl<>(events,pageable,events.size());

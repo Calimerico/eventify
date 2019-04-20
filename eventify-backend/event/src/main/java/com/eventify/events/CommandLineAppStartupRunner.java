@@ -18,6 +18,7 @@ import java.util.UUID;
  */
 @Component
 @RequiredArgsConstructor
+//TODO Don't do seeding this way, we don't want this data in tests!
 //TODO If this doesn't work check is kafka is running because kafka is blocking...kafka should be optional not mandatory?
 public class CommandLineAppStartupRunner implements CommandLineRunner {
 

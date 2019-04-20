@@ -46,10 +46,10 @@ public class EventController {
                 .eventType(eventFilterBean.getEventType())
                 .hostId(eventFilterBean.getHostId())
                 .placeId(eventFilterBean.getPlaceId())
-                .timeFrom(LocalDateTime.of(1990, 12, 2, 10, 15))//TODO
-                .timeTo(LocalDateTime.of(1994, 12, 2, 10, 15))//TODO
-                .priceFrom(100)
-                .priceTo(200)
+                .timeFrom(eventFilterBean.getTimeFrom())
+                .timeTo(eventFilterBean.getTimeTo())
+                .priceFrom(eventFilterBean.getPriceFrom())
+                .priceTo(eventFilterBean.getPriceTo())
                 .build(), pageable);
 
         return ResponseEntity.ok().body(pagedAssembler.toResource(pageOfEvents,new EventPagedResourcesAssembler()));
