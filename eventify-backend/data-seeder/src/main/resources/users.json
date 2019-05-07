@@ -1,0 +1,20 @@
+[
+  {
+    "email": "spale@gmail.com",
+    "userName":  "admin",
+    "password": "12345",
+    "firstName": "Spasoje",
+    "lastName":"Petronijevic",
+    "sex":"MALE",
+    "role":"ADMIN"
+  },
+  {
+    "email": "djoka@gmail.com",
+    "userName":  "spasoje",
+    "password": "12345",
+    "firstName": "Spasoje",
+    "lastName":"Petronijevic",
+    "sex":"MALE",
+    "role":"NORMAL"
+  }
+]

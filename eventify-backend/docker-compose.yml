@@ -89,6 +89,19 @@ services:
     networks:
       - event-network
 
+  #In dockerfile for data-seeder we were waiting for event and auth. We should not expose ports for those 2 services.
+  #We should introduce some health check point, maybe dockerfile health check tag
+  data-seeder:
+    container_name: data-seeder
+    build:
+      context: .
+      dockerfile: data-seeder.Dockerfile
+    image: data-seeder-service
+    ports:
+      - "9990:9990"
+    networks:
+      - event-network
+
   spring-admin:
     container_name: spring-admin
     build:
