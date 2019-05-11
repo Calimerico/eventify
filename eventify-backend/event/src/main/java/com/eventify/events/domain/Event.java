@@ -6,6 +6,7 @@ package com.eventify.events.domain;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import com.eventify.place.domain.Place;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -19,7 +20,7 @@ import java.util.UUID;
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @DiscriminatorColumn(name="event_type")
-@Table(name="event")
+@Table(name="event")//todo s this annotation necessary?
 @Data
 @EqualsAndHashCode
 public class Event {

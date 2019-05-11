@@ -2,13 +2,11 @@ package com.eventify.events.application.handlers;
 
 import com.eventify.events.application.commands.UpdateEvent;
 import com.eventify.events.domain.Event;
-import com.eventify.events.domain.Place;
 import com.eventify.events.infrastructure.EventRepository;
-import com.eventify.events.infrastructure.PlaceRepository;
+import com.eventify.place.domain.Place;
+import com.eventify.place.infrastructure.PlaceRepository;
 import com.eventify.shared.demo.CommandHandler;
 import lombok.RequiredArgsConstructor;
-
-import java.time.LocalDateTime;
 
 /**
  * Created by spasoje on 15-Dec-18.

@@ -1,6 +1,6 @@
-package com.eventify.events.infrastructure;
+package com.eventify.place.infrastructure;
 
-import com.eventify.events.domain.Place;
+import com.eventify.place.domain.Place;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.UUID;

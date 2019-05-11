@@ -5,18 +5,16 @@ import com.eventify.events.application.commands.CreateEvent;
 import com.eventify.events.domain.Event;
 import com.eventify.events.domain.EventFactory;
 import com.eventify.events.domain.Host;
-import com.eventify.events.domain.Place;
 import com.eventify.events.infrastructure.EventRepository;
 import com.eventify.events.infrastructure.KafkaEventProducer;
-import com.eventify.events.infrastructure.PlaceRepository;
+import com.eventify.place.domain.Place;
+import com.eventify.place.infrastructure.PlaceRepository;
 import com.eventify.shared.demo.CommandHandler;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.collections4.CollectionUtils;
 
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Objects;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static org.apache.commons.collections4.CollectionUtils.emptyIfNull;
@@ -37,7 +35,11 @@ public class CreateEventHandler implements CommandHandler<CreateEvent, Event> {
         //TODO First check does event exist with event finder
         Place place = null;
         if (createEvent.getPlaceId() != null) {
-            place = placeRepository.findById(createEvent.getPlaceId()).orElse(new Place(Collections.singletonList("Place")));
+            Place defaultPlace = new Place();
+            HashSet<String> names = new HashSet<>();
+            names.add("Place");
+            defaultPlace.setNames(names);
+            place = placeRepository.findById(createEvent.getPlaceId()).orElse(defaultPlace);
         }
         Event event = eventRepository.save(EventFactory
                 .aEvent()

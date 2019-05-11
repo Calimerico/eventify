@@ -3,6 +3,7 @@ package com.eventify.events.infrastructure;
 import com.eventify.events.api.rest.EventFilter;
 import com.eventify.events.domain.Event;
 import com.eventify.events.domain.EventFactory;
+import com.eventify.place.infrastructure.PlaceRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Component;

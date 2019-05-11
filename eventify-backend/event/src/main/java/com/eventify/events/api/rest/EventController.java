@@ -74,6 +74,7 @@ public class EventController {
                 .build());
         return ResponseEntity.ok(EventResource.fromEvent(createdEvent));
     }
+
     @PutMapping(value = "/{id}",consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<EventResource> updateEvent(@PathVariable UUID id, @RequestBody UpdateEventRequest updateEventRequest) {
         Event updatedEvent = gate.dispatch(UpdateEvent

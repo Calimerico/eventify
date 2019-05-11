@@ -1,6 +1,7 @@
 package com.eventify.events.domain;
 
 import com.eventify.events.api.msg.EventScraped;
+import com.eventify.place.domain.Place;
 import lombok.Builder;
 
 import java.time.LocalDateTime;
