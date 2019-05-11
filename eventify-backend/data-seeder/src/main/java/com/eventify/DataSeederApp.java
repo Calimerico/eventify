@@ -25,6 +25,7 @@ public class DataSeederApp {
             UserSeeder.baseUrl = "http://localhost:8762";
         }
         log.info("Seeding started");
+        PlaceSeeder.seed();
         UserSeeder.seed();
         EventSeeder.seed();
     }

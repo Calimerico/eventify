@@ -1,12 +1,15 @@
 package com.eventify;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.ToString;
 
 @Data
 @ToString
+@JsonIgnoreProperties(value = "id", allowGetters = true)
 public class User {
+    private int id;
     private String email;
     private String userName;
     private String password;

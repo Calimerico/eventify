@@ -1,5 +1,6 @@
 [
   {
+    "id": 1,
     "email": "spale@gmail.com",
     "userName":  "admin",
     "password": "12345",
@@ -9,6 +10,7 @@
     "role":"ADMIN"
   },
   {
+    "id": 2,
     "email": "djoka@gmail.com",
     "userName":  "spasoje",
     "password": "12345",
