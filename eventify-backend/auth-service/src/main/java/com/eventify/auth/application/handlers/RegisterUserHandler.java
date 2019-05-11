@@ -28,6 +28,7 @@ public class RegisterUserHandler implements com.eventify.shared.demo.CommandHand
                 .firstName(registerUser.getFirstName())
                 .lastName(registerUser.getLastName())
                 .sex(registerUser.getSex())
+                .role(registerUser.getRole())
                 .build()
         );
         return null;

@@ -13,6 +13,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.eventify.auth.infrastructure.UserRepository;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -33,9 +34,12 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
 
     private final JwtConfig jwtConfig;
 
-    public JwtUsernameAndPasswordAuthenticationFilter(AuthenticationManager authManager, JwtConfig jwtConfig) {
+    private final UserRepository userRepository;
+
+    public JwtUsernameAndPasswordAuthenticationFilter(AuthenticationManager authManager, JwtConfig jwtConfig,  UserRepository userRepository) {
         this.authManager = authManager;
         this.jwtConfig = jwtConfig;
+        this.userRepository = userRepository;
 
         // By default, UsernamePasswordAuthenticationFilter listens to "/login" path.
         // In our case, we use "/auth". So, we need to override the defaults.
@@ -67,11 +71,12 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
     // The 'auth' passed to successfulAuthentication() is the current authenticated user.
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
-                                            Authentication auth) throws IOException, ServletException {
+                                            Authentication auth) {
 
         Long now = System.currentTimeMillis();
         String token = Jwts.builder()
-                .setSubject(auth.getName())
+                .setSubject(userRepository.findByUsername(auth.getName())
+                        .orElseThrow(RuntimeException::new).getId().toString())
                 // Convert to list of strings.
                 // This is important because it affects the way we get them back in the Gateway.
                 .claim("authorities", auth.getAuthorities().stream()
