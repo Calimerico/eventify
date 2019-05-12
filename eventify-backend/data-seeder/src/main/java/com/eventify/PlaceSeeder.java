@@ -15,11 +15,11 @@ public class PlaceSeeder {
     public static void seed() throws IOException {//todo handle this exception properly
         List<Place> places = DataSeederApp.getObjectMapper().readValue(PlaceSeeder.class.getResourceAsStream("/places.json"), new TypeReference<List<Place>>(){});
         log.info("Places that should be seeded: " + places);
-        places.forEach(event -> DataSeederApp.getRestTemplate().exchange(
+        places.forEach(place -> IdResolver.linkId(EntityType.PLACE, DataSeederApp.getRestTemplate().exchange(
                 baseUrl + "/places",
                 HttpMethod.POST,
-                new HttpEntity<>(event,DataSeederApp.headers)
-                ,Object.class)
+                new HttpEntity<>(place,DataSeederApp.headers)
+                ,Object.class), place.getId())
         );//todo maybe introduce place resource instead of Object?
     }
 }

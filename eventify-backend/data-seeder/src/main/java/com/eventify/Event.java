@@ -1,6 +1,7 @@
 package com.eventify;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Data;
 import lombok.ToString;
 
@@ -16,6 +17,7 @@ public class Event {
     private int id;
     private String eventName;
     private String eventType;
+    @JsonDeserialize(using = IntegerToUUIDDeserializer.class, as = Integer.class)
     private UUID placeId;
     private LocalDateTime eventDateTime;
     private String description;

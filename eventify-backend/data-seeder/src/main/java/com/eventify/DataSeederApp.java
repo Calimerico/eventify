@@ -9,6 +9,8 @@ import org.springframework.http.MediaType;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
+import java.util.Map;
+import java.util.UUID;
 
 @Slf4j
 public class DataSeederApp {
@@ -26,8 +28,8 @@ public class DataSeederApp {
         }
         log.info("Seeding started");
         PlaceSeeder.seed();
-        UserSeeder.seed();
         EventSeeder.seed();
+        UserSeeder.seed();
     }
 
     public static RestTemplate getRestTemplate() {
