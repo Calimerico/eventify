@@ -22,7 +22,6 @@ public class CreatePlaceHandler implements CommandHandler<CreatePlace, Place> {
         place.setNames(names);
         place.setLatitude(createPlace.getLatitude());
         place.setLongitude(createPlace.getLongitude());
-        placeRepository.save(place);
-        return null;
+        return placeRepository.save(place);
     }
 }
