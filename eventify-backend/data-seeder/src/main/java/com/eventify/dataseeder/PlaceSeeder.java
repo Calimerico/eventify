@@ -1,4 +1,4 @@
-package com.eventify.dataseeder2;
+package com.eventify.dataseeder;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -16,27 +16,27 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 @Component
-public class EventSeeder {
+public class PlaceSeeder {
 
     @Value("${eventService.url}")
     private String url;
     private final ObjectMapper objectMapper;
     private final RestTemplate restTemplate;
+    private final IdResolver idResolver;
 
     public void seed() {//todo handle this exception properly
         try {
-            List<Event> events = objectMapper.readValue(EventSeeder.class.getResourceAsStream("/data/events.json"), new TypeReference<List<Event>>(){});
-            log.info("Events that should be seeded: " + events);
-            events.forEach(event -> restTemplate.exchange(
-                    url + "/events",
+            List<Place> places = objectMapper.readValue(PlaceSeeder.class.getResourceAsStream("/data/places.json"), new TypeReference<List<Place>>(){});
+            log.info("Places that should be seeded: " + places);
+            places.forEach(place -> idResolver.linkId(EntityType.PLACE, restTemplate.exchange(
+                    url + "/places",
                     HttpMethod.POST,
-                    new HttpEntity<>(event,DataSeeder.httpHeaders)
-                    ,Object.class)
-            );//todo maybe introduce eventresource instead of Object?
+                    new HttpEntity<>(place,DataSeeder.httpHeaders)
+                    ,Object.class), place.getId())
+            );//todo maybe introduce place resource instead of Object?
         } catch (IOException e) {
             e.printStackTrace();//todo
         }
 
     }
 }
-

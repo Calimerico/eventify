@@ -1,4 +1,4 @@
-package com.eventify.dataseeder2;
+package com.eventify.dataseeder;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;

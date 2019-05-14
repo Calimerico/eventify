@@ -1,4 +1,4 @@
-package com.eventify.dataseeder2;
+package com.eventify.dataseeder;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;

@@ -1,4 +1,4 @@
-package com.eventify.dataseeder2;
+package com.eventify.dataseeder;
 
 public enum EntityType {
     EVENT,

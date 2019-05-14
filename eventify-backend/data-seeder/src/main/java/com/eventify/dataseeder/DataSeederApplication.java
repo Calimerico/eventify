@@ -1,4 +1,4 @@
-package com.eventify.dataseeder2;
+package com.eventify.dataseeder;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -9,10 +9,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
-public class DataSeeder2Application {
+public class DataSeederApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(DataSeeder2Application.class, args);
+		SpringApplication.run(DataSeederApplication.class, args);
 	}
 
 	@Bean

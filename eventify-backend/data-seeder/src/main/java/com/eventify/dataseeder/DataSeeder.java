@@ -1,4 +1,4 @@
-package com.eventify.dataseeder2;
+package com.eventify.dataseeder;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.SpringApplication;
