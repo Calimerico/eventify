@@ -1,0 +1,19 @@
+[
+  {
+    "id": 1,
+    "eventName": "Zona zamfirova",
+    "eventType":  "theater",
+    "description": "Zona desc",
+    "source": "www.google.rs",
+    "placeId": 1,
+    "eventDateTime":"2019-01-02T12:30"
+  },
+  {
+    "id": 2,
+    "eventType":  "theater",
+    "description": "Pop Cira desc",
+    "source": "www.facebook.rs",
+    "placeId": 2,
+    "eventDateTime":"2019-01-03T10:20"
+  }
+]
