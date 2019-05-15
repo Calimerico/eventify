@@ -32,7 +32,7 @@ public class PlaceSeeder {
                     url + "/places",
                     HttpMethod.POST,
                     new HttpEntity<>(place,DataSeeder.httpHeaders)
-                    ,Object.class), place.getId())
+                    ,Object.class).getBody(), place.getId())
             );//todo maybe introduce place resource instead of Object?
         } catch (IOException e) {
             e.printStackTrace();//todo
