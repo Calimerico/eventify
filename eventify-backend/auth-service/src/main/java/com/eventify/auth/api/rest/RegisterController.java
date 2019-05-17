@@ -19,7 +19,7 @@ public class RegisterController {
     private final BCryptPasswordEncoder encoder;
     private final Gate gate;
 
-    @PostMapping("/auth/register")//TODO Why I have auth word here in path? take a look atapplication properties strip to do
+    @PostMapping("/register")//TODO Why I have auth word here in path? take a look atapplication properties strip to do
     public ResponseEntity registerUser(@RequestBody RegisterUserRequest registerUserRequest) {
         gate.dispatch(RegisterUser
                 .builder()

@@ -4,6 +4,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 @Component
@@ -18,15 +19,7 @@ public class IdResolver {
     }
 
     public void linkId(EntityType entityType, Object responseEntity, Integer id) {
-        UUID uuid = null;
-        try {
-            uuid = (UUID) responseEntity.getClass().getField("id").get(responseEntity);
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();//TODO
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
-        ids.get(entityType).put(id, uuid);
+        ids.get(entityType).put(id, UUID.fromString((String) ((Map) responseEntity).get("id")));
     }
 
     public static UUID resolveId(int id, EntityType entityType) {

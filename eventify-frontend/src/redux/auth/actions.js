@@ -22,7 +22,7 @@ export const register = (newUser) => {
     return (dispatch) => {
         dispatch({type:types.REGISTER});
         axios.defaults.headers.common['Content-Type'] = 'application/json';
-        axios.post( 'http://localhost:8762/auth/register', newUser )//TODO You need this /auth/register path
+        axios.post( 'http://localhost:8762/auth/register', newUser )
             .then( response => {
                 dispatch({type:types.REGISTER_SUCCESS,token:response.headers.authorization});
             } )
