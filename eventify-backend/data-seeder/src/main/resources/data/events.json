@@ -4,6 +4,7 @@
     "eventName": "Zona zamfirova",
     "eventType":  "theater",
     "description": "Zona desc",
+    "profilePicture": "https://m.media-amazon.com/images/M/MV5BMGYxNjRiMTYtYWZmYi00ODg1LWI2Y2UtMzUyMmRhMTcwZjNhXkEyXkFqcGdeQXVyMzIwMTIwODc@._V1_.jpg",
     "source": "www.google.rs",
     "placeId": 1,
     "eventDateTime":"2019-01-02T12:30"
@@ -11,7 +12,9 @@
   {
     "id": 2,
     "eventType":  "theater",
-    "description": "Pop Cira desc",
+    "eventName": "Pop Cira i pop spira",
+    "description": "Pop desc",
+    "profilePicture": "https://www.delfi.rs/_img/artikli/2015/05/pop_cira_i_pop_spira_vv.jpg",
     "source": "www.facebook.rs",
     "placeId": 2,
     "eventDateTime":"2019-01-03T10:20"

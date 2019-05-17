@@ -3,12 +3,14 @@
     "id": 1,
     "name": "Sava centar",
     "longitude":  "44.8084975",
-    "latitude": "20.429957"
+    "latitude": "20.429957",
+    "city": "Belgrade"
   },
   {
     "id": 2 ,
     "name": "Dom omladine",
     "longitude":  "44.8153116",
-    "latitude": "20.4603544"
+    "latitude": "20.4603544",
+    "city": "Belgrade"
   }
 ]
