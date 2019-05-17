@@ -36,7 +36,7 @@ public class EventController {
     private final EventFinder eventFinder;
     private final Gate gate;
 
-    @GetMapping
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     //TODO Use Resources instead of ResponseEntity? Check this out: https://stackoverflow.com/questions/28139856/how-can-i-get-spring-mvchateoas-to-encode-a-list-of-resources-into-hal
     public ResponseEntity<PagedResources<EventResource>> getEvents(@ModelAttribute EventFilterBean eventFilterBean,
                                                                    @PageableDefault Pageable pageable,
@@ -70,6 +70,7 @@ public class EventController {
                 .eventType(createEventRequest.getEventType())
                 .placeId(createEventRequest.getPlaceId())
                 .source(createEventRequest.getSource())
+                .profilePicture(createEventRequest.getProfilePicture())
                 .prices(createEventRequest.getPrices())
                 .build());
         return ResponseEntity.ok(EventResource.fromEvent(createdEvent));

@@ -7,4 +7,5 @@ public class CreatePlaceRequest {
     private double latitude;
     private double longitude;
     private String name;
+    private String city;
 }

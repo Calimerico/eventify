@@ -19,6 +19,7 @@ public class CreatePlaceHandler implements CommandHandler<CreatePlace, Place> {
         Place place = new Place();
         HashSet<String> names = new HashSet<>();
         names.add(createPlace.getName());
+        place.setCity(createPlace.getCity());
         place.setNames(names);
         place.setLatitude(createPlace.getLatitude());
         place.setLongitude(createPlace.getLongitude());

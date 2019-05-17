@@ -11,4 +11,5 @@ public class CreatePlace implements Command<Place> {
     private double latitude;
     private double longitude;
     private String name;
+    private String city;
 }

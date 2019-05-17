@@ -17,4 +17,5 @@ public class Place {
     private double longitude;
     @ElementCollection
     private Set<String> names;
+    private String city;
 }
