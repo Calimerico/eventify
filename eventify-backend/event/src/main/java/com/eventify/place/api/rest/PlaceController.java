@@ -34,7 +34,7 @@ public class PlaceController {
         return ResponseEntity.ok(fromPlace(createdPlace));
     }
 
-    @GetMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping
     public ResponseEntity<List<PlaceResource>> getPlaces(@RequestParam String city) {
         return ResponseEntity.ok(placeRepository.findByCity(city)
                 .stream()

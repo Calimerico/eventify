@@ -27,7 +27,7 @@ public class Consumer {//TODO Rename
     private final EventRepository eventRepository;//TODO Controller instead of repo?
 
     @StreamListener(KafkaStreams.INPUT)//TODO rename method
-    public void handleEventsScraped(@Payload EventsScraped eventsScraped) {
+    public void handleEventsScrapedEvent(@Payload EventsScraped eventsScraped) {
         List<Event> events = eventsScraped
                 .getEventsScraped()
                 .stream()
