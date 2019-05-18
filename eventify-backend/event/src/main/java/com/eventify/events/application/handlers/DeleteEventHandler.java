@@ -7,6 +7,7 @@ import com.eventify.events.infrastructure.EventRepository;
 import com.eventify.events.infrastructure.KafkaEventProducer;
 import com.eventify.shared.demo.CommandHandler;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.collections4.CollectionUtils;
 
 import java.util.Set;
 import java.util.UUID;
@@ -24,7 +25,11 @@ public class DeleteEventHandler implements CommandHandler<DeleteEvent,Void> {
 
     @Override
     public Void handle(DeleteEvent deleteEvent) {
-        Set<UUID> hostIds = eventRepository.findById(deleteEvent.getId()).orElseThrow(RuntimeException::new).getHosts()
+        Set<UUID> hostIds = CollectionUtils
+                .emptyIfNull(eventRepository.findById(deleteEvent.getId())
+                        .orElseThrow(RuntimeException::new)
+                        .getHosts()
+                )
                 .stream()
                 .map(Host::getId)
                 .collect(Collectors.toSet());//todo handle exception
