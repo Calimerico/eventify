@@ -66,10 +66,17 @@ class EventSearch extends React.Component {
     };
 
     componentDidMount() {
-        const {eventType, timeFrom, timeTo, priceFrom, priceTo} = this.state;
+        const {eventType, timeFrom, timeTo, priceFrom, priceTo, placeId} = this.state;
         const {events, loadEventsByFilter} = this.props;
         if (events) {
-            loadEventsByFilter({eventType:eventType, timeFrom:timeFrom, timeTo:timeTo, priceFrom:priceFrom, priceTo:priceTo})
+            loadEventsByFilter({
+                eventType:eventType,
+                timeFrom:timeFrom,
+                timeTo:timeTo,
+                placeId:placeId,
+                priceFrom:priceFrom,
+                priceTo:priceTo
+            })
         }
     }
 
