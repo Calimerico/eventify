@@ -12,5 +12,26 @@
     "longitude":  "44.8153116",
     "latitude": "20.4603544",
     "city": "Belgrade"
+  },
+  {
+    "id": 3 ,
+    "name": "Tvrdjava Smederevo",
+    "longitude":  "101.8153116",
+    "latitude": "190.4603544",
+    "city": "Smederevo"
+  },
+  {
+    "id": 4 ,
+    "name": "Petrovaradinska tvrdjava",
+    "longitude":  "98.8153116",
+    "latitude": "78.4603544",
+    "city": "Novi sad"
+  },
+  {
+    "id": 5 ,
+    "name": "Bioskop svetlost",
+    "longitude":  "98.8156516",
+    "latitude": "78.4603234",
+    "city": "Smederevo"
   }
 ]

@@ -17,6 +17,36 @@
     "profilePicture": "https://www.delfi.rs/_img/artikli/2015/05/pop_cira_i_pop_spira_vv.jpg",
     "source": "www.facebook.rs",
     "placeId": 2,
+    "eventDateTime":"2019-01-02T00:20"
+  },
+  {
+    "id": 3,
+    "eventType":  "theater",
+    "eventName": "Exit festival",
+    "description": "Electro dance festival in Petrovaradin fortress",
+    "profilePicture": "https://www.delfi.rs/_img/artikli/2015/05/pop_cira_i_pop_spira_vv.jpg",
+    "source": "www.facebook.rs",
+    "placeId": 4,
+    "eventDateTime":"2019-01-09T10:20"
+  },
+  {
+    "id": 4,
+    "eventType":  "theater",
+    "eventName": "Dvoboj vitezova",
+    "description": "Srednjovekovni dvoboji vitezova",
+    "profilePicture": "https://www.delfi.rs/_img/artikli/2015/05/pop_cira_i_pop_spira_vv.jpg",
+    "source": "www.facebook.rs",
+    "placeId": 3,
     "eventDateTime":"2019-01-03T10:20"
+  },
+  {
+    "id": 5,
+    "eventType":  "theater",
+    "eventName": "Film klopka",
+    "description": "Klopka desc",
+    "profilePicture": "https://www.delfi.rs/_img/artikli/2015/05/pop_cira_i_pop_spira_vv.jpg",
+    "source": "www.facebook.rs",
+    "placeId": 5,
+    "eventDateTime":"2020-01-03T10:20"
   }
 ]
