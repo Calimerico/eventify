@@ -11,12 +11,14 @@ import thunk from 'redux-thunk';
 import logger from 'redux-logger'
 import i18n from './i18';
 import eventReducer from './redux/event/reducer'
+import placesReducer from './redux/place/reducer'
 import scrapReducer from './redux/scrap/reducer'
 import authReducer from './redux/auth/reducer'
 
 
 const rootReducer = combineReducers({
     eventsReducer: eventReducer,
+    placesReducer: placesReducer,
     scrapReducer:scrapReducer,
     authReducer:authReducer
 });
