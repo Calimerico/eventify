@@ -3,7 +3,7 @@ package com.eventify.events.api.rest;
 import com.eventify.events.domain.Event;
 import com.eventify.events.infrastructure.EventRepository;
 import com.eventify.events.infrastructure.KafkaEventProducer;
-import com.fasterxml.jackson.core.JsonProcessingException;
+import com.eventify.shared.config.auth.TestSecurityConfig;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.assertj.core.api.Assertions;
 import org.junit.After;
@@ -13,12 +13,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.core.Is.is;
@@ -30,9 +30,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = RANDOM_PORT)
+@SpringBootTest(webEnvironment = RANDOM_PORT, classes = TestSecurityConfig.class)
 @AutoConfigureMockMvc
 @Transactional
+@WithUserDetails("admin")
 public class EventControllerIntegrationTest {
 
     @Autowired
@@ -71,6 +72,7 @@ public class EventControllerIntegrationTest {
     }
 
     @Test
+    @WithUserDetails("regular")
     public void insertEventTest() throws Exception {
         //given
         doNothing().when(kafkaEventProducer).send(any());
@@ -91,6 +93,7 @@ public class EventControllerIntegrationTest {
     }
 
     @Test
+    @WithUserDetails("regular")
     public void deleteEventTest() throws Exception {
         //given
         Event event = new Event();
@@ -112,6 +115,7 @@ public class EventControllerIntegrationTest {
     }
 
     @Test
+    @WithUserDetails("regular")
     public void updateEventTest() throws Exception {
         //given
         Event event = new Event();

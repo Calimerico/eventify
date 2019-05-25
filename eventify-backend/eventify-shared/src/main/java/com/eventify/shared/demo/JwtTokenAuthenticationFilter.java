@@ -1,8 +1,5 @@
-package com.eventify.zuul;
+package com.eventify.shared.demo;
 
-/**
- * Created by spasoje on 25-Nov-18.
- */
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -12,6 +9,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.eventify.shared.demo.JwtConfig;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;

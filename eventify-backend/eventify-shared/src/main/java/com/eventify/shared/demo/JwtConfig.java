@@ -1,13 +1,11 @@
-package com.eventify.auth;
+package com.eventify.shared.demo;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
-/**
- * Created by spasoje on 25-Nov-18.
- */
-
+@Component
 public class JwtConfig {
-    @Value("${security.jwt.uri:/login/**}")
+    @Value("${security.jwt.uri:/**}")
     private String Uri;
 
     @Value("${security.jwt.header:Authorization}")
@@ -22,7 +20,6 @@ public class JwtConfig {
     @Value("${security.jwt.secret:JwtSecretKey}")
     private String secret;
 
-    //TODO This is login path
     public String getUri() {
         return Uri;
     }

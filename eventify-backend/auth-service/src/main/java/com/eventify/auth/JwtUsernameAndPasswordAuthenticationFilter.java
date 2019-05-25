@@ -9,11 +9,11 @@ import java.util.Collections;
 import java.util.stream.Collectors;
 
 import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.eventify.auth.infrastructure.UserRepository;
+import com.eventify.shared.demo.JwtConfig;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;

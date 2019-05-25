@@ -52,7 +52,8 @@ class EventSearch extends React.Component {
 
     handleSelectPlaceChange = event => {
         const {places} = this.props;
-        this.setState({ placeId: places.find(place => place.names[0] === event.target.value)});
+        debugger;
+        this.setState({ placeId: places.find(place => place.names[0] === event.target.value).id});
     };
 
     handleSelectCityChange = event => {
@@ -82,6 +83,7 @@ class EventSearch extends React.Component {
 
     render(){
         const { classes, places } = this.props;
+        const { placeId } = this.state;
         return (
             <div style={{backgroundColor:"#e0e0e0"}}>
                 <Grid container>
@@ -131,7 +133,7 @@ class EventSearch extends React.Component {
                                 Place
                             </InputLabel>
                             <Select
-                                value={this.state.placeId}
+                                value={places.find(p => p.id === placeId) == null ? null : places.find(p => p.id === placeId).names[0]}
                                 onChange={this.handleSelectPlaceChange}
                                 input={<Input name="placeId" id="place-label-placeholder" />}
                                 displayEmpty

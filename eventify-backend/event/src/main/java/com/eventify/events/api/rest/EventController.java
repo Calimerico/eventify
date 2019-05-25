@@ -17,6 +17,7 @@ import org.springframework.hateoas.PagedResources;
 import org.springframework.hateoas.mvc.ResourceAssemblerSupport;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
@@ -61,6 +62,7 @@ public class EventController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @Secured("ROLE_REGISTERED_USER")
     public ResponseEntity<EventResource> insertEvent(@RequestBody CreateEventRequest createEventRequest) {
         Event createdEvent = gate.dispatch(CreateEvent
                 .builder()

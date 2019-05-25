@@ -13,4 +13,8 @@ import java.util.UUID;
 @Repository
 public interface UserRepository extends CrudRepository<UserAccount,UUID> {
     Optional<UserAccount> findByUsername(String username);
+
+    default UserAccount loadUser(UUID id) {
+        return findById(id).orElseThrow(() -> new IllegalStateException("User with id " + id + "does not exist"));
+    }
 }

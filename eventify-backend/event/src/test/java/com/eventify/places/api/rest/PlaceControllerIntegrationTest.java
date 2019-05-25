@@ -1,10 +1,9 @@
 package com.eventify.places.api.rest;
 
-import com.eventify.events.domain.Event;
 import com.eventify.place.api.rest.CreatePlaceRequest;
 import com.eventify.place.domain.Place;
 import com.eventify.place.infrastructure.PlaceRepository;
-import com.fasterxml.jackson.core.JsonProcessingException;
+import com.eventify.shared.config.auth.TestSecurityConfig;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.assertj.core.api.Assertions;
 import org.junit.After;
@@ -13,6 +12,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.annotation.Commit;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -31,7 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = RANDOM_PORT)
+@SpringBootTest(webEnvironment = RANDOM_PORT, classes = TestSecurityConfig.class)
 @AutoConfigureMockMvc
 @ContextConfiguration
 @Commit//todo read this https://stackoverflow.com/questions/43519761/replacement-of-transactionconfiguration
@@ -53,6 +53,7 @@ public class PlaceControllerIntegrationTest {
     }
 
     @Test
+    @WithUserDetails("regular")
     public void insertPlaceTest() throws Exception {
         //given
         CreatePlaceRequest createPlaceRequest = new CreatePlaceRequest();

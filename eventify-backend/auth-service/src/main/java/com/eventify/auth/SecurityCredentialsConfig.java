@@ -6,8 +6,10 @@ package com.eventify.auth;
 import javax.servlet.http.HttpServletResponse;
 
 import com.eventify.auth.infrastructure.UserRepository;
+import com.eventify.shared.demo.JwtConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -18,6 +20,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @EnableWebSecurity
+@Order(1000) //Caused by: java.lang.IllegalStateException: @Order on WebSecurityConfigurers must be unique. Order of 100 was already used on
 public class SecurityCredentialsConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -59,11 +62,6 @@ public class SecurityCredentialsConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
-    }
-
-    @Bean
-    public JwtConfig jwtConfig() {
-        return new JwtConfig();
     }
 
     @Bean

@@ -1,10 +1,7 @@
-package com.eventify.zuul;
+package com.eventify.config.security;
 
-/**
- * Created by spasoje on 25-Nov-18.
- */
-import javax.servlet.http.HttpServletResponse;
-
+import com.eventify.shared.demo.JwtConfig;
+import com.eventify.shared.demo.JwtTokenAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
@@ -15,8 +12,10 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-@EnableWebSecurity 	// Enable security config. This annotation denotes config for spring security.
-public class SecurityTokenConfig extends WebSecurityConfigurerAdapter {
+import javax.servlet.http.HttpServletResponse;
+
+@EnableWebSecurity
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private JwtConfig jwtConfig;
 
@@ -34,28 +33,10 @@ public class SecurityTokenConfig extends WebSecurityConfigurerAdapter {
                 .addFilterAfter(new JwtTokenAuthenticationFilter(jwtConfig), UsernamePasswordAuthenticationFilter.class)
                 // authorization requests config
                 .authorizeRequests()
-                // allow all who are accessing "auth" service
-                .antMatchers(HttpMethod.OPTIONS, jwtConfig.getUri()).permitAll()
-                .antMatchers(HttpMethod.POST, jwtConfig.getUri()).permitAll()
-                .antMatchers(HttpMethod.OPTIONS, "/auth/register").permitAll()
-                .antMatchers(HttpMethod.POST, "/auth/register").permitAll()
-                .antMatchers(HttpMethod.OPTIONS, "/scraper/scrap").permitAll()
-                .antMatchers(HttpMethod.POST, "/scraper/scrap").permitAll()
-                .antMatchers(HttpMethod.GET, "/event/**").permitAll()//TODO
-                .antMatchers(HttpMethod.PUT, "/event/**").permitAll()//TODO
-                .antMatchers(HttpMethod.POST, "/event/**").permitAll()//TODO
-                .antMatchers(HttpMethod.DELETE, "/event/**").permitAll()//TODO
-                // must be an admin if trying to access admin area (authentication is also required here)
-                .antMatchers("/gallery" + "/admin/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.GET, "/places").permitAll()
+                .antMatchers(HttpMethod.GET, "/events").permitAll()
                 // Any other request must be authenticated
                 .anyRequest().authenticated();
-    }
-
-    //TODO This is to skip security for this path https://stackoverflow.com/questions/30366405/how-to-disable-spring-security-for-particular-url
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/event/**");
-        web.ignoring().antMatchers("/scrap/**");
     }
 
     @Bean

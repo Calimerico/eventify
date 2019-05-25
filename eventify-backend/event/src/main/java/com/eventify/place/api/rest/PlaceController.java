@@ -7,6 +7,7 @@ import com.eventify.shared.demo.Gate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,6 +24,7 @@ public class PlaceController {
     private final PlaceRepository placeRepository;//todo finder here needed
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @Secured("ROLE_ADMIN")
     public ResponseEntity<PlaceResource> insertPlace(@RequestBody CreatePlaceRequest createPlaceRequest) {
         Place createdPlace = gate.dispatch(CreatePlace
                 .builder()
