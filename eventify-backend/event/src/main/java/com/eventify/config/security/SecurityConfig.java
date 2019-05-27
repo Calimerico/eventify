@@ -16,8 +16,6 @@ import javax.servlet.http.HttpServletResponse;
 
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    @Autowired
-    private JwtConfig jwtConfig;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -29,18 +27,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // handle an authorized attempts
                 .exceptionHandling().authenticationEntryPoint((req, rsp, e) -> rsp.sendError(HttpServletResponse.SC_UNAUTHORIZED))
                 .and()
-                // Add a filter to validate the tokens with every request
-                .addFilterAfter(new JwtTokenAuthenticationFilter(jwtConfig), UsernamePasswordAuthenticationFilter.class)
-                // authorization requests config
                 .authorizeRequests()
                 .antMatchers(HttpMethod.GET, "/places").permitAll()
                 .antMatchers(HttpMethod.GET, "/events").permitAll()
                 // Any other request must be authenticated
                 .anyRequest().authenticated();
-    }
-
-    @Bean
-    public JwtConfig jwtConfig() {
-        return new JwtConfig();
     }
 }
