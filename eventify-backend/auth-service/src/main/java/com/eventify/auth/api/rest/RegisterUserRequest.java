@@ -11,7 +11,7 @@ import lombok.*;
 @Builder
 public class RegisterUserRequest {
     private String email;
-    private String userName;
+    private String username;
     private String password;
     private String firstName;
     private String lastName;

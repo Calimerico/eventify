@@ -19,12 +19,12 @@ public class RegisterController {
     private final BCryptPasswordEncoder encoder;
     private final Gate gate;
 
-    @PostMapping("/register")
+    @PostMapping("/register")//todo this should be user controller, not register controller...register in name of the url?
     public ResponseEntity registerUser(@RequestBody RegisterUserRequest registerUserRequest) {
         gate.dispatch(RegisterUser
                 .builder()
                 .email(registerUserRequest.getEmail())
-                .username(registerUserRequest.getUserName())
+                .username(registerUserRequest.getUsername())
                 .password(encoder.encode(registerUserRequest.getPassword()))
                 .firstName(registerUserRequest.getFirstName())
                 .lastName(registerUserRequest.getLastName())

@@ -83,7 +83,7 @@ class Login extends Component {
                     label: 'rememberMeLabel'
                 }
             },
-            userName:null,
+            username:null,
             password:null,
 
         };
@@ -106,11 +106,11 @@ class Login extends Component {
 
     onLogin = (event) => {
         event.preventDefault();//TODO Prevent refreshing page(and refreshing state)
-        this.props.login(this.state.userName,this.state.password);
+        this.props.login(this.state.username,this.state.password);
     };
 
     onUserNameChange = (event) => {
-        this.setState({...this.state, userName:event.target.value});
+        this.setState({...this.state, username:event.target.value});
     };
 
     onPasswordChange = (event) => {
@@ -150,7 +150,7 @@ class Login extends Component {
                     <form onSubmit={this.onLogin} className={classes.form}>
                         <FormControl margin="normal" required fullWidth>
                             <InputLabel className={classes.formLabel} htmlFor="userName">Username</InputLabel>
-                            <Input value={this.state.userName} onChange={this.onUserNameChange} id="userName" name="userName" autoFocus />
+                            <Input value={this.state.username} onChange={this.onUserNameChange} id="userName" name="userName" autoFocus />
                         </FormControl>
                         <FormControl margin="normal" required fullWidth>
                             <InputLabel className={classes.formLabel} htmlFor="password">Password</InputLabel>

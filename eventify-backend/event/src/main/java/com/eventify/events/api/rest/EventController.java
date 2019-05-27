@@ -79,6 +79,7 @@ public class EventController {
     }
 
     @PutMapping(value = "/{id}",consumes = MediaType.APPLICATION_JSON_VALUE)
+    @Secured("ROLE_REGISTERED_USER")
     public ResponseEntity<EventResource> updateEvent(@PathVariable UUID id, @RequestBody UpdateEventRequest updateEventRequest) {
         Event updatedEvent = gate.dispatch(UpdateEvent
                 .builder()
@@ -95,6 +96,7 @@ public class EventController {
     }
 
     @DeleteMapping("/{id}")
+    @Secured("ROLE_REGISTERED_USER")
     public ResponseEntity<Void> deleteEvent(@PathVariable UUID id) {
         gate.dispatch(DeleteEvent
                 .builder()

@@ -59,7 +59,7 @@ class Register extends Component {
             },
             newUser: {
                 email:null,
-                userName:null,
+                username:null,
                 password:null,
                 firstName:null,
                 lastName:null,
@@ -85,7 +85,7 @@ class Register extends Component {
     };
 
     onUserNameChange = (event) => {
-        this.setState({...this.state, newUser: {...this.state.newUser, userName:event.target.value}});
+        this.setState({...this.state, newUser: {...this.state.newUser, username:event.target.value}});
     };
 
     onPasswordChange = (event) => {
