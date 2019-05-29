@@ -17,6 +17,9 @@ import javax.servlet.http.HttpServletResponse;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+    @Autowired
+    private JwtConfig jwtConfig;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
@@ -27,6 +30,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // handle an authorized attempts
                 .exceptionHandling().authenticationEntryPoint((req, rsp, e) -> rsp.sendError(HttpServletResponse.SC_UNAUTHORIZED))
                 .and()
+                .addFilterAfter(new JwtTokenAuthenticationFilter(jwtConfig), UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
                 .antMatchers(HttpMethod.GET, "/places").permitAll()
                 .antMatchers(HttpMethod.GET, "/events").permitAll()
