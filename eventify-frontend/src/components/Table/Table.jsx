@@ -55,6 +55,13 @@ function CustomTable({ ...props }) {
           )}
         </TableBody>
         <TablePagination
+            SelectProps={
+              {
+                style: {
+                  fontSize:12
+                }
+              }
+            }
           rowsPerPageOptions={[5, 10, 25]}
           // component="div"
           count={tableData.length}
@@ -62,9 +69,11 @@ function CustomTable({ ...props }) {
           page={page}
           backIconButtonProps={{
             'aria-label': 'Previous Page',
+            fontSize:12
           }}
           nextIconButtonProps={{
             'aria-label': 'Next Page',
+            fontSize:12
           }}
           onChangePage={props.handleChangePage}
           onChangeRowsPerPage={props.handleChangeRowsPerPage}
