@@ -1,5 +1,6 @@
 package com.eventify.webscraper.domain;
 
+import lombok.RequiredArgsConstructor;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -13,13 +14,22 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static java.lang.Character.isDigit;
-
 /**
  * Created by spasoje on 21-Nov-18.
  */
 @Component
+@RequiredArgsConstructor
 public class NaSceniWebScraper extends BaseEventWebScraper {
+
+    @Override
+    protected Document getBaseDocument() {
+        try {
+            return Jsoup.connect(getBaseUrl()).get();
+        } catch (IOException e) {
+            e.printStackTrace();//todo
+        }
+        return null;
+    }
 
     @Override
     protected String getBaseUrl() {
@@ -27,13 +37,8 @@ public class NaSceniWebScraper extends BaseEventWebScraper {
     }
 
     @Override
-    protected List<String> getLinksToEvents(String url) {
-        try {
-            return Jsoup.connect(url).get().select(".infoContent > a").stream().map(element -> element.attr("href")).collect(Collectors.toList());
-        } catch (IOException e) {
-            e.printStackTrace();//TODO
-        }
-        return null;
+    protected List<String> getLinksToEvents(Document document) {
+        return document.select(".infoContent > a").stream().map(element -> element.attr("href")).collect(Collectors.toList());
     }
 
     @Override
@@ -84,9 +89,9 @@ public class NaSceniWebScraper extends BaseEventWebScraper {
     }
 
     @Override
-    protected String getEventType() {
-        return "theater";
-    }
+    protected EventType getEventType() {
+        return EventType.THEATER;
+    }//todo
 
     @Override
     protected String getNextPageUrl(String currentUrl) {

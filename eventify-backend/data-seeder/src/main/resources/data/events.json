@@ -2,7 +2,7 @@
   {
     "id": 1,
     "eventName": "Zona zamfirova",
-    "eventType":  "theater",
+    "eventType":  "THEATER",
     "description": "Zona desc",
     "profilePicture": "https://m.media-amazon.com/images/M/MV5BMGYxNjRiMTYtYWZmYi00ODg1LWI2Y2UtMzUyMmRhMTcwZjNhXkEyXkFqcGdeQXVyMzIwMTIwODc@._V1_.jpg",
     "source": "www.google.rs",
@@ -11,7 +11,7 @@
   },
   {
     "id": 2,
-    "eventType":  "theater",
+    "eventType":  "THEATER",
     "eventName": "Pop Cira i pop spira",
     "description": "Pop desc",
     "profilePicture": "https://www.delfi.rs/_img/artikli/2015/05/pop_cira_i_pop_spira_vv.jpg",
@@ -21,7 +21,7 @@
   },
   {
     "id": 3,
-    "eventType":  "theater",
+    "eventType":  "THEATER",
     "eventName": "Exit festival",
     "description": "Electro dance festival in Petrovaradin fortress",
     "profilePicture": "https://www.delfi.rs/_img/artikli/2015/05/pop_cira_i_pop_spira_vv.jpg",
@@ -31,22 +31,42 @@
   },
   {
     "id": 4,
-    "eventType":  "theater",
-    "eventName": "Dvoboj vitezova",
-    "description": "Srednjovekovni dvoboji vitezova",
-    "profilePicture": "https://www.delfi.rs/_img/artikli/2015/05/pop_cira_i_pop_spira_vv.jpg",
+    "eventType":  "CINEMA",
+    "eventName": "Ferdinand crtac",
+    "description": "Zabavan crtani",
+    "profilePicture": "https://www.foxmovies.com/s3/dev-temp/en-US/__5a692afa4a92d.jpg",
     "source": "www.facebook.rs",
     "placeId": 3,
-    "eventDateTime":"2019-01-03T10:20"
+    "eventDateTime":"2022-01-03T10:20"
   },
   {
     "id": 5,
-    "eventType":  "theater",
+    "eventType":  "SPORT",
+    "eventName": "Veciti derbi",
+    "description": "Veciti derbi",
+    "profilePicture": "https://www.danubeogradu.rs/wp-content/uploads/2016/07/veciti-derbi.png",
+    "source": "www.facebook.rs",
+    "placeId": 2,
+    "eventDateTime":"2021-01-03T10:20"
+  },
+  {
+    "id": 5,
+    "eventType":  "CINEMA",
     "eventName": "Film klopka",
     "description": "Klopka desc",
     "profilePicture": "https://www.delfi.rs/_img/artikli/2015/05/pop_cira_i_pop_spira_vv.jpg",
     "source": "www.facebook.rs",
     "placeId": 5,
     "eventDateTime":"2020-01-03T10:20"
+  },
+  {
+    "id": 5,
+    "eventType":  "DANCE",
+    "eventName": "Salsa zurka",
+    "description": "Salsa zurka",
+    "profilePicture": "https://assets.dmagstatic.com/wp-content/uploads/2018/07/salsa-dancing-dallas-677x451.jpg",
+    "source": "www.facebook.rs",
+    "placeId": 1,
+    "eventDateTime":"2020-03-03T10:20"
   }
 ]

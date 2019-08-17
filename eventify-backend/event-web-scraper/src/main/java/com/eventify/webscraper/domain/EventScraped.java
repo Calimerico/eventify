@@ -1,6 +1,7 @@
 package com.eventify.webscraper.domain;
 
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import lombok.Value;
 
@@ -20,7 +21,7 @@ public class EventScraped {
     private String eventName;
     private List<UUID> eventHostIds;
 //    private Integer eventSeriesId;
-    private String eventType;
+    private EventType eventType;
     private String placeId;
     private LocalDateTime eventDateTime;
     private String description;
