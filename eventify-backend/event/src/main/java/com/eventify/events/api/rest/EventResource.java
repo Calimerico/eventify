@@ -1,6 +1,7 @@
 package com.eventify.events.api.rest;
 
 import com.eventify.events.domain.Event;
+import com.eventify.events.domain.EventType;
 import com.eventify.events.domain.Host;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
@@ -30,7 +31,7 @@ public class EventResource extends ResourceSupport {
     private UUID eventId;
     private String eventName;
     private Set<UUID> hosts;
-    private String eventType;
+    private EventType eventType;
     private UUID placeId;
     private LocalDateTime eventDateTime;
     private String description;

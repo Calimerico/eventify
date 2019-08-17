@@ -1,5 +1,6 @@
 package com.eventify.events.api.rest;
 
+import com.eventify.events.domain.EventType;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -12,7 +13,7 @@ import java.util.UUID;
 @Data
 public class UpdateEventRequest {
     private String eventName;
-    private String eventType;
+    private EventType eventType;
     private UUID placeId;
     private LocalDateTime eventDateTime;
     private String description;

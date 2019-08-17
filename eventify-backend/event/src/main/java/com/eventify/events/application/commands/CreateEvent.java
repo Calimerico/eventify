@@ -1,6 +1,7 @@
 package com.eventify.events.application.commands;
 
 import com.eventify.events.domain.Event;
+import com.eventify.events.domain.EventType;
 import com.eventify.shared.demo.Command;
 import lombok.Builder;
 import lombok.Value;
@@ -17,7 +18,7 @@ import java.util.UUID;
 @Builder
 public class CreateEvent implements Command<Event> {
     private String eventName;
-    private String eventType;
+    private EventType eventType;
     private UUID placeId;
     private LocalDateTime eventDateTime;
     private String description;

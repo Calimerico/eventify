@@ -1,6 +1,7 @@
 package com.eventify.events.api.rest;
 
 import com.eventify.events.domain.Event;
+import com.eventify.events.domain.EventType;
 import com.eventify.events.infrastructure.EventRepository;
 import com.eventify.events.infrastructure.KafkaEventProducer;
 import com.eventify.shared.config.auth.TestSecurityConfig;
@@ -20,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
+import static com.eventify.events.api.rest.EventController.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.mockito.Mockito.*;
@@ -56,15 +58,17 @@ public class EventControllerIntegrationTest {
     @Test
     public void getEventsSuccess() throws Exception {
         //given
-        Event event = new Event();
-        event.setDescription("desc");
-        event.setEventDateTime(LocalDateTime.now());
-        event.setEventName("event name");
-        event.setEventType("theater");
+        Event event = Event
+                .builder()
+                .description("desc")
+                .eventDateTime(LocalDateTime.now())
+                .eventName("event name")
+                .eventType(EventType.THEATER)
+                .build();
         eventRepository.save(event);
 
         //when
-        this.mvc.perform(get("/events"))
+        this.mvc.perform(get(BASE_PATH))
 
                 //then
                 .andExpect(status().isOk())
@@ -79,9 +83,9 @@ public class EventControllerIntegrationTest {
         CreateEventRequest createEventRequest = new CreateEventRequest();
         createEventRequest.setDescription("desc insert");
         createEventRequest.setEventName("name insert");
-        createEventRequest.setEventType("theater");
+        createEventRequest.setEventType(EventType.THEATER);
         //when
-        this.mvc.perform(post("/events")
+        this.mvc.perform(post(BASE_PATH)
                 .contentType(APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(createEventRequest)));
 
@@ -96,16 +100,18 @@ public class EventControllerIntegrationTest {
     @WithUserDetails("regular")
     public void deleteEventTest() throws Exception {
         //given
-        Event event = new Event();
-        event.setDescription("desc");
-        event.setEventDateTime(LocalDateTime.now());
-        event.setEventName("event name");
-        event.setEventType("theater");
+        Event event = Event
+                .builder()
+                .description("desc")
+                .eventDateTime(LocalDateTime.now())
+                .eventName("event name")
+                .eventType(EventType.THEATER)
+                .build();
         eventRepository.save(event);
         doNothing().when(kafkaEventProducer).send(any());
 
         //when
-        this.mvc.perform(delete("/events/{id}",event.getEventId())
+        this.mvc.perform(delete(BASE_PATH + ID_PATH,event.getEventId())
                 .contentType(APPLICATION_JSON)
         );
 
@@ -118,11 +124,13 @@ public class EventControllerIntegrationTest {
     @WithUserDetails("regular")
     public void updateEventTest() throws Exception {
         //given
-        Event event = new Event();
-        event.setDescription("desc");
-        event.setEventDateTime(LocalDateTime.now());
-        event.setEventName("event name");
-        event.setEventType("theater");
+        Event event = Event
+                .builder()
+                .description("desc")
+                .eventDateTime(LocalDateTime.now())
+                .eventName("event name")
+                .eventType(EventType.THEATER)
+                .build();
         eventRepository.save(event);
         UpdateEventRequest updateEventRequest = new UpdateEventRequest();
         String new_desc = "new desc";
@@ -132,7 +140,7 @@ public class EventControllerIntegrationTest {
         doNothing().when(kafkaEventProducer).send(any());
 
         //when
-        this.mvc.perform(put("/events/{id}", event.getEventId())
+        this.mvc.perform(put(BASE_PATH + ID_PATH, event.getEventId())
                 .contentType(APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(updateEventRequest)));
 

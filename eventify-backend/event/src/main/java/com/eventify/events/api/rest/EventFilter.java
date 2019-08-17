@@ -1,5 +1,6 @@
 package com.eventify.events.api.rest;
 
+import com.eventify.events.domain.EventType;
 import lombok.Builder;
 import lombok.Value;
 
@@ -14,7 +15,7 @@ import java.util.UUID;
 //TODO Maybe this filter is in wrong package and has bad name?
 public class EventFilter {
     private final String eventName;
-    private final String eventType;
+    private final EventType eventType;
     private final UUID hostId;
     private final UUID placeId;
     private final LocalDateTime timeFrom;

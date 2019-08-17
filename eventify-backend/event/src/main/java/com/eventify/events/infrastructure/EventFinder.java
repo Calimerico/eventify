@@ -2,7 +2,6 @@ package com.eventify.events.infrastructure;
 
 import com.eventify.events.api.rest.EventFilter;
 import com.eventify.events.domain.Event;
-import com.eventify.events.domain.EventFactory;
 import com.eventify.place.domain.Place;
 import com.eventify.place.infrastructure.PlaceRepository;
 import lombok.RequiredArgsConstructor;
@@ -37,8 +36,8 @@ public class EventFinder {
         //TODO For line above take a look here https://stackoverflow.com/questions/13539050/entitynotfoundexception-in-hibernate-many-to-one-mapping-however-data-exist
         //TODO https://stackoverflow.com/questions/39784344/check-date-between-two-other-dates-spring-data-jpa
         Place place = eventFilter.getPlaceId() != null ? placeRepository.findById(eventFilter.getPlaceId()).orElse(null) : null;
-        Example<Event> example = Example.of(EventFactory
-                .aEvent()
+        Example<Event> example = Example.of(Event
+                .builder()
                 .eventName(eventFilter.getEventName())
                 .eventType(eventFilter.getEventType())
                 .place(place)

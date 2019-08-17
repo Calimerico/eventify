@@ -4,8 +4,7 @@ package com.eventify.events.domain;
  * Created by spasoje on 01-Nov-18.
  */
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 import com.eventify.place.domain.Place;
 
 import javax.persistence.*;
@@ -18,11 +17,11 @@ import java.util.UUID;
  * Created by spasoje on 15-Jun-17.
  */
 @Entity
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-@DiscriminatorColumn(name="event_type")
-@Table(name="event")//todo s this annotation necessary?
 @Data
-@EqualsAndHashCode
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@Builder
+@EqualsAndHashCode//todo
 public class Event {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -31,7 +30,9 @@ public class Event {
 
     @OneToMany
     private Set<Host> hosts;
-    private String eventType;
+
+    @Enumerated(EnumType.STRING)
+    private EventType eventType;
 
     @OneToOne
     private Place place;

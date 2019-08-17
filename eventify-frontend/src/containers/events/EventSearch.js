@@ -18,12 +18,13 @@ import eventActions from "../../redux/event/actions";
 import placeActions from "../../redux/place/actions";
 import {connect} from "react-redux";
 
+//TODO This should be read from backend EventType
 const eventTypes = [
-    'Theater',
-    'Sport',
-    'Cinema'
+    'THEATER',
+    'SPORT',
+    'CINEMA'
 ];
-
+//TODO This should be read from backend City or something like that
 const cities = [
     'Belgrade',
     'Smederevo',
@@ -44,6 +45,7 @@ class EventSearch extends React.Component {
         }
         this.handleSelectPlaceChange = this.handleSelectPlaceChange.bind(this);
         this.handleSelectCityChange = this.handleSelectCityChange.bind(this);
+        this.loadEvents = this.loadEvents.bind(this);
     }
 
     handleSelectChange = event => {
@@ -52,7 +54,6 @@ class EventSearch extends React.Component {
 
     handleSelectPlaceChange = event => {
         const {places} = this.props;
-        debugger;
         this.setState({ placeId: places.find(place => place.names[0] === event.target.value).id});
     };
 
@@ -66,7 +67,7 @@ class EventSearch extends React.Component {
         this.setState({ [name]: event.target.value });
     };
 
-    componentDidMount() {
+    loadEvents() {
         const {eventType, timeFrom, timeTo, priceFrom, priceTo, placeId} = this.state;
         const {events, loadEventsByFilter} = this.props;
         if (events) {
@@ -79,6 +80,10 @@ class EventSearch extends React.Component {
                 priceTo:priceTo
             })
         }
+    }
+
+    componentDidMount() {
+        this.loadEvents();
     }
 
     render(){
@@ -105,10 +110,6 @@ class EventSearch extends React.Component {
                                     </MenuItem>
                                 ))}
                             </Select>
-                        </FormControl>
-                    </Grid>
-                    <Grid item xs={12}>
-                        <FormControl className={classes.formControl}>
                             <InputLabel shrink htmlFor="city-label-placeholder">
                                 Select city
                             </InputLabel>
@@ -125,10 +126,6 @@ class EventSearch extends React.Component {
                                     </MenuItem>
                                 ))}
                             </Select>
-                        </FormControl>
-                    </Grid>
-                    <Grid item xs={12}>
-                        <FormControl className={classes.formControl}>
                             <InputLabel shrink htmlFor="place-label-placeholder">
                                 Place
                             </InputLabel>
@@ -145,43 +142,30 @@ class EventSearch extends React.Component {
                                     </MenuItem>
                                 ))}
                             </Select>
+                            <DatePickers
+                                className={classes.datePicker}
+                                label={"Date from"}
+                                value={this.state.selectedDateFrom}/>
+                            <DatePickers
+                                className={classes.datePicker}
+                                label={"Date to"}
+                                value={this.state.selectedDateTo}/>
+                            <TextField
+                                id="standard-dense"
+                                label="Price from"
+                                className={classes.textField}
+                                onChange={this.handleChange('name')}
+                                value={this.state.priceFrom}
+                            />
+                            <TextField
+                                id="standard-dense"
+                                label="Price to"
+                                className={classes.textField2}
+                                onChange={this.handleChange('name')}
+                                value={this.state.priceTo}
+                            />
+                            <Button color="primary" onClick={this.loadEvents} className={classes.search}>Search</Button>
                         </FormControl>
-                    </Grid>
-                    <Grid item xs={12}>
-                        <DatePickers
-                            className={classes.datePicker}
-                            label={"Date from"}
-                            value={this.state.selectedDateFrom}
-                        />
-                    </Grid>
-                    <Grid item xs={12}>
-                        <DatePickers
-                            className={classes.datePicker}
-                            label={"Date to"}
-                            value={this.state.selectedDateTo}
-                        />
-                    </Grid>
-                    <Grid item xs={6}>
-                        <TextField
-                            id="standard-dense"
-                            label="Price from"
-                            className={classes.textField}
-                            onChange={this.handleChange('name')}
-                            value={this.state.priceFrom}
-                        />
-                    </Grid>
-                    <Grid item xs={6}>
-                        <TextField
-                            id="standard-dense"
-                            label="Price to"
-                            className={classes.textField2}
-                            onChange={this.handleChange('name')}
-                            value={this.state.priceTo}
-                        />
-                    </Grid>
-                    <Grid item xs={12}>
-                        <Button color="primary" className={classes.search}>Search</Button>
-                        {/*<p className={classes.submit}>Submit button</p>*/}
                     </Grid>
                 </Grid>
             </div>
