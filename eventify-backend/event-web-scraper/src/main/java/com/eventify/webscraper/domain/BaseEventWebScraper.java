@@ -9,13 +9,15 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Slf4j
 public abstract class BaseEventWebScraper implements EventWebScraper {
 
     protected abstract Document getBaseDocument();
     protected abstract String getBaseUrl();
-    protected abstract List<String> getLinksToEvents(Document document);
+    protected abstract String getDescription(Document document);
+    protected abstract Set<String> getLinksToEvents(Document document);
     protected abstract String getEventName(Document document);
     protected abstract LocalDateTime getEventDateTime(Document document, DateTimeFormatter formatter);
     protected abstract DateTimeFormatter getEventDateTimeFormatter();
@@ -35,26 +37,29 @@ public abstract class BaseEventWebScraper implements EventWebScraper {
     }
 
     private void scrapEvents(List<EventScraped> scrapedEvents, Document baseDocument) {
-        List<String> linkOfEvents;
+        Set<String> linkOfEvents;
         linkOfEvents = getLinksToEvents(baseDocument);
 
         linkOfEvents.forEach(link -> {
             try {
-                if (!link.contains("/venue/")) {
-                    Document eventDocument = Jsoup.connect(link).get();
-                    EventScraped eventScraped;
-                    EventScraped.EventScrapedBuilder eventScrapedBuilder = EventScraped.builder().source(link);
-                    eventScrapedBuilder.eventName(getEventName(eventDocument));
-                    DateTimeFormatter formatter = getEventDateTimeFormatter();
-                    eventScrapedBuilder.eventDateTime(getEventDateTime(eventDocument, formatter));
-                    eventScrapedBuilder.prices(getPrices(eventDocument));
-                    eventScrapedBuilder.placeId(getPlaceName(eventDocument));
-                    eventScrapedBuilder.picture(getProfilePicture(eventDocument));
-                    eventScrapedBuilder.eventType(getEventType());
-                    eventScraped = eventScrapedBuilder.build();
-                    log.debug("Event " + eventScraped + " is scraped!");
-                    scrapedEvents.add(eventScraped);
+                Document eventDocument = Jsoup.connect(link).get();
+                String eventName = getEventName(eventDocument);
+                DateTimeFormatter formatter = getEventDateTimeFormatter();
+                LocalDateTime eventDateTime = getEventDateTime(eventDocument, formatter);
+                if (eventName == null || eventDateTime == null) {
+                    return;//this skips just one iteration, like continue in for loop
                 }
+                EventScraped eventScraped;
+                EventScraped.EventScrapedBuilder eventScrapedBuilder = EventScraped.builder().source(link);
+                eventScrapedBuilder.eventName(eventName);
+                eventScrapedBuilder.eventDateTime(eventDateTime);
+                eventScrapedBuilder.prices(getPrices(eventDocument));
+                eventScrapedBuilder.placeId(getPlaceName(eventDocument));
+                eventScrapedBuilder.picture(getProfilePicture(eventDocument));
+                eventScrapedBuilder.eventType(getEventType());
+                eventScraped = eventScrapedBuilder.build();
+                log.debug("Event " + eventScraped + " is scraped!");
+                scrapedEvents.add(eventScraped);
 
             } catch (IOException e) {
                 e.printStackTrace();

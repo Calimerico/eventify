@@ -12,13 +12,13 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
  * Created by spasoje on 21-Nov-18.
  */
 @Component
-@RequiredArgsConstructor
 public class NaSceniWebScraper extends BaseEventWebScraper {
 
     @Override
@@ -37,8 +37,17 @@ public class NaSceniWebScraper extends BaseEventWebScraper {
     }
 
     @Override
-    protected List<String> getLinksToEvents(Document document) {
-        return document.select(".infoContent > a").stream().map(element -> element.attr("href")).collect(Collectors.toList());
+    protected String getDescription(Document document) {
+        return null;//todo
+    }
+
+    @Override
+    protected Set<String> getLinksToEvents(Document document) {
+        return document.select(".infoContent > a")
+                .stream()
+                .map(element -> element.attr("href"))
+                .filter(url -> !url.contains("/value"))
+                .collect(Collectors.toSet());
     }
 
     @Override
@@ -48,7 +57,11 @@ public class NaSceniWebScraper extends BaseEventWebScraper {
 
     @Override
     protected LocalDateTime getEventDateTime(Document document, DateTimeFormatter formatter) {
-        return LocalDateTime.parse(document.select(".ticketTime").attr("datetime"), formatter);
+        String datetime = document.select(".ticketTime").attr("datetime");
+        if (datetime == null || datetime.equals("")) {
+            return null;
+        }
+        return LocalDateTime.parse(datetime, formatter);
     }
 
     @Override
