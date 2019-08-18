@@ -50,7 +50,7 @@
     "eventDateTime":"2021-01-03T10:20"
   },
   {
-    "id": 5,
+    "id": 6,
     "eventType":  "CINEMA",
     "eventName": "Film klopka",
     "description": "Klopka desc",
@@ -60,7 +60,7 @@
     "eventDateTime":"2020-01-03T10:20"
   },
   {
-    "id": 5,
+    "id": 7,
     "eventType":  "DANCE",
     "eventName": "Salsa zurka",
     "description": "Salsa zurka",
