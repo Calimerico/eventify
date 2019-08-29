@@ -21,6 +21,6 @@ export const removeById = (id,prevState) => {
         .reduce((cummulative, current) => {return {...cummulative, [current]:prevState[current]}}, {});
 }
 
-export const asMap = (resources) => {
-    return resources.reduce((accumulator, currentValue) => {return {...accumulator, [currentValue.id]:currentValue}}, {});
+export const asMap = (resources, prevState) => {
+    return resources.reduce((accumulator, currentValue) => {return {...accumulator, [currentValue.id]:currentValue}}, prevState);
 }

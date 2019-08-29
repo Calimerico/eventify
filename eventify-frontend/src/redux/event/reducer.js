@@ -16,7 +16,7 @@ const reducer = (state = initialState, action) => {
     switch (action.type) {
 
         case types.GET_EVENTS_BY_FILTER_SUCCESS:
-            return {...state, events:asMap(action.payload.data._embedded.resources), loadings:storeLoadingByAction(true, action)};
+            return {...state, events:asMap(action.payload.data._embedded.resources,{...state.events}), loadings:storeLoadingByAction(true, action)};
         case types.GET_EVENTS_BY_FILTER:
             return {...state, loadings:storeLoadingByAction(true, action)};
         case types.GET_EVENTS_BY_FILTER_FAIL:
