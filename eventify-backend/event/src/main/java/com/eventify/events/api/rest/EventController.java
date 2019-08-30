@@ -48,16 +48,7 @@ public class EventController {
     public ResponseEntity<PagedResources<EventResource>> getEvents(@ModelAttribute EventFilterBean eventFilterBean,
                                                                    @PageableDefault Pageable pageable,
                                                                    PagedResourcesAssembler<Event> pagedAssembler) {
-        Page<Event> pageOfEvents = eventFinder.findByExample(EventFilter.builder()
-                .eventName(eventFilterBean.getEventName())
-                .eventType(eventFilterBean.getEventType())
-                .hostId(eventFilterBean.getHostId())
-                .placeId(eventFilterBean.getPlaceId())
-                .timeFrom(eventFilterBean.getTimeFrom())
-                .timeTo(eventFilterBean.getTimeTo())
-                .priceFrom(eventFilterBean.getPriceFrom())
-                .priceTo(eventFilterBean.getPriceTo())
-                .build(), pageable);
+        Page<Event> pageOfEvents = eventFinder.findByExample(eventFilterBean, pageable);
 
         return assembleEvents(pageOfEvents, pagedAssembler);
     }

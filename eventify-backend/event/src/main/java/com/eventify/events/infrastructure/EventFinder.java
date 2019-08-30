@@ -1,6 +1,6 @@
 package com.eventify.events.infrastructure;
 
-import com.eventify.events.api.rest.EventFilter;
+import com.eventify.events.api.rest.EventFilterBean;
 import com.eventify.events.domain.Event;
 import com.eventify.events.domain.Host;
 import com.eventify.place.domain.Place;
@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
@@ -46,7 +45,7 @@ public class EventFinder {
         return new PageImpl<>(myEvents,pageable,myEvents.size());
     }
 
-    public Page<Event> findByExample(EventFilter eventFilter, Pageable pageable) {//TODO Handle if dateFrom,dateTo,priceFrom and proceTo are null
+    public Page<Event> findByExample(EventFilterBean eventFilter, Pageable pageable) {//TODO Handle if dateFrom,dateTo,priceFrom and proceTo are null
         placeRepository.findAll();//TODO DON'T DELETE THIS LINE OR YOU WILL INTRODUCE BUG. THIS IS TEMPORARY SOLUTION
         //TODO For line above take a look here https://stackoverflow.com/questions/13539050/entitynotfoundexception-in-hibernate-many-to-one-mapping-however-data-exist
         //TODO https://stackoverflow.com/questions/39784344/check-date-between-two-other-dates-spring-data-jpa
