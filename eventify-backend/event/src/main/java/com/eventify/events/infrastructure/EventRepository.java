@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -16,5 +17,8 @@ import java.util.UUID;
 
 public interface EventRepository extends CrudRepository<Event,UUID> {
     Event findByEventName(String eventName);
+    default Event loadById(UUID id) {
+        return findById(id).orElseThrow(() -> new NoSuchElementException("Event with id " + id + " does not exist!"));
+    }
     Page<Event> findAll(Example example, Pageable pageable);
 }

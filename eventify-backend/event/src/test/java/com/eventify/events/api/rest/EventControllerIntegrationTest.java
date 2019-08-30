@@ -141,8 +141,7 @@ public class EventControllerIntegrationTest {
                 .contentType(APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(updateEventRequest)));
 
-        Event updatedEvent = eventRepository.findById(event.getEventId()).orElse(null);
-        assertThat(updatedEvent).isNotNull();
+        Event updatedEvent = eventRepository.loadById(event.getEventId());
         assertThat(updatedEvent.getDescription()).isEqualTo(new_desc);
         assertThat(updatedEvent.getEventDateTime()).isEqualTo(newTime);
         assertThat(updatedEvent.getEventName()).isEqualTo(event.getEventName());
@@ -172,8 +171,7 @@ public class EventControllerIntegrationTest {
                 .contentType(APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(updateEventRequest)));
 
-        Event updatedEvent = eventRepository.findById(event.getEventId()).orElse(null);
-        assertThat(updatedEvent).isNotNull();
+        Event updatedEvent = eventRepository.loadById(event.getEventId());
         assertThat(updatedEvent.getDescription()).isEqualTo("desc");
         assertThat(updatedEvent.getEventDateTime()).isEqualTo(eventDateTime);
         assertThat(updatedEvent.getEventName()).isEqualTo("event name");

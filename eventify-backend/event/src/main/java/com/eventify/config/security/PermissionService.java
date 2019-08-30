@@ -30,7 +30,7 @@ public class PermissionService {
         if (isAdmin) {
             return true;
         }
-        Event event = eventRepository.findById(eventId).orElseThrow(() -> new NoSuchElementException("Event with id " + eventId + " does not exist"));
+        Event event = eventRepository.loadById(eventId);
         Set<UUID> hostIds = CollectionUtils.emptyIfNull(event.getHosts())
                 .stream()
                 .map(Host::getId)

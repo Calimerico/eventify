@@ -9,6 +9,7 @@ import com.eventify.shared.demo.CommandHandler;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 
+import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -26,13 +27,12 @@ public class DeleteEventHandler implements CommandHandler<DeleteEvent,Void> {
     @Override
     public Void handle(DeleteEvent deleteEvent) {
         Set<UUID> hostIds = CollectionUtils
-                .emptyIfNull(eventRepository.findById(deleteEvent.getId())
-                        .orElseThrow(RuntimeException::new)
+                .emptyIfNull(eventRepository.loadById(deleteEvent.getId())
                         .getHosts()
                 )
                 .stream()
                 .map(Host::getId)
-                .collect(Collectors.toSet());//todo handle exception
+                .collect(Collectors.toSet());
         eventRepository.deleteById(deleteEvent.getId());
         kafkaEventProducer.send(EventDeletedEvent
                 .builder()
@@ -40,6 +40,6 @@ public class DeleteEventHandler implements CommandHandler<DeleteEvent,Void> {
                 .hosts(hostIds)
                 .build()
         );
-        return null;
+        return null;//todo return null?
     }
 }

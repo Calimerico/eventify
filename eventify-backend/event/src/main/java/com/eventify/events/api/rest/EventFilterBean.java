@@ -17,7 +17,7 @@ public class EventFilterBean {
     private EventType eventType;
     private UUID hostId;
     private UUID placeId;
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)//todo test this with arch unit test
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime timeFrom;
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime timeTo;

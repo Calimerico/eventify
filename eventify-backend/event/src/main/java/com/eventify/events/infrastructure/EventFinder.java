@@ -8,6 +8,7 @@ import com.eventify.place.infrastructure.PlaceRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +21,7 @@ import static java.util.stream.Collectors.toList;
  * Created by spasoje on 16-Dec-18.
  */
 @Component
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class EventFinder {
     private final EventRepository eventRepository;
@@ -31,7 +33,7 @@ public class EventFinder {
 
     public Event findById(UUID id) {
         //TODO Read this https://tuhrig.de/anti-pattern-dont-use-optionals-for-data-repositories/ Change to Optional<Event> or not? Provide both method obtain and get
-        return eventRepository.findById(id).orElseThrow(() -> new RuntimeException("Fix this runtime exception"));
+        return eventRepository.loadById(id);
     }
 
     public Page<Event> findByUserId(UUID userId, Pageable pageable) {

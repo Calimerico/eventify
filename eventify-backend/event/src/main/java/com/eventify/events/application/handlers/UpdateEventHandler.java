@@ -8,6 +8,8 @@ import com.eventify.place.infrastructure.PlaceRepository;
 import com.eventify.shared.demo.CommandHandler;
 import lombok.RequiredArgsConstructor;
 
+import java.util.NoSuchElementException;
+
 /**
  * Created by spasoje on 15-Dec-18.
  */
@@ -20,9 +22,10 @@ public class UpdateEventHandler implements CommandHandler<UpdateEvent, Event> {
 
     @Override
     public Event handle(UpdateEvent updateEvent) {
-        Event event = eventRepository.findById(updateEvent.getId()).orElseThrow(RuntimeException::new);//TODO
+        Event event = eventRepository.loadById(updateEvent.getId());
         if (updateEvent.getPlaceId() != null) {
-            Place place = placeRepository.findById(updateEvent.getPlaceId()).orElseThrow(RuntimeException::new);//TODO Handle better
+            Place place = placeRepository.findById(updateEvent.getPlaceId())
+                    .orElseThrow(() -> new NoSuchElementException("Place with id " + updateEvent.getPlaceId() + " does not exist!"));
             event.setPlace(place);
         }
         event.setEventName(updateEvent.getEventName());
