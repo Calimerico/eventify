@@ -90,6 +90,7 @@ public class EventController {
                 .source(createEventRequest.getSource())
                 .profilePicture(createEventRequest.getProfilePicture())
                 .prices(createEventRequest.getPrices())
+                .hosts(createEventRequest.getHostIds())
                 .build());
         return ResponseEntity.ok(EventResource.fromEvent(createdEvent));
     }

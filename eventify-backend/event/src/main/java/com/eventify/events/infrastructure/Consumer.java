@@ -1,12 +1,9 @@
 package com.eventify.events.infrastructure;
 
-import com.eventify.KafkaStreams;
+import com.eventify.config.kafka.KafkaStreams;
 import com.eventify.events.api.msg.EventsScraped;
 import com.eventify.events.application.commands.CreateEvent;
 import com.eventify.events.application.commands.CreateEvents;
-import com.eventify.events.application.handlers.CreateEventHandler;
-import com.eventify.events.application.handlers.CreateEventsHandler;
-import com.eventify.events.domain.Event;
 import com.eventify.shared.demo.Gate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cloud.stream.annotation.StreamListener;
@@ -16,7 +13,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Created by spasoje on 23-Nov-18.

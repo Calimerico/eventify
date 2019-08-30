@@ -1,5 +1,6 @@
 package com.eventify;
 
+import com.eventify.config.kafka.KafkaStreams;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 
 /**

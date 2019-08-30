@@ -20,7 +20,7 @@ export const login = (username,password) => {
 export const register = (newUser) => {
     return (dispatch) => {
         dispatch({type:types.REGISTER});
-        axios.post( '/auth/register', newUser )
+        axios.post( '/auth/users', newUser )
             .then( response => {
                 dispatch({type:types.REGISTER_SUCCESS,token:response.headers.authorization});
             } )

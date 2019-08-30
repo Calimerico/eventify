@@ -28,7 +28,7 @@ public class UserSeeder {
             log.info("Users that should be seeded: " + users);
 
             users.forEach(user -> restTemplate.exchange(
-                    url + "/register",
+                    url + "/users",
                     HttpMethod.POST,
                     new HttpEntity<>(user,DataSeeder.httpHeaders)
                     ,Object.class)

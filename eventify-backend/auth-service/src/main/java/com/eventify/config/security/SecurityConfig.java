@@ -52,9 +52,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.OPTIONS, jwtConfig.getUri()).permitAll()//todo
                 .antMatchers(HttpMethod.POST, jwtConfig.getUri()).permitAll()
                 .antMatchers(HttpMethod.OPTIONS, "/login").permitAll()
-                .antMatchers(HttpMethod.POST, "/register").permitAll()
-                .antMatchers(HttpMethod.OPTIONS, "/register").permitAll()
-                .antMatchers(HttpMethod.POST, "/register").permitAll()
+                .antMatchers(HttpMethod.POST, "/users").permitAll()
+                .antMatchers(HttpMethod.OPTIONS, "/users").permitAll()
                 .anyRequest().authenticated();
     }
     // Spring has UserDetailsService interface, which can be overriden to provide our implementation for fetching user from database (or any other source).

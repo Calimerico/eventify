@@ -7,19 +7,22 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
  * Created by spasoje on 13-Dec-18.
  */
 @RestController
+@RequestMapping(value = UserController.BASE_PATH)
 @RequiredArgsConstructor
-public class RegisterController {
+public class UserController {
 
+    public static final String BASE_PATH = "/users";
     private final BCryptPasswordEncoder encoder;
     private final Gate gate;
 
-    @PostMapping("/register")//todo this should be user controller, not register controller...register in name of the url?
+    @PostMapping
     public ResponseEntity registerUser(@RequestBody RegisterUserRequest registerUserRequest) {
         gate.dispatch(RegisterUser
                 .builder()

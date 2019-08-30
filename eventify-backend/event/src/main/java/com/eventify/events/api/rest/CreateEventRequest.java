@@ -4,6 +4,7 @@ import com.eventify.events.domain.EventType;
 import lombok.Data;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -18,5 +19,6 @@ public class CreateEventRequest {
     private String description;
     private String source;
     private String profilePicture;
+    private Set<UUID> hostIds;
     private List<Integer> prices;
 }
