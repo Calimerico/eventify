@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.eventify.place.api.rest.PlaceResource.fromPlace;
+import static com.eventify.shared.demo.RoleName.ROLE_ADMIN;
 
 @RestController
 @RequestMapping(value = "/places")
@@ -24,7 +25,7 @@ public class PlaceController {
     private final PlaceRepository placeRepository;//todo finder here needed
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    @Secured("ROLE_ADMIN")
+    @Secured(ROLE_ADMIN)
     public ResponseEntity<PlaceResource> insertPlace(@RequestBody CreatePlaceRequest createPlaceRequest) {
         Place createdPlace = gate.dispatch(CreatePlace
                 .builder()

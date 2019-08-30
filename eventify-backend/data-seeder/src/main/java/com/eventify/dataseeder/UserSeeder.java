@@ -32,7 +32,7 @@ public class UserSeeder {
                     HttpMethod.POST,
                     new HttpEntity<>(user,DataSeeder.httpHeaders)
                     ,Object.class)
-            );//todo maybe introduce eventresource instead of Object?
+            );
             ResponseEntity<Object> response = restTemplate.exchange(
                     url + "/login",
                     HttpMethod.POST,

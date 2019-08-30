@@ -32,7 +32,7 @@ public class EventSeeder {
                     HttpMethod.POST,
                     new HttpEntity<>(event,DataSeeder.httpHeaders)
                     ,Object.class)
-            );//todo maybe introduce eventresource instead of Object?
+            );
         } catch (IOException e) {
             e.printStackTrace();//todo
         }

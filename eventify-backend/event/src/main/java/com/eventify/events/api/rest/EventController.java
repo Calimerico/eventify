@@ -13,9 +13,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.PagedResources;
-import org.springframework.hateoas.Resources;
-import org.springframework.hateoas.core.EmbeddedWrapper;
-import org.springframework.hateoas.core.EmbeddedWrappers;
 import org.springframework.hateoas.mvc.ResourceAssemblerSupport;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -25,13 +22,10 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 import java.util.UUID;
 
-import static java.util.Arrays.asList;
-import static java.util.Collections.singletonList;
+import static com.eventify.shared.demo.RoleName.ROLE_ADMIN;
+import static com.eventify.shared.demo.RoleName.ROLE_REGISTERED_USER;
 
 
 /**
@@ -84,7 +78,7 @@ public class EventController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    @Secured("ROLE_REGISTERED_USER")
+    @Secured({ROLE_REGISTERED_USER, ROLE_ADMIN})
     public ResponseEntity<EventResource> insertEvent(@RequestBody CreateEventRequest createEventRequest) {
         Event createdEvent = gate.dispatch(CreateEvent
                 .builder()
