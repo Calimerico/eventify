@@ -23,6 +23,6 @@ public class UserBanBuilders {
 
         return new UserBanInfo(
                 userAccount,
-                banInfos == null ? new HashSet<>() : new HashSet<>(Arrays.asList(banInfos)));//todo
+                banInfos == null ? new HashSet<>() : new HashSet<>(Arrays.asList(banInfos)));
     }
 }

@@ -19,7 +19,7 @@ public class EurekaApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(EurekaApplication.class, args);
 	}
-	//TODO I had 401 problem so I added this config
+	//I had 401 problem so I added this config
 	//https://github.com/spring-cloud/spring-cloud-netflix/issues/2754#issuecomment-372808529
 	@EnableWebSecurity
 	static class WebSecurityConfig extends WebSecurityConfigurerAdapter {

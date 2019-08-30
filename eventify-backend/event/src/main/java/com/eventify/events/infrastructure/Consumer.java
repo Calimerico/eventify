@@ -23,7 +23,7 @@ public class Consumer {//TODO Rename
 
     private final Gate gate;
 
-    @StreamListener(KafkaStreams.INPUT)//TODO rename method
+    @StreamListener(KafkaStreams.INPUT)
     public void handleEventsScrapedEvent(@Payload EventsScraped eventsScraped) {
         List<CreateEvent> createEvents = new ArrayList<>();
         eventsScraped.getEventsScraped().forEach(eventScraped -> {

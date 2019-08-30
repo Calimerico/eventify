@@ -14,7 +14,7 @@ import java.util.UUID;
  * Created by spasoje on 01-Nov-18.
  */
 
-public interface EventRepository extends CrudRepository<Event,UUID> {//TODO String as ID???
+public interface EventRepository extends CrudRepository<Event,UUID> {
     Event findByEventName(String eventName);
     Page<Event> findAll(Example example, Pageable pageable);
 }
