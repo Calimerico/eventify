@@ -12,14 +12,24 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.PagedResources;
+import org.springframework.hateoas.Resources;
+import org.springframework.hateoas.core.EmbeddedWrapper;
+import org.springframework.hateoas.core.EmbeddedWrappers;
 import org.springframework.hateoas.mvc.ResourceAssemblerSupport;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.UUID;
+
+import static java.util.Arrays.asList;
+import static java.util.Collections.singletonList;
 
 
 /**
@@ -51,6 +61,11 @@ public class EventController {
                 .priceTo(eventFilterBean.getPriceTo())
                 .build(), pageable);
 
+        if (pageOfEvents.getTotalElements() == 0 ) {
+            PagedResources pagedResources = pagedAssembler.toEmptyResource(pageOfEvents, EventResource.class);
+            return new ResponseEntity<PagedResources<EventResource>>(pagedResources, HttpStatus.OK);
+
+        }
         return ResponseEntity.ok().body(pagedAssembler.toResource(pageOfEvents,new EventPagedResourcesAssembler()));
     }
 

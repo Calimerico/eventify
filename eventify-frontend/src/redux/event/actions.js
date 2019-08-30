@@ -4,35 +4,10 @@
 import axios from './../../axiosBase';
 import types from './types';
 
-export const changeFilter = (eventsFilter) => {
-
-    return (dispatch) => {
-        dispatch({type:types.CHANGE_FILTER,eventsFilter:eventsFilter});
-        //javascript object to request params https://stackoverflow.com/questions/6566456/how-to-serialize-an-object-into-a-list-of-url-query-parameters
-        let eventsFilterRequestParams = "";
-        if (eventsFilter != null) {
-            for (const key in eventsFilter) {
-                if (eventsFilterRequestParams !== "") {
-                    eventsFilterRequestParams += "&";
-                }
-                eventsFilterRequestParams += key + "=" + encodeURIComponent(eventsFilter[key]);
-            }
-        }
-        axios.get( 'http://localhost:8762/event/events? ' + eventsFilterRequestParams)
-            .then( response => {
-                dispatch({type:types.GET_EVENTS_BY_FILTER_SUCCESS,payload:response});
-            } )
-            .catch( error => {
-                dispatch({type:types.GET_EVENTS_BY_FILTER_FAIL,error:error});
-            } );
-    }
-};//TODO This method is for deletion, I don't use it anywhere
-
 export const getEventsByFilter = (eventsFilter) => {
 
     return (dispatch) => {
         dispatch({type:types.GET_EVENTS_BY_FILTER});
-        dispatch({type:types.CHANGE_FILTER_SUCCESS,payload:eventsFilter});
         //javascript object to request params https://stackoverflow.com/questions/6566456/how-to-serialize-an-object-into-a-list-of-url-query-parameters
         let eventsFilterRequestParams = "";
         if (eventsFilter != null) {
@@ -45,15 +20,25 @@ export const getEventsByFilter = (eventsFilter) => {
                 }
             }
         }
-        axios.defaults.headers.common['Content-Type'] = 'application/json';
+        axios.defaults.headers.common['Content-Type'] = 'application/json';//todo this should go in some common file
         const url = 'http://localhost:8762/event/events?' + eventsFilterRequestParams;
         axios.get(url)
             .then( response => {
                 dispatch({type:types.GET_EVENTS_BY_FILTER_SUCCESS,payload:response});
+                dispatch({type:types.UPDATE_LAST_USED_FILTER,payload:Object.assign({},{...eventsFilter},{
+                    timeFrom:eventsFilter.timeFrom == null ? null : Date.parse(eventsFilter.timeFrom),
+                    timeTo:eventsFilter.timeTo == null ? null : Date.parse(eventsFilter.timeTo)
+                })});
             } )
             .catch( error => {
                 dispatch({type:types.GET_EVENTS_BY_FILTER_FAIL,error:error});
             } );
+    }
+};
+
+export const changeFilter = (eventsFilter) => {
+    return (dispatch) => {
+        dispatch({type:types.CHANGE_FILTER, payload:eventsFilter});
     }
 };
 
@@ -112,11 +97,11 @@ export const deleteEvent = (id) => {
 
 const actions = {
     getEventsByFilter:getEventsByFilter,
-    changeFilter:changeFilter,
     addEvent,
     getEventById:getEventById,
     updateEvent:updateEvent,
-    deleteEvent:deleteEvent
+    deleteEvent:deleteEvent,
+    changeFilter:changeFilter
 }
 
 export default actions;

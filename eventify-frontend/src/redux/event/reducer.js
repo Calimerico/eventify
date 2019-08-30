@@ -7,7 +7,10 @@ import {storeLoadingByAction, asMap, byId, removeById} from './../util';
 const initialState = {
     events:{},
     eventsFilter:{
-        priceFrom:null
+
+    },
+    lastUsedFilter: {
+
     },
     loadings:null,
 }
@@ -16,7 +19,7 @@ const reducer = (state = initialState, action) => {
     switch (action.type) {
 
         case types.GET_EVENTS_BY_FILTER_SUCCESS:
-            return {...state, events:asMap(action.payload.data._embedded.resources,{...state.events}), loadings:storeLoadingByAction(true, action)};
+            return {...state, events:asMap(action.payload.data._embedded.resources), loadings:storeLoadingByAction(true, action)};
         case types.GET_EVENTS_BY_FILTER:
             return {...state, loadings:storeLoadingByAction(true, action)};
         case types.GET_EVENTS_BY_FILTER_FAIL:
@@ -27,9 +30,6 @@ const reducer = (state = initialState, action) => {
             return {...state, loadings:storeLoadingByAction(false, action)};
         case types.GET_EVENT_BY_ID_FAIL:
             return {...state, loadings:storeLoadingByAction(false, action)};
-        case types.CHANGE_FILTER_SUCCESS:
-            const eventsFilter = action.eventsFilter;
-            return {...state,eventsFilter:eventsFilter};
         case types.DELETE_EVENT:
             return {...state, loadings:storeLoadingByAction(true, action)};
         case types.DELETE_EVENT_SUCCESS:
@@ -48,6 +48,10 @@ const reducer = (state = initialState, action) => {
             return {...state,loadings:storeLoadingByAction(false, action), events:byId(action.payload,state.events)};
         case types.UPDATE_EVENT_FAIL:
             return {...state, loadings:storeLoadingByAction(false, action)};
+        case types.CHANGE_FILTER:
+            return {...state, eventsFilter:action.payload};
+        case types.UPDATE_LAST_USED_FILTER:
+            return {...state, lastUsedFilter:action.payload};
         default:
             return state;
     }

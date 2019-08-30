@@ -6,6 +6,9 @@ import { createSelector } from 'reselect'
 const extractEventsFilter = state => {
     return state.eventsReducer.eventsFilter;
 };
+const extractLastUsedFilter = state => {
+    return state.eventsReducer.lastUsedFilter;
+};
 const extractEventId = (state,props) => {
     return props.match.params.id;
 };
@@ -22,10 +25,15 @@ const getEventsFilter = createSelector(
     extractEventsFilter,
     (eventsFilter) => eventsFilter
 );
+const getLastUsedFilter = createSelector(
+    extractLastUsedFilter,
+    (lastUsedFilter) => lastUsedFilter
+);
 
-const getEvents = createSelector(
+const getEventsByFilter = createSelector(
     extractEvents,
-    (events) => {
+    extractEventsFilter,
+    (events, eventsFilter) => {
         if (events == null) {
             return null;
         }
@@ -52,6 +60,7 @@ const selectors = {
     getEventsFilter:getEventsFilter,
     getEventById:getEventById,
     isEventLoaded:isEventLoaded,
-    getEvents:getEvents
+    getLastUsedFilter:getLastUsedFilter,
+    getEventsByFilter:getEventsByFilter
 };
 export default selectors;

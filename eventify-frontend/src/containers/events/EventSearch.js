@@ -17,6 +17,8 @@ import placeSelectors from "../../redux/place/selector";
 import eventActions from "../../redux/event/actions";
 import placeActions from "../../redux/place/actions";
 import {connect} from "react-redux";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 //TODO This should be read from backend EventType
 const eventTypes = [
@@ -34,47 +36,72 @@ const cities = [
 class EventSearch extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            eventType: null,
-            timeFrom: null,
-            timeTo: null,
-            priceFrom: null,
-            priceTo: null,
-            placeId: null,
-            city: ""
-        }
+        this.handleSelectEventTypeChange = this.handleSelectEventTypeChange.bind(this);
         this.handleSelectPlaceChange = this.handleSelectPlaceChange.bind(this);
         this.handleSelectCityChange = this.handleSelectCityChange.bind(this);
         this.loadEvents = this.loadEvents.bind(this);
+        this.searchEvents = this.searchEvents.bind(this);
+        this.handleFromDateChange = this.handleFromDateChange.bind(this);
+        this.handleToDateChange = this.handleToDateChange.bind(this);
+        this.handlePriceFromChange = this.handlePriceFromChange.bind(this);
+        this.handlePriceToChange = this.handlePriceToChange.bind(this);
     }
 
-    handleSelectChange = event => {
-        this.setState({ [event.target.name]: event.target.value });
+    handleSelectEventTypeChange = event => {
+        const {changeFilter, filter} = this.props;
+        const newFilter = Object.assign({},{...filter},{[event.target.name]: event.target.value})
+        changeFilter(newFilter);
     };
 
     handleSelectPlaceChange = event => {
-        const {places} = this.props;
-        this.setState({ placeId: places.find(place => place.names[0] === event.target.value).id});
+        const {places, changeFilter, filter} = this.props;
+        const newFilter = Object.assign({},{...filter},{placeId: places.find(place => place.names[0] === event.target.value).id})
+        changeFilter(newFilter);
     };
 
     handleSelectCityChange = event => {
-        const {loadPlaces} = this.props;
-        this.setState({ city: event.target.value });
+        const {loadPlaces, changeFilter, filter} = this.props;
+        const newFilter = Object.assign({},{...filter},{city: event.target.value});
+        changeFilter(newFilter);
         loadPlaces(event.target.value);
     };
 
-    handleChange = name => event => {
-        this.setState({ [name]: event.target.value });
+    handleFromDateChange = event => {
+        const {changeFilter, filter} = this.props;
+        changeFilter(Object.assign({},{...filter},{timeFrom: event}));
     };
 
+    handleToDateChange = event => {
+        const {changeFilter, filter} = this.props;
+        changeFilter(Object.assign({},{...filter},{timeTo: event}));
+    };
+
+    handlePriceFromChange = event => {
+        const {changeFilter, filter} = this.props;
+        const newValue = event.target.value;
+        changeFilter(Object.assign({},{...filter},{priceFrom: newValue == null || newValue === "" ? null : parseInt(newValue)}));
+    };
+
+    handlePriceToChange = event => {
+        const {changeFilter, filter} = this.props;
+        const newValue = event.target.value;
+        changeFilter(Object.assign({},{...filter},{priceTo: newValue == null || newValue === "" ? null : parseInt(newValue)}));
+    };
+
+    searchEvents() {
+        if (this.shouldLoadEvents()) {
+            this.loadEvents();
+        }
+    }
+
     loadEvents() {
-        const {eventType, timeFrom, timeTo, priceFrom, priceTo, placeId} = this.state;
+        const {filter:{eventType, timeFrom, timeTo, priceFrom, priceTo, placeId}} = this.props;
         const {events, loadEventsByFilter} = this.props;
         if (events) {
             loadEventsByFilter({
                 eventType:eventType,
-                timeFrom:timeFrom,
-                timeTo:timeTo,
+                timeFrom:timeFrom == null ? null : new Date(timeFrom._d.getTime() - timeFrom._d.getTimezoneOffset()*60000).toISOString(),
+                timeTo:timeTo == null ? null : new Date(timeTo._d.getTime() - timeTo._d.getTimezoneOffset()*60000).toISOString(),
                 placeId:placeId,
                 priceFrom:priceFrom,
                 priceTo:priceTo
@@ -86,9 +113,20 @@ class EventSearch extends React.Component {
         this.loadEvents();
     }
 
+
+    shouldLoadEvents() {
+        const {lastUsedFilter, filter} = this.props;
+        debugger;
+        return filter.eventType !== lastUsedFilter.eventType ||
+               filter.city !== lastUsedFilter.city ||
+               ((lastUsedFilter.timeFrom == null && filter.timeFrom != null) || (filter.timeFrom != null && lastUsedFilter.timeFrom != null && filter.timeFrom.isBefore(lastUsedFilter.timeFrom))) ||
+               ((lastUsedFilter.timeTo == null && filter.timeTo != null) || (filter.timeTo != null && lastUsedFilter.timeTo != null && filter.timeTo.isAfter(lastUsedFilter.timeTo))) ||
+               ((lastUsedFilter.priceFrom == null && filter.priceFrom != null) || (lastUsedFilter.priceFrom != null && filter.priceFrom != null && filter.priceFrom < lastUsedFilter.priceFrom)) ||
+               ((lastUsedFilter.priceTo == null && filter.priceTo != null) || (lastUsedFilter.priceTo != null && filter.priceTo != null && filter.priceTo > lastUsedFilter.priceTo));
+    }
+
     render(){
-        const { classes, places } = this.props;
-        const { placeId } = this.state;
+        const { classes, places, filter: { eventType, city, placeId, timeFrom, timeTo, priceFrom, priceTo } } = this.props;
         return (
             <div style={{backgroundColor:"#e0e0e0"}}>
                 <Grid container>
@@ -98,8 +136,8 @@ class EventSearch extends React.Component {
                                 Event type
                             </InputLabel>
                             <Select
-                                value={this.state.eventType}
-                                onChange={this.handleSelectChange}
+                                value={eventType}
+                                onChange={this.handleSelectEventTypeChange}
                                 input={<Input name="eventType" id="event-type-label-placeholder" />}
                                 displayEmpty
                                 name="eventType"
@@ -114,7 +152,7 @@ class EventSearch extends React.Component {
                                 Select city
                             </InputLabel>
                             <Select
-                                value={this.state.city}
+                                value={city}
                                 onChange={this.handleSelectCityChange}
                                 input={<Input name="city" id="city-label-placeholder" />}
                                 displayEmpty
@@ -142,29 +180,31 @@ class EventSearch extends React.Component {
                                     </MenuItem>
                                 ))}
                             </Select>
-                            <DatePickers
-                                className={classes.datePicker}
-                                label={"Date from"}
-                                value={this.state.selectedDateFrom}/>
-                            <DatePickers
-                                className={classes.datePicker}
-                                label={"Date to"}
-                                value={this.state.selectedDateTo}/>
+                            <DatePicker
+                                selected={timeFrom}
+                                name="timeFrom"
+                                onChange={this.handleFromDateChange}
+                            />
+                            <DatePicker
+                                selected={timeTo}
+                                name="timeTo"
+                                onChange={this.handleToDateChange}
+                            />
                             <TextField
                                 id="standard-dense"
                                 label="Price from"
                                 className={classes.textField}
-                                onChange={this.handleChange('name')}
-                                value={this.state.priceFrom}
+                                onChange={this.handlePriceFromChange}
+                                value={priceFrom}
                             />
                             <TextField
                                 id="standard-dense"
                                 label="Price to"
                                 className={classes.textField2}
-                                onChange={this.handleChange('name')}
-                                value={this.state.priceTo}
+                                onChange={this.handlePriceToChange}
+                                value={priceTo}
                             />
-                            <Button color="primary" onClick={this.loadEvents} className={classes.search}>Search</Button>
+                            <Button color="primary" onClick={this.searchEvents} className={classes.search}>Search</Button>
                         </FormControl>
                     </Grid>
                 </Grid>
@@ -180,15 +220,18 @@ class EventSearch extends React.Component {
 
 const mapStateToProps = (state,props) => {
     return{
-        events:eventSelectors.getEvents(state),
-        places:placeSelectors.getPlaces(state)
+        events:eventSelectors.getEventsByFilter(state),
+        places:placeSelectors.getPlaces(state),
+        filter:eventSelectors.getEventsFilter(state),
+        lastUsedFilter: eventSelectors.getLastUsedFilter(state)
     }
 };
 
 const mapDispatchToProps = dispatch => {
     return {
         loadEventsByFilter: (eventsFilter) => dispatch(eventActions.getEventsByFilter(eventsFilter)),
-        loadPlaces: (city) => dispatch(placeActions.loadPlaces(city))
+        loadPlaces: (city) => dispatch(placeActions.loadPlaces(city)),
+        changeFilter: (eventFilter) => dispatch(eventActions.changeFilter(eventFilter))
     }
 };
 export default withStyles(eventSearchStyle)(connect(mapStateToProps, mapDispatchToProps)(EventSearch));

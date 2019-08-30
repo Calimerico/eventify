@@ -177,7 +177,7 @@ class Events extends React.Component {
 
 const mapStateToProps = (state,props) => {
     return{
-        events:eventSelectors.getEvents(state)
+        events:eventSelectors.getEventsByFilter(state)
     }
 };
 
