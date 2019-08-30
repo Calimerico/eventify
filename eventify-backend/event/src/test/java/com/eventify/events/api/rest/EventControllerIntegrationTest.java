@@ -35,7 +35,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(webEnvironment = RANDOM_PORT, classes = TestSecurityConfig.class)
 @AutoConfigureMockMvc
 @Transactional
-@WithUserDetails("admin")
+//todo we should test here if someone can delete or update his own event!
 public class EventControllerIntegrationTest {
 
     @Autowired
@@ -78,16 +78,7 @@ public class EventControllerIntegrationTest {
     @Test
     @WithUserDetails("regular")
     public void insertEventTest() throws Exception {
-        //given
-        doNothing().when(kafkaEventProducer).send(any());
-        CreateEventRequest createEventRequest = new CreateEventRequest();
-        createEventRequest.setDescription("desc insert");
-        createEventRequest.setEventName("name insert");
-        createEventRequest.setEventType(EventType.THEATER);
-        //when
-        this.mvc.perform(post(BASE_PATH)
-                .contentType(APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(createEventRequest)));
+        insertEvent();
 
         //then
         Event event = eventRepository.findByEventName("name insert");
@@ -97,29 +88,37 @@ public class EventControllerIntegrationTest {
     }
 
     @Test
-    public void deleteEventTest() throws Exception {
-        //given
-        Event event = Event
-                .builder()
-                .description("desc")
-                .eventDateTime(LocalDateTime.now())
-                .eventName("event name")
-                .eventType(EventType.THEATER)
-                .build();
-        eventRepository.save(event);
-        doNothing().when(kafkaEventProducer).send(any());
+    public void cannotInsertEventIfNotAuthorized() throws Exception {
+        insertEvent();
 
-        //when
-        this.mvc.perform(delete(BASE_PATH + ID_PATH,event.getEventId())
-                .contentType(APPLICATION_JSON)
-        );
+        //then
+        Event event = eventRepository.findByEventName("name insert");
+        assertThat(event).isNull();
+    }
+
+
+
+    @Test
+    @WithUserDetails("admin")
+    public void deleteEventTest() throws Exception {
+        deleteEvent();
 
         //then
         assertThat(eventRepository.findAll()).hasSize(0);
-
     }
 
     @Test
+    public void cannotDeleteEventIfNotAdminAndItsNotYourEvent() throws Exception {
+        deleteEvent();
+
+        //then
+        assertThat(eventRepository.findAll()).hasSize(1);
+    }
+
+
+
+    @Test
+    @WithUserDetails("admin")
     public void updateEventTest() throws Exception {
         //given
         Event event = Event
@@ -147,5 +146,67 @@ public class EventControllerIntegrationTest {
         assertThat(updatedEvent.getDescription()).isEqualTo(new_desc);
         assertThat(updatedEvent.getEventDateTime()).isEqualTo(newTime);
         assertThat(updatedEvent.getEventName()).isEqualTo(event.getEventName());
+    }
+
+    @Test
+    public void cannotUpdateEventIfNotAdminAndItsNotYourEvent() throws Exception {
+        //given
+        LocalDateTime eventDateTime = LocalDateTime.now();
+        Event event = Event
+                .builder()
+                .description("desc")
+                .eventDateTime(eventDateTime)
+                .eventName("event name")
+                .eventType(EventType.THEATER)
+                .build();
+        eventRepository.save(event);
+        UpdateEventRequest updateEventRequest = new UpdateEventRequest();
+        String new_desc = "new desc";
+        updateEventRequest.setDescription(new_desc);
+        LocalDateTime newTime = LocalDateTime.now().minusDays(2);
+        updateEventRequest.setEventDateTime(newTime);
+        doNothing().when(kafkaEventProducer).send(any());
+
+        //when
+        this.mvc.perform(put(BASE_PATH + ID_PATH, event.getEventId())
+                .contentType(APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(updateEventRequest)));
+
+        Event updatedEvent = eventRepository.findById(event.getEventId()).orElse(null);
+        assertThat(updatedEvent).isNotNull();
+        assertThat(updatedEvent.getDescription()).isEqualTo("desc");
+        assertThat(updatedEvent.getEventDateTime()).isEqualTo(eventDateTime);
+        assertThat(updatedEvent.getEventName()).isEqualTo("event name");
+    }
+
+    private void insertEvent() throws Exception {
+        //given
+        doNothing().when(kafkaEventProducer).send(any());
+        CreateEventRequest createEventRequest = new CreateEventRequest();
+        createEventRequest.setDescription("desc insert");
+        createEventRequest.setEventName("name insert");
+        createEventRequest.setEventType(EventType.THEATER);
+        //when
+        this.mvc.perform(post(BASE_PATH)
+                .contentType(APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(createEventRequest)));
+    }
+
+    private void deleteEvent() throws Exception {
+        //given
+        Event event = Event
+                .builder()
+                .description("desc")
+                .eventDateTime(LocalDateTime.now())
+                .eventName("event name")
+                .eventType(EventType.THEATER)
+                .build();
+        eventRepository.save(event);
+        doNothing().when(kafkaEventProducer).send(any());
+
+        //when
+        this.mvc.perform(delete(BASE_PATH + ID_PATH,event.getEventId())
+                .contentType(APPLICATION_JSON)
+        );
     }
 }
