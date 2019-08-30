@@ -20,7 +20,7 @@ public class TestSecurityConfig {
                 new SimpleGrantedAuthority("ROLE_ADMIN")
         ));
         User regularUser = new UserImpl("regular", "password", asList(
-                new SimpleGrantedAuthority("ROLE_REGULAR")
+                new SimpleGrantedAuthority("ROLE_REGISTERED_USER")
         ));
         return new InMemoryUserDetailsManager(asList(
                 adminUser,

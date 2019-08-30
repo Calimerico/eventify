@@ -5,6 +5,7 @@ import com.eventify.events.domain.Host;
 import com.eventify.events.infrastructure.EventRepository;
 import com.eventify.shared.demo.Context;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -28,7 +29,7 @@ public class PermissionService {
             return true;
         }
         Event event = eventRepository.findById(eventId).orElseThrow(() -> new NoSuchElementException("Event with id " + eventId + " does not exist"));
-        Set<UUID> hostIds = event.getHosts()
+        Set<UUID> hostIds = CollectionUtils.emptyIfNull(event.getHosts())
                 .stream()
                 .map(Host::getId)
                 .collect(toSet());

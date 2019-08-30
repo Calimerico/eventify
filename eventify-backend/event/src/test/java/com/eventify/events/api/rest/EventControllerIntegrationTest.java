@@ -97,7 +97,6 @@ public class EventControllerIntegrationTest {
     }
 
     @Test
-    @WithUserDetails("regular")
     public void deleteEventTest() throws Exception {
         //given
         Event event = Event
@@ -121,7 +120,6 @@ public class EventControllerIntegrationTest {
     }
 
     @Test
-    @WithUserDetails("regular")
     public void updateEventTest() throws Exception {
         //given
         Event event = Event

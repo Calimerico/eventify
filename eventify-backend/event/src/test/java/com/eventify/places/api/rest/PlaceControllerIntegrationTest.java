@@ -53,7 +53,7 @@ public class PlaceControllerIntegrationTest {
     }
 
     @Test
-    @WithUserDetails("regular")
+    @WithUserDetails("admin")
     public void insertPlaceTest() throws Exception {
         //given
         CreatePlaceRequest createPlaceRequest = new CreatePlaceRequest();
