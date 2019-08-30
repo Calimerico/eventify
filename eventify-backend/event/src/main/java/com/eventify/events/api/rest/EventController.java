@@ -21,6 +21,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,6 +43,7 @@ import static java.util.Collections.singletonList;
 public class EventController {
 
     public static final String BASE_PATH = "/events";
+    public static final String MY_EVENTS = "/myEvents";
     public static final String ID_PATH = "/{id}";
     private final EventFinder eventFinder;
     private final Gate gate;
@@ -63,12 +65,17 @@ public class EventController {
                 .priceTo(eventFilterBean.getPriceTo())
                 .build(), pageable);
 
-        if (pageOfEvents.getTotalElements() == 0 ) {
-            PagedResources pagedResources = pagedAssembler.toEmptyResource(pageOfEvents, EventResource.class);
-            return new ResponseEntity<PagedResources<EventResource>>(pagedResources, HttpStatus.OK);
+        return assembleEvents(pageOfEvents, pagedAssembler);
+    }
 
-        }
-        return ResponseEntity.ok().body(pagedAssembler.toResource(pageOfEvents,new EventPagedResourcesAssembler()));
+    @GetMapping(value = MY_EVENTS, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<PagedResources<EventResource>> getMyEvents(
+            @PageableDefault Pageable pageable,
+            PagedResourcesAssembler<Event> pagedAssembler) {
+        Page<Event> pageOfEvents = eventFinder.findByUserId(context.getUserId(), pageable);
+
+        return assembleEvents(pageOfEvents, pagedAssembler);
+
     }
 
     @GetMapping(ID_PATH)
@@ -94,7 +101,7 @@ public class EventController {
     }
 
     @PutMapping(value = ID_PATH,consumes = MediaType.APPLICATION_JSON_VALUE)
-    @Secured("ROLE_REGISTERED_USER")
+    @PreAuthorize("@permissionService.hasPermissionToModifyEvent(#id)")
     public ResponseEntity<EventResource> updateEvent(@PathVariable UUID id, @RequestBody UpdateEventRequest updateEventRequest) {
         Event updatedEvent = gate.dispatch(UpdateEvent
                 .builder()
@@ -111,7 +118,7 @@ public class EventController {
     }
 
     @DeleteMapping(ID_PATH)
-    @Secured("ROLE_REGISTERED_USER")
+    @PreAuthorize("@permissionService.hasPermissionToModifyEvent(#id)")
     public ResponseEntity<Void> deleteEvent(@PathVariable UUID id) {
         gate.dispatch(DeleteEvent
                 .builder()
@@ -131,5 +138,14 @@ public class EventController {
         public EventResource toResource(Event event) {
             return EventResource.fromEvent(event);
         }
+    }
+
+    private ResponseEntity<PagedResources<EventResource>> assembleEvents(Page<Event> pageOfEvents, PagedResourcesAssembler<Event> pagedAssembler) {
+        if (pageOfEvents.getTotalElements() == 0 ) {
+            PagedResources pagedResources = pagedAssembler.toEmptyResource(pageOfEvents, EventResource.class);
+            return new ResponseEntity<PagedResources<EventResource>>(pagedResources, HttpStatus.OK);
+
+        }
+        return ResponseEntity.ok().body(pagedAssembler.toResource(pageOfEvents,new EventPagedResourcesAssembler()));
     }
 }
