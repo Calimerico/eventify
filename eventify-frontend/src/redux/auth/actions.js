@@ -7,8 +7,7 @@ import types from './types';
 export const login = (username,password) => {
     return (dispatch) => {
         dispatch({type:types.LOGIN});
-        axios.defaults.headers.common['Content-Type'] = 'application/json';
-        axios.post( 'http://localhost:8762/auth/login', {username:username,password:password} )
+        axios.post( '/auth/login', {username:username,password:password} )
             .then( response => {
                 dispatch({type:types.LOGIN_SUCCESS,token:response.headers.authorization});
             } )
@@ -21,8 +20,7 @@ export const login = (username,password) => {
 export const register = (newUser) => {
     return (dispatch) => {
         dispatch({type:types.REGISTER});
-        axios.defaults.headers.common['Content-Type'] = 'application/json';
-        axios.post( 'http://localhost:8762/auth/register', newUser )
+        axios.post( '/auth/register', newUser )
             .then( response => {
                 dispatch({type:types.REGISTER_SUCCESS,token:response.headers.authorization});
             } )

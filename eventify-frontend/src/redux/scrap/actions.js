@@ -7,7 +7,7 @@ export const scrapEvents = () => {
     return (dispatch) => {
         dispatch({type:'SCRAP_EVENTS'});
 
-        axios.post( 'http://localhost:8762/scraper/scrap')
+        axios.post( '/scraper/scrap')
             .then( response => {
                 dispatch({type:'SCRAP_EVENTS_SUCCESS'});
             } )

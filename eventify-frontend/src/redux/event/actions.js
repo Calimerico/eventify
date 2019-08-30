@@ -20,8 +20,7 @@ export const getEventsByFilter = (eventsFilter) => {
                 }
             }
         }
-        axios.defaults.headers.common['Content-Type'] = 'application/json';//todo this should go in some common file
-        const url = 'http://localhost:8762/event/events?' + eventsFilterRequestParams;
+        const url = '/event/events?' + eventsFilterRequestParams;
         axios.get(url)
             .then( response => {
                 dispatch({type:types.GET_EVENTS_BY_FILTER_SUCCESS,payload:response});
@@ -45,7 +44,7 @@ export const changeFilter = (eventsFilter) => {
 export const getEventById = (id) => {
     return (dispatch) => {
         dispatch({type:types.GET_EVENT_BY_ID});
-        axios.get('http://localhost:8762/event/events/' + id)
+        axios.get('/event/events/' + id)
             .then( response => {
                 dispatch({type:types.GET_EVENT_BY_ID_SUCCESS,payload:response});
             } )
