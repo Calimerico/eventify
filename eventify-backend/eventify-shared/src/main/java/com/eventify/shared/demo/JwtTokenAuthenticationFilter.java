@@ -2,6 +2,7 @@ package com.eventify.shared.demo;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import javax.servlet.FilterChain;
@@ -21,9 +22,11 @@ import io.jsonwebtoken.Jwts;
 public class JwtTokenAuthenticationFilter extends  OncePerRequestFilter {
 
     private final JwtConfig jwtConfig;
+    private final Context context;
 
-    public JwtTokenAuthenticationFilter(JwtConfig jwtConfig) {
+    public JwtTokenAuthenticationFilter(JwtConfig jwtConfig, Context context) {
         this.jwtConfig = jwtConfig;
+        this.context = context;
     }
 
     @Override
@@ -57,6 +60,8 @@ public class JwtTokenAuthenticationFilter extends  OncePerRequestFilter {
                     .getBody();
 
             String username = claims.getSubject();
+            String userId = claims.get("userId", String.class);
+            context.setUserId(userId == null ? null : UUID.fromString(userId));
             if(username != null) {
                 @SuppressWarnings("unchecked")
                 List<String> authorities = (List<String>) claims.get("authorities");

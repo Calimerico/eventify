@@ -5,6 +5,7 @@ import com.eventify.events.application.commands.DeleteEvent;
 import com.eventify.events.application.commands.UpdateEvent;
 import com.eventify.events.domain.Event;
 import com.eventify.events.infrastructure.EventFinder;
+import com.eventify.shared.demo.Context;
 import com.eventify.shared.demo.Gate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -44,6 +45,7 @@ public class EventController {
     public static final String ID_PATH = "/{id}";
     private final EventFinder eventFinder;
     private final Gate gate;
+    private final Context context;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     //TODO Use Resources instead of ResponseEntity? Check this out: https://stackoverflow.com/questions/28139856/how-can-i-get-spring-mvchateoas-to-encode-a-list-of-resources-into-hal

@@ -2,6 +2,7 @@ package com.eventify.config.security;
 
 import com.eventify.auth.JwtUsernameAndPasswordAuthenticationFilter;
 import com.eventify.auth.infrastructure.UserRepository;
+import com.eventify.shared.demo.Context;
 import com.eventify.shared.demo.JwtConfig;
 import com.eventify.shared.demo.JwtTokenAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private Context context;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
@@ -43,7 +47,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling().authenticationEntryPoint((req, rsp, e) -> rsp.sendError(HttpServletResponse.SC_UNAUTHORIZED))
                 .and()
                 .addFilter(new JwtUsernameAndPasswordAuthenticationFilter(authenticationManager(), jwtConfig, userRepository))
-                .addFilterAfter(new JwtTokenAuthenticationFilter(jwtConfig), UsernamePasswordAuthenticationFilter.class)
+                .addFilterAfter(new JwtTokenAuthenticationFilter(jwtConfig, context), UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS, jwtConfig.getUri()).permitAll()//todo
                 .antMatchers(HttpMethod.POST, jwtConfig.getUri()).permitAll()
