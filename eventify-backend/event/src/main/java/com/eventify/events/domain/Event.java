@@ -28,7 +28,7 @@ public class Event {
     private UUID eventId;
     private String eventName;
 
-    @OneToMany
+    @ManyToMany
     private Set<Host> hosts;
 
     @Enumerated(EnumType.STRING)
