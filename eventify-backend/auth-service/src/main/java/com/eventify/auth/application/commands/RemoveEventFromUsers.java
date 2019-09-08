@@ -11,5 +11,6 @@ import java.util.UUID;
 @Builder
 public class RemoveEventFromUsers implements Command<Void> {
     private final UUID eventId;
-    private final Set<UUID> hosts;
+    private final Set<UUID> confirmedHosts;
+    private final Set<UUID> unconfirmedHosts;
 }

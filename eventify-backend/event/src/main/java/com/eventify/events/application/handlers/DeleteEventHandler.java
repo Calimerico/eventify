@@ -3,6 +3,7 @@ package com.eventify.events.application.handlers;
 import com.eventify.events.EventDeletedEvent;
 import com.eventify.events.application.commands.DeleteEvent;
 import com.eventify.events.domain.Host;
+import com.eventify.events.domain.HostOnEvent;
 import com.eventify.events.infrastructure.EventRepository;
 import com.eventify.events.infrastructure.KafkaEventProducer;
 import com.eventify.shared.demo.CommandHandler;
@@ -31,7 +32,8 @@ public class DeleteEventHandler implements CommandHandler<DeleteEvent,Void> {
                         .getHosts()
                 )
                 .stream()
-                .map(Host::getId)
+                .filter(HostOnEvent::isConfirmed)
+                .map(hostOnEvent -> hostOnEvent.getHost().getId())
                 .collect(Collectors.toSet());
         eventRepository.deleteById(deleteEvent.getId());
         kafkaEventProducer.send(EventDeletedEvent

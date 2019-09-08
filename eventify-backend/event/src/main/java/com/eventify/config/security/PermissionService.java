@@ -31,10 +31,9 @@ public class PermissionService {
             return true;
         }
         Event event = eventRepository.loadById(eventId);
-        Set<UUID> hostIds = CollectionUtils.emptyIfNull(event.getHosts())
+        UUID contextUserId = context.getUserId();
+        return CollectionUtils.emptyIfNull(event.getHosts())
                 .stream()
-                .map(Host::getId)
-                .collect(toSet());
-        return hostIds.contains(context.getUserId());
+                .anyMatch(hostOnEvent -> hostOnEvent.getHost().getId().equals(contextUserId) && hostOnEvent.isConfirmed());
     }
 }

@@ -43,7 +43,7 @@ public class EventController {
     private final Gate gate;
     private final Context context;
 
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     //TODO Use Resources instead of ResponseEntity? Check this out: https://stackoverflow.com/questions/28139856/how-can-i-get-spring-mvchateoas-to-encode-a-list-of-resources-into-hal
     public ResponseEntity<PagedResources<EventResource>> getEvents(@ModelAttribute EventFilterBean eventFilterBean,
                                                                    @PageableDefault Pageable pageable,
@@ -53,7 +53,7 @@ public class EventController {
         return assembleEvents(pageOfEvents, pagedAssembler);
     }
 
-    @GetMapping(value = MY_EVENTS, produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = MY_EVENTS, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<PagedResources<EventResource>> getMyEvents(
             @PageableDefault Pageable pageable,
             PagedResourcesAssembler<Event> pagedAssembler) {
@@ -63,12 +63,12 @@ public class EventController {
 
     }
 
-    @GetMapping(ID_PATH)
+    @GetMapping(value = ID_PATH, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<EventResource> getEvent(@PathVariable UUID id) {
         return ResponseEntity.ok().body(EventResource.fromEvent(eventFinder.findById(id)));
     }
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     @Secured({ROLE_REGISTERED_USER, ROLE_ADMIN})
     public ResponseEntity<EventResource> insertEvent(@RequestBody CreateEventRequest createEventRequest) {
         Event createdEvent = gate.dispatch(CreateEvent
@@ -86,7 +86,7 @@ public class EventController {
         return ResponseEntity.ok(EventResource.fromEvent(createdEvent));
     }
 
-    @PutMapping(value = ID_PATH,consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = ID_PATH, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("@permissionService.hasPermissionToModifyEvent(#id)")
     public ResponseEntity<EventResource> updateEvent(@PathVariable UUID id, @RequestBody UpdateEventRequest updateEventRequest) {
         Event updatedEvent = gate.dispatch(UpdateEvent

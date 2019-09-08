@@ -29,7 +29,7 @@ public class Event {
     private String eventName;
 
     @ManyToMany
-    private Set<Host> hosts;
+    private Set<HostOnEvent> hosts;
 
     @Enumerated(EnumType.STRING)
     private EventType eventType;

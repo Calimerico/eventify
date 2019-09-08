@@ -17,6 +17,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import static java.util.stream.Collectors.toSet;
 import static org.apache.commons.collections4.CollectionUtils.emptyIfNull;
 
 /**
@@ -30,7 +31,8 @@ public class EventResource extends ResourceSupport {
     @JsonProperty("id")
     private UUID eventId;
     private String eventName;
-    private Set<UUID> hosts;
+    private Set<UUID> confirmedHosts;
+    private Set<UUID> unconfirmedHosts;
     private EventType eventType;
     private UUID placeId;
     private LocalDateTime eventDateTime;
@@ -43,7 +45,16 @@ public class EventResource extends ResourceSupport {
         return EventResource.builder()
                 .eventId(event.getEventId())
                 .eventName(event.getEventName())
-                .hosts(emptyIfNull(event.getHosts()).stream().filter(Objects::nonNull).map(Host::getId).collect(Collectors.toSet()))
+                .confirmedHosts(emptyIfNull(event.getHosts())
+                        .stream()
+                        .filter(hostOnEvent -> Objects.nonNull(hostOnEvent) && hostOnEvent.isConfirmed())
+                        .map(hostOnEvent -> hostOnEvent.getHost().getId())
+                        .collect(toSet()))
+                .unconfirmedHosts(emptyIfNull(event.getHosts())
+                        .stream()
+                        .filter(hostOnEvent -> Objects.nonNull(hostOnEvent) && !hostOnEvent.isConfirmed())
+                        .map(hostOnEvent -> hostOnEvent.getHost().getId())
+                        .collect(toSet()))
                 .eventType(event.getEventType())
                 .placeId(event.getPlace() != null ? event.getPlace().getId() : null)
                 .eventDateTime(event.getEventDateTime())

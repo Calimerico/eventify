@@ -3,7 +3,6 @@ package com.eventify.events.application.handlers;
 import com.eventify.events.EventAddedEvent;
 import com.eventify.events.application.commands.CreateEvents;
 import com.eventify.events.domain.Event;
-import com.eventify.events.domain.Host;
 import com.eventify.events.infrastructure.EventRepository;
 import com.eventify.events.infrastructure.KafkaEventProducer;
 import com.eventify.place.domain.Place;
@@ -47,7 +46,16 @@ public class CreateEventsHandler implements CommandHandler<CreateEvents, Void> {
             kafkaEventProducer.send(EventAddedEvent
                     .builder()
                     .eventId(event.getEventId())
-                    .hosts(emptyIfNull(event.getHosts()).stream().filter(Objects::nonNull).map(Host::getId).collect(Collectors.toSet()))
+                    .confirmedHosts(emptyIfNull(event.getHosts())
+                            .stream()
+                            .filter(hostOnEvent -> Objects.nonNull(hostOnEvent) && hostOnEvent.isConfirmed())
+                            .map(hostOnEvent -> hostOnEvent.getHost().getId())
+                            .collect(Collectors.toSet()))
+                    .unconfirmedHosts(emptyIfNull(event.getHosts())
+                            .stream()
+                            .filter(hostOnEvent -> Objects.nonNull(hostOnEvent) && !hostOnEvent.isConfirmed())
+                            .map(hostOnEvent -> hostOnEvent.getHost().getId())
+                            .collect(Collectors.toSet()))
                     .build());
         });
 

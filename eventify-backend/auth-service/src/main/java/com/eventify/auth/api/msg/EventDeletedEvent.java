@@ -15,5 +15,6 @@ import java.util.UUID;
 @AllArgsConstructor
 public class EventDeletedEvent implements DomainEvent {
     private UUID eventId;
-    private Set<UUID> hosts;
+    private Set<UUID> confirmedHosts;
+    private Set<UUID> unconfirmedHosts;
 }
