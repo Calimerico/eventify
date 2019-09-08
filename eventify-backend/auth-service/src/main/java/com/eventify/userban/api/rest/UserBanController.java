@@ -1,12 +1,16 @@
 package com.eventify.userban.api.rest;
 
 import com.eventify.shared.demo.Gate;
+import com.eventify.shared.demo.RoleName;
 import com.eventify.userban.application.commands.BanUser;
 import com.eventify.userban.application.commands.UnbanUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
+
+import static com.eventify.shared.demo.RoleName.ROLE_ADMIN;
 
 /**
  * Created by spasoje on 13-Dec-18.
@@ -18,7 +22,8 @@ public class UserBanController {
 
     private final Gate gate;
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PatchMapping(value = "/unban", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @Secured(ROLE_ADMIN)
     public ResponseEntity<Void> banUser(@RequestBody BanUserRequest banUserRequest) {
         gate.dispatch(BanUser
                 .builder()
@@ -27,17 +32,18 @@ public class UserBanController {
                 .reasonForBan(banUserRequest.getReasonForBan())
                 .userId(banUserRequest.getUserId())
                 .build());
-        return ResponseEntity.ok().build();//TODO Should be status created, not ok
+        return ResponseEntity.ok().build();
     }
 
-    @PatchMapping("/userbans/")
+    @PatchMapping(value = "/ban/", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @Secured(ROLE_ADMIN)
     public ResponseEntity<Void> unbanUser(@RequestBody UnbanUserRequest unbanUserRequest) {
         gate.dispatch(UnbanUser
                 .builder()
                 .adminId(unbanUserRequest.getAdminId())
                 .userId(unbanUserRequest.getUserId())
                 .build());
-        return ResponseEntity.ok().build();//TODO Should be status created, not ok
+        return ResponseEntity.ok().build();
     }
 
 }

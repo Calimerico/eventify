@@ -26,7 +26,6 @@ public class BanUserHandler implements com.eventify.shared.demo.CommandHandler<B
                         .userAccount(userRepository.loadUser(banUser.getUserId()))
                         .build()
                 );
-        //todo check adminId! Maybe user with that id is not admin!
         userBanInfo.banUser(banUser.getAdminId(), banUser.getReasonForBan(), banUser.getBannedUntil());
         userBanRepository.save(userBanInfo);
         return null;

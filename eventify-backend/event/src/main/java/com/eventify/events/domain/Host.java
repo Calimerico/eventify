@@ -1,7 +1,6 @@
 package com.eventify.events.domain;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
@@ -13,6 +12,8 @@ import java.util.UUID;
 @Entity
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Host {
 
     @Id
