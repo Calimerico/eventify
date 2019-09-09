@@ -44,6 +44,6 @@ public class DeleteEventHandler implements CommandHandler<DeleteEvent,Void> {
                 .build(),
                 EVENTS_TOPIC
         );
-        return null;//todo return null?
+        return null;
     }
 }
