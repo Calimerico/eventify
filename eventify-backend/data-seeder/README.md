@@ -2,9 +2,15 @@ This module is intended to fill whole project with dummy data.
 
 If you are running this app in local machine, don't forget to include spring "dev" profile.
 
+As you can see in DataSeeder class, this seeder is started on ContextRefreshedEvent. When seeding is done, we shut down app as you can see in DataSeeder class.
+
+Data seeders are just calling api for appropriate service, nothing more.
+
 Data fields are stored under resources folder in json format.
  
 You can see that all ids are Integers and not UUID here. Actually, when you(for example) send request for event creation, you receive event resource as a response. You extract UUID from that response and connect integer from json file to that UUID. Now if you want to reference event in some other json you can put Integer in that json file. You can find example in events.json where you reference place with Integer.
+
+We don't want to send this integers to our microservices(out of data-seeder microservice they are pointless) and that is why you can see @JsonIgnoreProperties(value = "id", allowGetters = true) on Dto classes.
 
 Do not reorder Seeders. UserSeeder has to be first since if we don't seed users we don't have how to log in on system.
 
