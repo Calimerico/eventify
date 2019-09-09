@@ -2,6 +2,7 @@ package com.eventify.shared.kafka;
 
 import com.eventify.shared.demo.DomainEvent;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.MessageHeaders;
 import org.springframework.messaging.support.MessageBuilder;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.MimeTypeUtils;
 
 @Component
+@ConditionalOnProperty(name = "includeKafka",havingValue = "true")
 @RequiredArgsConstructor
 public class KafkaEventProducer {
     private final MessageChannelFactory messageChannelFactory;
