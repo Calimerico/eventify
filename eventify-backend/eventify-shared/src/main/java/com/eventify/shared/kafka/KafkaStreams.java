@@ -1,20 +1,16 @@
-package com.eventify.config.kafka;
+package com.eventify.shared.kafka;
 
 import org.springframework.cloud.stream.annotation.Input;
 import org.springframework.cloud.stream.annotation.Output;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.SubscribableChannel;
 
-/**
- * Created by spasoje on 25-Feb-19.
- */
 public interface KafkaStreams {
-    String INPUT = "eventInput";
-    String OUTPUT = "eventOutput";
+    String EVENTS_TOPIC = "eventsTopic";
 
-    @Input(INPUT)
-    SubscribableChannel inputChannel();
+    @Input(EVENTS_TOPIC)
+    SubscribableChannel eventsTopicInputChannel();
 
-    @Output(OUTPUT)
-    MessageChannel outputChannel();
+    @Output(EVENTS_TOPIC)
+    MessageChannel eventsTopicOutputChannel();
 }

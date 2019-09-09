@@ -2,18 +2,19 @@ package com.eventify.events.application.handlers;
 
 import com.eventify.events.EventDeletedEvent;
 import com.eventify.events.application.commands.DeleteEvent;
-import com.eventify.events.domain.Host;
 import com.eventify.events.domain.HostOnEvent;
 import com.eventify.events.infrastructure.EventRepository;
-import com.eventify.events.infrastructure.KafkaEventProducer;
 import com.eventify.shared.demo.CommandHandler;
+import com.eventify.shared.kafka.KafkaEventProducer;
+import com.eventify.shared.kafka.Topic;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 
-import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
+
+import static com.eventify.shared.kafka.Topic.EVENTS_TOPIC;
 
 /**
  * Created by spasoje on 02-Feb-19.
@@ -23,7 +24,7 @@ import java.util.stream.Collectors;
 public class DeleteEventHandler implements CommandHandler<DeleteEvent,Void> {
 
     private final EventRepository eventRepository;
-    private final KafkaEventProducer kafkaEventProducer;//TODO This should be part of domain class?
+    private final KafkaEventProducer kafkaEventProducer;
 
     @Override
     public Void handle(DeleteEvent deleteEvent) {
@@ -40,7 +41,8 @@ public class DeleteEventHandler implements CommandHandler<DeleteEvent,Void> {
                 .builder()
                 .eventId(deleteEvent.getId())
                 .hosts(hostIds)
-                .build()
+                .build(),
+                EVENTS_TOPIC
         );
         return null;//todo return null?
     }

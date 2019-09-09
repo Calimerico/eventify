@@ -1,8 +1,8 @@
 package com.eventify.config.security;
 
-import com.eventify.shared.demo.Context;
-import com.eventify.shared.demo.JwtConfig;
-import com.eventify.shared.demo.JwtTokenAuthenticationFilter;
+import com.eventify.shared.security.Context;
+import com.eventify.shared.security.JwtConfig;
+import com.eventify.shared.security.JwtTokenAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;

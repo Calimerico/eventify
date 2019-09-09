@@ -5,7 +5,7 @@ import com.eventify.events.application.commands.DeleteEvent;
 import com.eventify.events.application.commands.UpdateEvent;
 import com.eventify.events.domain.Event;
 import com.eventify.events.infrastructure.EventFinder;
-import com.eventify.shared.demo.Context;
+import com.eventify.shared.security.Context;
 import com.eventify.shared.demo.Gate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -24,8 +24,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
-import static com.eventify.shared.demo.RoleName.ROLE_ADMIN;
-import static com.eventify.shared.demo.RoleName.ROLE_REGISTERED_USER;
+import static com.eventify.shared.security.RoleName.ROLE_ADMIN;
+import static com.eventify.shared.security.RoleName.ROLE_REGISTERED_USER;
 
 
 /**

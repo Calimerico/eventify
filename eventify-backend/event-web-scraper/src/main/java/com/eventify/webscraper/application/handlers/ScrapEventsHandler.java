@@ -1,13 +1,14 @@
 package com.eventify.webscraper.application.handlers;
 
+import com.eventify.shared.kafka.KafkaEventProducer;
+import com.eventify.shared.kafka.Topic;
 import com.eventify.webscraper.application.commands.ScrapEvents;
 import com.eventify.webscraper.domain.EventWebScraper;
-import com.eventify.webscraper.infrasturcture.KafkaEventProducer;
 import com.eventify.shared.demo.CommandHandler;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import java.util.List;
+
+import static com.eventify.shared.kafka.Topic.EVENTS_TOPIC;
 
 /**
  * Created by spasoje on 30-Nov-18.
@@ -21,7 +22,7 @@ public class ScrapEventsHandler implements CommandHandler<ScrapEvents,Void> {
 
     @Override
     public Void handle(ScrapEvents scrapEvents) {
-        eventWebScrapers.forEach(eventWebScraper -> kafkaEventProducer.send(eventWebScraper.scrapEvents()));
+        eventWebScrapers.forEach(eventWebScraper -> kafkaEventProducer.send(eventWebScraper.scrapEvents(), EVENTS_TOPIC));
         return null;
     }
 }

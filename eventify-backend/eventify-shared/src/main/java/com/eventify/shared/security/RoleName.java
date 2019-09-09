@@ -1,4 +1,4 @@
-package com.eventify.shared.demo;
+package com.eventify.shared.security;
 
 public class RoleName {
     public final static String ROLE_REGISTERED_USER = "ROLE_REGISTERED_USER";

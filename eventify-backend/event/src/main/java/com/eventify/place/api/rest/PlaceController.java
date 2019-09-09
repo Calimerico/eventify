@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.eventify.place.api.rest.PlaceResource.fromPlace;
-import static com.eventify.shared.demo.RoleName.ROLE_ADMIN;
+import static com.eventify.shared.security.RoleName.ROLE_ADMIN;
 
 @RestController
 @RequestMapping(value = "/places")

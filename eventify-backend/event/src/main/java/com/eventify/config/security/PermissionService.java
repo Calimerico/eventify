@@ -1,20 +1,16 @@
 package com.eventify.config.security;
 
 import com.eventify.events.domain.Event;
-import com.eventify.events.domain.Host;
 import com.eventify.events.infrastructure.EventRepository;
-import com.eventify.shared.demo.Context;
+import com.eventify.shared.security.Context;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
-import java.util.NoSuchElementException;
-import java.util.Set;
 import java.util.UUID;
 
-import static com.eventify.shared.demo.RoleName.ROLE_ADMIN;
-import static java.util.stream.Collectors.*;
+import static com.eventify.shared.security.RoleName.ROLE_ADMIN;
 
 @Component
 @RequiredArgsConstructor

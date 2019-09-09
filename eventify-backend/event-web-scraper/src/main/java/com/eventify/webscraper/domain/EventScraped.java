@@ -8,6 +8,7 @@ import lombok.Value;
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -19,14 +20,13 @@ import java.util.UUID;
 //TODO Is this appropriate package for output event?Introduce domain and external events?
 public class EventScraped {
     private String eventName;
-    private List<UUID> eventHostIds;
+    private Set<UUID> eventHostIds;
 //    private Integer eventSeriesId;
     private EventType eventType;
     private String placeId;
     private LocalDateTime eventDateTime;
     private String description;
-//    private List<Price> prices;
     private String source;
     private String picture;
-    private List<Integer> prices;
+    private Set<Integer> prices;
 }

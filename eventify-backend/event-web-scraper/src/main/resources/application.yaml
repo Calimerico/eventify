@@ -5,9 +5,8 @@ spring:
         binder:
           brokers: kafka:9093
       bindings:
-        eventWebScraperOutput:
-#        TODO RENAME THIS TOPIC!
-          destination: cqrs
+        eventsTopic:
+          destination: eventsTopic
           contentType: application/json
 eureka:
   client:

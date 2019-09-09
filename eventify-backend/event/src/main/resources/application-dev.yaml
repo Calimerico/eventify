@@ -5,13 +5,8 @@ spring:
         binder:
           brokers: localhost:9092
       bindings:
-        eventInput:
-          #        TODO RENAME THIS TOPIC!
-          destination: cqrs
-          contentType: application/json
-        eventOutput:
-          #        TODO RENAME THIS TOPIC
-          destination: cqrs1
+        eventsTopic:
+          destination: eventsTopic
           contentType: application/json
 eureka:
   client:

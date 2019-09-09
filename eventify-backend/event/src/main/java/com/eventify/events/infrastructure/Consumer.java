@@ -1,6 +1,6 @@
 package com.eventify.events.infrastructure;
 
-import com.eventify.config.kafka.KafkaStreams;
+import com.eventify.events.api.msg.EventHostConfirmed;
 import com.eventify.events.api.msg.EventsScraped;
 import com.eventify.events.application.commands.CreateEvent;
 import com.eventify.events.application.commands.CreateEvents;
@@ -11,8 +11,9 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
+
+import static com.eventify.shared.kafka.KafkaStreams.EVENTS_TOPIC;
 
 /**
  * Created by spasoje on 23-Nov-18.
@@ -23,7 +24,7 @@ public class Consumer {//TODO Rename
 
     private final Gate gate;
 
-    @StreamListener(KafkaStreams.INPUT)
+    @StreamListener(condition = "headers['eventType'] == 'EventsScraped' ", value = EVENTS_TOPIC)
     public void handleEventsScrapedEvent(@Payload EventsScraped eventsScraped) {
         List<CreateEvent> createEvents = new ArrayList<>();
         eventsScraped.getEventsScraped().forEach(eventScraped -> {
@@ -35,7 +36,7 @@ public class Consumer {//TODO Rename
                     .source(eventScraped.getSource())
                     .profilePicture(eventScraped.getPicture())
                     .description(eventScraped.getDescription())
-                    .hosts(new HashSet<>(eventScraped.getEventHostIds()))//todo
+                    .hosts(eventScraped.getEventHostIds())
 //                    .placeId(eventScraped.getPlaceId())//todo
                     .build()
             );
@@ -43,6 +44,15 @@ public class Consumer {//TODO Rename
         gate.dispatch(CreateEvents
                 .builder()
                 .events(createEvents)
+                .build()
+        );
+    }
+    @StreamListener(condition = "headers['eventType'] == 'EventHostConfirmed' ", value = EVENTS_TOPIC)
+    public void handleEventHostConfirmed(@Payload EventHostConfirmed eventHostConfirmed) {
+        gate.dispatch(com.eventify.events.application.commands.EventHostConfirmed
+                .builder()
+                .eventId(eventHostConfirmed.getEventId())
+                .hostId(eventHostConfirmed.getHostId())
                 .build()
         );
     }

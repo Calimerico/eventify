@@ -1,4 +1,4 @@
-package com.eventify.shared.demo;
+package com.eventify.shared.security;
 
 import org.springframework.stereotype.Component;
 

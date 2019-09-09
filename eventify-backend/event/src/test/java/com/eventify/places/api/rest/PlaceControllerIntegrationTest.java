@@ -22,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.HashSet;
 import java.util.List;
 
+import static com.eventify.shared.config.auth.TestSecurityConfig.*;
 import static org.hamcrest.core.Is.is;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
@@ -53,7 +54,7 @@ public class PlaceControllerIntegrationTest {
     }
 
     @Test
-    @WithUserDetails("admin")
+    @WithUserDetails(ADMIN_USER)
     public void insertPlaceTest() throws Exception {
         //given
         CreatePlaceRequest createPlaceRequest = new CreatePlaceRequest();

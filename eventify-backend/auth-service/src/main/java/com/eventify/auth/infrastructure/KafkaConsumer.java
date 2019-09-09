@@ -4,7 +4,6 @@ import com.eventify.auth.api.msg.EventAddedEvent;
 import com.eventify.auth.api.msg.EventDeletedEvent;
 import com.eventify.auth.application.commands.MakeUserHostOfEvent;
 import com.eventify.auth.application.commands.RemoveEventFromUsers;
-import com.eventify.config.kafka.KafkaStreams;
 import com.eventify.shared.demo.Gate;
 import com.eventify.unconfirmedeventsonhost.application.commands.UnconfirmedEventOnHost;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +11,7 @@ import org.springframework.cloud.stream.annotation.StreamListener;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;
 
+import static com.eventify.shared.kafka.KafkaStreams.EVENTS_TOPIC;
 import static org.apache.commons.collections4.CollectionUtils.emptyIfNull;
 
 /**
@@ -24,7 +24,7 @@ public class KafkaConsumer {
 
     private final Gate gate;
 
-    @StreamListener(KafkaStreams.INPUT)
+    @StreamListener(condition = "headers['eventType'] == 'EventAddedEvent' ", value = EVENTS_TOPIC)
     public void handleEventAddedEvent(@Payload EventAddedEvent eventAddedEvent) {
         emptyIfNull(eventAddedEvent.getConfirmedHosts()).forEach(confirmedHostId -> {
             gate.dispatch(MakeUserHostOfEvent
@@ -42,7 +42,7 @@ public class KafkaConsumer {
         });
     }
 
-    @StreamListener(KafkaStreams.INPUT)
+    @StreamListener(condition = "headers['eventType'] == 'EventDeletedEvent' ", value = EVENTS_TOPIC)
     public void handleEventDeletedEvent(@Payload EventDeletedEvent eventDeletedEvent) {
         gate.dispatch(RemoveEventFromUsers
                 .builder()

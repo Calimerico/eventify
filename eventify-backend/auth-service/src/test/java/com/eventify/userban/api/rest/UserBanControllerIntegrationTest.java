@@ -25,6 +25,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import static com.eventify.shared.config.auth.TestSecurityConfig.*;
+import static com.eventify.userban.api.rest.UserBanController.BASE_PATH;
 import static org.assertj.core.api.Assertions.*;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -64,7 +66,7 @@ public class UserBanControllerIntegrationTest {
     }
 
     @Test
-    @WithUserDetails("admin")
+    @WithUserDetails(ADMIN_USER)
     public void banUserTest() throws Exception {
         //given
         BanUserRequest banUserRequest = new BanUserRequest();
@@ -76,7 +78,7 @@ public class UserBanControllerIntegrationTest {
         banUserRequest.setUserId(user.getId());
 
         //when
-        mvc.perform(post("/userbans")
+        mvc.perform(post(BASE_PATH)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(banUserRequest))
         );

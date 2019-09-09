@@ -1,21 +1,27 @@
 package com.eventify.unconfirmedeventsonhost.domain;
 
 import com.eventify.auth.domain.UserAccount;
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Set;
 import java.util.UUID;
 
 @Entity
 @Data
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class UnconfirmedEventsOnHost {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID id;
+
+    @OneToOne
+    @PrimaryKeyJoinColumn
     private UserAccount user;
+    private boolean confirmedByDefault = true;
+    @ElementCollection
     private Set<UUID> unconfirmedEvents;
 }

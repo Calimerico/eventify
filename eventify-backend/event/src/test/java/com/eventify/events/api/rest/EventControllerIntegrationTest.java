@@ -3,10 +3,9 @@ package com.eventify.events.api.rest;
 import com.eventify.events.domain.Event;
 import com.eventify.events.domain.EventType;
 import com.eventify.events.infrastructure.EventRepository;
-import com.eventify.events.infrastructure.KafkaEventProducer;
 import com.eventify.shared.config.auth.TestSecurityConfig;
+import com.eventify.shared.kafka.KafkaEventProducer;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.assertj.core.api.Assertions;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 
 import static com.eventify.events.api.rest.EventController.*;
+import static com.eventify.shared.config.auth.TestSecurityConfig.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.mockito.Mockito.*;
@@ -76,7 +76,7 @@ public class EventControllerIntegrationTest {
     }
 
     @Test
-    @WithUserDetails("regular")
+    @WithUserDetails(REGULAR_USER)
     public void insertEventTest() throws Exception {
         insertEvent();
 
@@ -99,7 +99,7 @@ public class EventControllerIntegrationTest {
 
 
     @Test
-    @WithUserDetails("admin")
+    @WithUserDetails(ADMIN_USER)
     public void deleteEventTest() throws Exception {
         deleteEvent();
 
@@ -118,7 +118,7 @@ public class EventControllerIntegrationTest {
 
 
     @Test
-    @WithUserDetails("admin")
+    @WithUserDetails(ADMIN_USER)
     public void updateEventTest() throws Exception {
         //given
         Event event = Event

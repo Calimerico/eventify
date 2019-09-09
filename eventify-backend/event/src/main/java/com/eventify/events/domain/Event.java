@@ -42,5 +42,14 @@ public class Event {
     private String profilePicture;
     @ElementCollection
     private List<Integer> prices;//TODO Introduce Ticket entity or maybe embeddable?
+
+    public void confirmHost(UUID hostId) {
+        getHosts()
+                .stream()
+                .filter(hostOnEvent -> hostOnEvent.getHost().getId().equals(hostId))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Event " + eventId + " does not contain host " + hostId))
+                .setConfirmed(true);
+    }
 }
 

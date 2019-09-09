@@ -1,7 +1,6 @@
 package com.eventify.userban.api.rest;
 
 import com.eventify.shared.demo.Gate;
-import com.eventify.shared.demo.RoleName;
 import com.eventify.userban.application.commands.BanUser;
 import com.eventify.userban.application.commands.UnbanUser;
 import lombok.RequiredArgsConstructor;
@@ -10,16 +9,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
-import static com.eventify.shared.demo.RoleName.ROLE_ADMIN;
+import static com.eventify.shared.security.RoleName.ROLE_ADMIN;
+import static com.eventify.userban.api.rest.UserBanController.BASE_PATH;
 
 /**
  * Created by spasoje on 13-Dec-18.
  */
 @RestController
-@RequestMapping("/userbans")
+@RequestMapping(BASE_PATH)
 @RequiredArgsConstructor
 public class UserBanController {
 
+    public final static String BASE_PATH = "/userbans";
     private final Gate gate;
 
     @PatchMapping(value = "/unban", consumes = MediaType.APPLICATION_JSON_VALUE)

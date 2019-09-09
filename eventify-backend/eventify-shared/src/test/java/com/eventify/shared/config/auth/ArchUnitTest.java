@@ -5,6 +5,7 @@ import com.eventify.shared.net.CommandHandler;
 import com.tngtech.archunit.junit.ArchTest;
 import com.tngtech.archunit.lang.ArchRule;
 import com.tngtech.archunit.lang.syntax.ArchRuleDefinition;
+import com.tngtech.archunit.library.dependencies.SlicesRuleDefinition;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +15,7 @@ import java.time.LocalDateTime;
 import java.util.Date;
 
 //todo forbid using repository in controller!
+//todo Evenry controller must have integration test
 public class ArchUnitTest {
 
     @ArchTest
@@ -32,7 +34,7 @@ public class ArchUnitTest {
             .andShould()
             .haveOnlyFinalFields()
             .andShould()
-            .resideInAPackage("..api..");
+            .resideInAPackage("..api.rest..");
 
     @ArchTest
     public static final ArchRule handlerRules = ArchRuleDefinition.classes()

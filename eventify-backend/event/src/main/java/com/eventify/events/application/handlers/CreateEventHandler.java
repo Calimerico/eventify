@@ -4,10 +4,11 @@ import com.eventify.events.EventAddedEvent;
 import com.eventify.events.application.commands.CreateEvent;
 import com.eventify.events.domain.Event;
 import com.eventify.events.infrastructure.EventRepository;
-import com.eventify.events.infrastructure.KafkaEventProducer;
 import com.eventify.place.domain.Place;
 import com.eventify.place.infrastructure.PlaceRepository;
 import com.eventify.shared.demo.CommandHandler;
+import com.eventify.shared.kafka.KafkaEventProducer;
+import com.eventify.shared.kafka.Topic;
 import lombok.RequiredArgsConstructor;
 
 import java.util.HashSet;
@@ -15,6 +16,7 @@ import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import static com.eventify.shared.kafka.Topic.EVENTS_TOPIC;
 import static org.apache.commons.collections4.CollectionUtils.emptyIfNull;
 
 /**
@@ -26,7 +28,7 @@ public class CreateEventHandler implements CommandHandler<CreateEvent, Event> {
 
     private final EventRepository eventRepository;
     private final PlaceRepository placeRepository;//TODO Replace repo with finder
-    private final KafkaEventProducer kafkaEventProducer;//TODO This should be part of domain class?
+    private final KafkaEventProducer kafkaEventProducer;
 
     @Override
     public Event handle(CreateEvent createEvent) {
@@ -56,7 +58,7 @@ public class CreateEventHandler implements CommandHandler<CreateEvent, Event> {
                         .filter(hostOnEvent -> Objects.nonNull(hostOnEvent) && !hostOnEvent.isConfirmed())
                         .map(hostOnEvent -> hostOnEvent.getHost().getId())
                         .collect(Collectors.toSet()))
-                .build());
+                .build(), EVENTS_TOPIC);
         return event;
     }
 
