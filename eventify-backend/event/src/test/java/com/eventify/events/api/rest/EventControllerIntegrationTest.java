@@ -134,7 +134,7 @@ public class EventControllerIntegrationTest {
         updateEventRequest.setDescription(new_desc);
         LocalDateTime newTime = LocalDateTime.now().minusDays(2);
         updateEventRequest.setEventDateTime(newTime);
-        doNothing().when(kafkaEventProducer).send(any());
+        doNothing().when(kafkaEventProducer).send(any(),any());
 
         //when
         this.mvc.perform(put(BASE_PATH + ID_PATH, event.getEventId())
@@ -164,7 +164,7 @@ public class EventControllerIntegrationTest {
         updateEventRequest.setDescription(new_desc);
         LocalDateTime newTime = LocalDateTime.now().minusDays(2);
         updateEventRequest.setEventDateTime(newTime);
-        doNothing().when(kafkaEventProducer).send(any());
+        doNothing().when(kafkaEventProducer).send(any(),any());
 
         //when
         this.mvc.perform(put(BASE_PATH + ID_PATH, event.getEventId())
@@ -179,7 +179,7 @@ public class EventControllerIntegrationTest {
 
     private void insertEvent() throws Exception {
         //given
-        doNothing().when(kafkaEventProducer).send(any());
+        doNothing().when(kafkaEventProducer).send(any(),any());
         CreateEventRequest createEventRequest = new CreateEventRequest();
         createEventRequest.setDescription("desc insert");
         createEventRequest.setEventName("name insert");
@@ -200,7 +200,7 @@ public class EventControllerIntegrationTest {
                 .eventType(EventType.THEATER)
                 .build();
         eventRepository.save(event);
-        doNothing().when(kafkaEventProducer).send(any());
+        doNothing().when(kafkaEventProducer).send(any(),any());
 
         //when
         this.mvc.perform(delete(BASE_PATH + ID_PATH,event.getEventId())

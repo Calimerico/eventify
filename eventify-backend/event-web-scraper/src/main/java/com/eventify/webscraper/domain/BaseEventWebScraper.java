@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -53,7 +54,7 @@ public abstract class BaseEventWebScraper implements EventWebScraper {
                 EventScraped.EventScrapedBuilder eventScrapedBuilder = EventScraped.builder().source(link);
                 eventScrapedBuilder.eventName(eventName);
                 eventScrapedBuilder.eventDateTime(eventDateTime);
-                eventScrapedBuilder.prices(getPrices(eventDocument));
+                eventScrapedBuilder.prices(new HashSet<>(getPrices(eventDocument)));
                 eventScrapedBuilder.placeId(getPlaceName(eventDocument));
                 eventScrapedBuilder.picture(getProfilePicture(eventDocument));
                 eventScrapedBuilder.eventType(getEventType());
