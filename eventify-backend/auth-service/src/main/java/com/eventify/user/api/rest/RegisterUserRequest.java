@@ -1,4 +1,4 @@
-package com.eventify.auth.api.rest;
+package com.eventify.user.api.rest;
 
 import lombok.*;
 

@@ -1,6 +1,6 @@
 package com.eventify.unconfirmedeventsonhost.domain;
 
-import com.eventify.auth.domain.UserAccount;
+import com.eventify.user.domain.UserAccount;
 import lombok.*;
 
 import javax.persistence.*;

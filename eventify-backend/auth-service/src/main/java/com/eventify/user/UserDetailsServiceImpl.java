@@ -1,12 +1,12 @@
-package com.eventify.auth;
+package com.eventify.user;
 
 /**
  * Created by spasoje on 25-Nov-18.
  */
 import java.util.List;
 
-import com.eventify.auth.domain.UserAccount;
-import com.eventify.auth.infrastructure.UserRepository;
+import com.eventify.user.domain.UserAccount;
+import com.eventify.user.infrastructure.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;

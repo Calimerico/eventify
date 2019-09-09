@@ -1,16 +1,10 @@
 package com.eventify.userban.domain;
 
-import com.eventify.auth.domain.UserAccount;
-import com.eventify.shared.demo.Sex;
+import com.eventify.user.domain.UserAccount;
 import lombok.Builder;
-import lombok.Singular;
 
-import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
-import java.util.stream.Collectors;
 
 /**
  * Created by spasoje on 03-Feb-19.

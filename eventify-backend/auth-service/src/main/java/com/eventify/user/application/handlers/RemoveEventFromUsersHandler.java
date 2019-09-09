@@ -1,8 +1,8 @@
-package com.eventify.auth.application.handlers;
+package com.eventify.user.application.handlers;
 
-import com.eventify.auth.application.commands.RemoveEventFromUsers;
-import com.eventify.auth.domain.UserAccount;
-import com.eventify.auth.infrastructure.UserRepository;
+import com.eventify.user.application.commands.RemoveEventFromUsers;
+import com.eventify.user.domain.UserAccount;
+import com.eventify.user.infrastructure.UserRepository;
 import com.eventify.shared.net.CommandHandler;
 import com.eventify.unconfirmedeventsonhost.domain.UnconfirmedEventsOnHost;
 import com.eventify.unconfirmedeventsonhost.domain.UnconfirmedEventsOnHostRepository;

@@ -1,4 +1,4 @@
-package com.eventify.auth.api.msg;
+package com.eventify.user.api.msg;
 
 import com.eventify.shared.demo.DomainEvent;
 import lombok.AllArgsConstructor;

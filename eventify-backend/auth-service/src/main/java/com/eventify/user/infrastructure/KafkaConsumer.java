@@ -1,9 +1,9 @@
-package com.eventify.auth.infrastructure;
+package com.eventify.user.infrastructure;
 
-import com.eventify.auth.api.msg.EventAddedEvent;
-import com.eventify.auth.api.msg.EventDeletedEvent;
-import com.eventify.auth.application.commands.MakeUserHostOfEvent;
-import com.eventify.auth.application.commands.RemoveEventFromUsers;
+import com.eventify.user.api.msg.EventAddedEvent;
+import com.eventify.user.api.msg.EventDeletedEvent;
+import com.eventify.user.application.commands.MakeUserHostOfEvent;
+import com.eventify.user.application.commands.RemoveEventFromUsers;
 import com.eventify.shared.demo.Gate;
 import com.eventify.unconfirmedeventsonhost.application.commands.UnconfirmedEventOnHost;
 import lombok.RequiredArgsConstructor;

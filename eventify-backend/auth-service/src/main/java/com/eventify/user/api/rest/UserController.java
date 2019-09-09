@@ -1,6 +1,6 @@
-package com.eventify.auth.api.rest;
+package com.eventify.user.api.rest;
 
-import com.eventify.auth.application.commands.RegisterUser;
+import com.eventify.user.application.commands.RegisterUser;
 import com.eventify.shared.demo.Gate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

@@ -1,6 +1,6 @@
-package com.eventify.auth.infrastructure;
+package com.eventify.user.infrastructure;
 
-import com.eventify.auth.domain.UserAccount;
+import com.eventify.user.domain.UserAccount;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

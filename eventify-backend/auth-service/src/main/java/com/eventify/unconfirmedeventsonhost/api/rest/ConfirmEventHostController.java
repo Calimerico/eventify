@@ -1,6 +1,6 @@
 package com.eventify.unconfirmedeventsonhost.api.rest;
 
-import com.eventify.auth.api.rest.UserController;
+import com.eventify.user.api.rest.UserController;
 import com.eventify.shared.security.Context;
 import com.eventify.shared.demo.Gate;
 import com.eventify.unconfirmedeventsonhost.application.commands.ConfirmEventHost;

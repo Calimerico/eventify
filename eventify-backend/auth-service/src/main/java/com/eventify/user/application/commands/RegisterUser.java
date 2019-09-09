@@ -1,4 +1,4 @@
-package com.eventify.auth.application.commands;
+package com.eventify.user.application.commands;
 
 import com.eventify.shared.demo.Command;
 import lombok.Builder;

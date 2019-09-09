@@ -1,15 +1,13 @@
 package com.eventify.userban.domain;
 
-import com.eventify.auth.domain.UserAccount;
+import com.eventify.user.domain.UserAccount;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 

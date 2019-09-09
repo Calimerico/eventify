@@ -1,4 +1,4 @@
-package com.eventify.auth.domain;
+package com.eventify.user.domain;
 
 import com.eventify.shared.demo.Sex;
 import lombok.Builder;

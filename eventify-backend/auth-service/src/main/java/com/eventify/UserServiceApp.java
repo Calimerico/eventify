@@ -12,8 +12,8 @@ import org.springframework.cloud.stream.annotation.EnableBinding;
 @SpringBootApplication
 @EnableEurekaClient
 @EnableBinding(KafkaStreams.class)
-public class AuthServiceApp {
+public class UserServiceApp {
     public static void main(String[] args) {
-        SpringApplication.run(AuthServiceApp.class, args);
+        SpringApplication.run(UserServiceApp.class, args);
     }
 }

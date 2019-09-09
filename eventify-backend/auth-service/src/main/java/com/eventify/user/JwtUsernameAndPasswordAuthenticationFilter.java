@@ -1,4 +1,4 @@
-package com.eventify.auth;
+package com.eventify.user;
 
 /**
  * Created by spasoje on 25-Nov-18.
@@ -12,7 +12,7 @@ import javax.servlet.FilterChain;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.eventify.auth.infrastructure.UserRepository;
+import com.eventify.user.infrastructure.UserRepository;
 import com.eventify.shared.security.JwtConfig;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

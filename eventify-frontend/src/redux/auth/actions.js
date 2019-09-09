@@ -7,7 +7,7 @@ import types from './types';
 export const login = (username,password) => {
     return (dispatch) => {
         dispatch({type:types.LOGIN});
-        axios.post( '/auth/login', {username:username,password:password} )
+        axios.post( '/user/login', {username:username,password:password} )
             .then( response => {
                 dispatch({type:types.LOGIN_SUCCESS,token:response.headers.authorization});
             } )
@@ -20,7 +20,7 @@ export const login = (username,password) => {
 export const register = (newUser) => {
     return (dispatch) => {
         dispatch({type:types.REGISTER});
-        axios.post( '/auth/users', newUser )
+        axios.post( '/user/users', newUser )
             .then( response => {
                 dispatch({type:types.REGISTER_SUCCESS,token:response.headers.authorization});
             } )

@@ -1,7 +1,7 @@
 package com.eventify.config.security;
 
-import com.eventify.auth.JwtUsernameAndPasswordAuthenticationFilter;
-import com.eventify.auth.infrastructure.UserRepository;
+import com.eventify.user.JwtUsernameAndPasswordAuthenticationFilter;
+import com.eventify.user.infrastructure.UserRepository;
 import com.eventify.shared.security.Context;
 import com.eventify.shared.security.JwtConfig;
 import com.eventify.shared.security.JwtTokenAuthenticationFilter;
@@ -56,8 +56,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated();
     }
     // Spring has UserDetailsService interface, which can be overriden to provide our implementation for fetching user from database (or any other source).
-    // The UserDetailsService object is used by the auth manager to load the user from database.
-    // In addition, we need to define the password encoder also. So, auth manager can compare and verify passwords.
+    // The UserDetailsService object is used by the user manager to load the user from database.
+    // In addition, we need to define the password encoder also. So, user manager can compare and verify passwords.
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());

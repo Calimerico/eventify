@@ -1,6 +1,6 @@
 package com.eventify.userban.application.handlers;
 
-import com.eventify.auth.infrastructure.UserRepository;
+import com.eventify.user.infrastructure.UserRepository;
 import com.eventify.shared.net.CommandHandler;
 import com.eventify.userban.application.commands.BanUser;
 import com.eventify.userban.domain.UserBanBuilders;

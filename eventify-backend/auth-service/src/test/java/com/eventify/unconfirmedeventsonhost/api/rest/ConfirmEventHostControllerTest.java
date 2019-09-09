@@ -1,14 +1,12 @@
 package com.eventify.unconfirmedeventsonhost.api.rest;
 
-import com.eventify.auth.domain.UserAccount;
-import com.eventify.auth.domain.UserBuilders;
-import com.eventify.auth.infrastructure.UserRepository;
+import com.eventify.user.domain.UserAccount;
+import com.eventify.user.domain.UserBuilders;
+import com.eventify.user.infrastructure.UserRepository;
 import com.eventify.config.security.PermissionService;
 import com.eventify.shared.config.auth.TestSecurityConfig;
 import com.eventify.unconfirmedeventsonhost.domain.UnconfirmedEventsOnHost;
 import com.eventify.unconfirmedeventsonhost.domain.UnconfirmedEventsOnHostRepository;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.assertj.core.api.Assertions;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

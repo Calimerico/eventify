@@ -1,8 +1,8 @@
 package com.eventify.userban.api.rest;
 
-import com.eventify.auth.domain.UserAccount;
-import com.eventify.auth.domain.UserBuilders;
-import com.eventify.auth.infrastructure.UserRepository;
+import com.eventify.user.domain.UserAccount;
+import com.eventify.user.domain.UserBuilders;
+import com.eventify.user.infrastructure.UserRepository;
 import com.eventify.shared.config.auth.TestSecurityConfig;
 import com.eventify.userban.domain.UserBanInfo;
 import com.eventify.userban.infrastructure.UserBanRepository;

@@ -89,7 +89,7 @@ services:
     networks:
       - event-network
 
-  #In dockerfile for data-seeder we were waiting for event and auth. We should not expose ports for those 2 services.
+  #In dockerfile for data-seeder we were waiting for event and user. We should not expose ports for those 2 services.
   #We should introduce some health check point, maybe dockerfile health check tag
   data-seeder:
     container_name: data-seeder
@@ -136,11 +136,11 @@ services:
       - event-network
 
   auth:
-    container_name: auth
+    container_name: user
     build:
       context: .
       dockerfile: auth.Dockerfile
-    image: auth-service
+    image: user-service
     ports: 
       - "9100:9100"
     networks:
