@@ -8,7 +8,9 @@ const instance = axios.create({
     headers: {
         'Content-Type': 'application/json',
         'Authorization': localStorage.getItem("token")
-    }
+    },
+    data: {}
+    // Here is reason why I added this data:{} https://github.com/axios/axios/issues/86
 });
 
 export default instance;

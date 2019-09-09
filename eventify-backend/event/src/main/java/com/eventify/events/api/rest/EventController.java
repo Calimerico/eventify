@@ -17,11 +17,13 @@ import org.springframework.hateoas.mvc.ResourceAssemblerSupport;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
 import java.util.UUID;
 
 import static com.eventify.shared.security.RoleName.ROLE_ADMIN;
@@ -44,12 +46,10 @@ public class EventController {
     private final Context context;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    //TODO Use Resources instead of ResponseEntity? Check this out: https://stackoverflow.com/questions/28139856/how-can-i-get-spring-mvchateoas-to-encode-a-list-of-resources-into-hal
     public ResponseEntity<PagedResources<EventResource>> getEvents(@ModelAttribute EventFilterBean eventFilterBean,
                                                                    @PageableDefault Pageable pageable,
                                                                    PagedResourcesAssembler<Event> pagedAssembler) {
         Page<Event> pageOfEvents = eventFinder.findByExample(eventFilterBean, pageable);
-
         return assembleEvents(pageOfEvents, pagedAssembler);
     }
 

@@ -5,7 +5,10 @@ spring:
         binder:
           brokers: kafka:9093
       bindings:
-        eventsTopic:
+        eventsTopicInputChannel:
+          destination: eventsTopic
+          contentType: application/json
+        eventsTopicOutputChannel:
           destination: eventsTopic
           contentType: application/json
 eureka:

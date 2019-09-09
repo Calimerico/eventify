@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.eventify.shared.kafka.KafkaStreams.EVENTS_TOPIC;
+import static com.eventify.shared.kafka.KafkaStreams.EVENTS_TOPIC_INPUT_CHANNEL;
 
 /**
  * Created by spasoje on 23-Nov-18.
@@ -24,7 +24,7 @@ public class Consumer {//TODO Rename
 
     private final Gate gate;
 
-    @StreamListener(condition = "headers['eventType'] == 'EventsScraped' ", value = EVENTS_TOPIC)
+    @StreamListener(condition = "headers['eventType'] == 'EventsScraped' ", value = EVENTS_TOPIC_INPUT_CHANNEL)
     public void handleEventsScrapedEvent(@Payload EventsScraped eventsScraped) {
         List<CreateEvent> createEvents = new ArrayList<>();
         eventsScraped.getEventsScraped().forEach(eventScraped -> {
@@ -47,7 +47,7 @@ public class Consumer {//TODO Rename
                 .build()
         );
     }
-    @StreamListener(condition = "headers['eventType'] == 'EventHostConfirmed' ", value = EVENTS_TOPIC)
+    @StreamListener(condition = "headers['eventType'] == 'EventHostConfirmed' ", value = EVENTS_TOPIC_INPUT_CHANNEL)
     public void handleEventHostConfirmed(@Payload EventHostConfirmed eventHostConfirmed) {
         gate.dispatch(com.eventify.events.application.commands.EventHostConfirmed
                 .builder()

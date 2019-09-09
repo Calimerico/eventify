@@ -11,7 +11,7 @@ import org.springframework.cloud.stream.annotation.StreamListener;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;
 
-import static com.eventify.shared.kafka.KafkaStreams.EVENTS_TOPIC;
+import static com.eventify.shared.kafka.KafkaStreams.EVENTS_TOPIC_INPUT_CHANNEL;
 import static org.apache.commons.collections4.CollectionUtils.emptyIfNull;
 
 /**
@@ -24,7 +24,7 @@ public class KafkaConsumer {
 
     private final Gate gate;
 
-    @StreamListener(condition = "headers['eventType'] == 'EventAddedEvent' ", value = EVENTS_TOPIC)
+    @StreamListener(condition = "headers['eventType'] == 'EventAddedEvent' ", value = EVENTS_TOPIC_INPUT_CHANNEL)
     public void handleEventAddedEvent(@Payload EventAddedEvent eventAddedEvent) {
         emptyIfNull(eventAddedEvent.getConfirmedHosts()).forEach(confirmedHostId -> {
             gate.dispatch(MakeUserHostOfEvent
@@ -42,7 +42,7 @@ public class KafkaConsumer {
         });
     }
 
-    @StreamListener(condition = "headers['eventType'] == 'EventDeletedEvent' ", value = EVENTS_TOPIC)
+    @StreamListener(condition = "headers['eventType'] == 'EventDeletedEvent' ", value = EVENTS_TOPIC_INPUT_CHANNEL)
     public void handleEventDeletedEvent(@Payload EventDeletedEvent eventDeletedEvent) {
         gate.dispatch(RemoveEventFromUsers
                 .builder()

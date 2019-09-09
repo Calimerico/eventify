@@ -2,7 +2,6 @@ package com.eventify.unconfirmedeventsonhost.application.handlers;
 
 import com.eventify.shared.demo.CommandHandler;
 import com.eventify.shared.kafka.KafkaEventProducer;
-import com.eventify.shared.kafka.Topic;
 import com.eventify.unconfirmedeventsonhost.api.rest.EventHostConfirmed;
 import com.eventify.unconfirmedeventsonhost.application.commands.ConfirmEventHost;
 import com.eventify.unconfirmedeventsonhost.domain.UnconfirmedEventsOnHost;

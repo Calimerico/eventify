@@ -6,11 +6,12 @@ import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.SubscribableChannel;
 
 public interface KafkaStreams {
-    String EVENTS_TOPIC = "eventsTopic";
+    String EVENTS_TOPIC_INPUT_CHANNEL = "eventsTopicInputChannel";
+    String EVENTS_TOPIC_OUTPUT_CHANNEL = "eventsTopicOutputChannel";
 
-    @Input(EVENTS_TOPIC)
+    @Input(EVENTS_TOPIC_INPUT_CHANNEL)
     SubscribableChannel eventsTopicInputChannel();
 
-    @Output(EVENTS_TOPIC)
+    @Output(EVENTS_TOPIC_OUTPUT_CHANNEL)
     MessageChannel eventsTopicOutputChannel();
 }

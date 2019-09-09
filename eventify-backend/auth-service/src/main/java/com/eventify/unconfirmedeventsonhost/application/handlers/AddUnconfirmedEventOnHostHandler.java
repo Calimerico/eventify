@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 
 @com.eventify.shared.net.CommandHandler
 @RequiredArgsConstructor
-public class AddUnconfirmedEventOnHost implements CommandHandler<UnconfirmedEventOnHost,Void> {
+public class AddUnconfirmedEventOnHostHandler implements CommandHandler<UnconfirmedEventOnHost,Void> {
 
     private final UnconfirmedEventsOnHostRepository unconfirmedEventsOnHostRepository;
     @Override
