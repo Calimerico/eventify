@@ -17,7 +17,7 @@ import java.util.List;
 @Component
 public class UserSeeder {
 
-    @Value("${authService.url}")
+    @Value("${userService.url}")
     private String url;
     private final ObjectMapper objectMapper;
     private final RestTemplate restTemplate;

@@ -135,11 +135,11 @@ services:
     networks:
       - event-network
 
-  auth:
+  user:
     container_name: user
     build:
       context: .
-      dockerfile: auth.Dockerfile
+      dockerfile: user.Dockerfile
     image: user-service
     ports: 
       - "9100:9100"
