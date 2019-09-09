@@ -1,5 +1,6 @@
 package com.eventify.unconfirmedeventsonhost.api.rest;
 
+import com.eventify.unconfirmedeventsonhost.application.commands.DefaultEventHostConfirmed;
 import com.eventify.user.api.rest.UserController;
 import com.eventify.shared.security.Context;
 import com.eventify.shared.demo.Gate;
@@ -44,6 +45,28 @@ public class ConfirmEventHostController {
     @Secured(ROLE_REGISTERED_USER)
     public ResponseEntity<Set<UUID>> getEventsThatShouldBeConfirmed() {
         return ResponseEntity.ok(unconfirmedEventsOnHostFinder.findUnconfirmedEventsForHost(context.getUserId()));
+    }
+
+    @PatchMapping(value = "/enableConfirmEventHost")
+    public ResponseEntity<Void> enableDefaultEventHostConfirmed() {
+        gate.dispatch(DefaultEventHostConfirmed
+                .builder()
+                .confirmedByDefault(true)
+                .userId(context.getUserId())
+                .build()
+        );
+        return ResponseEntity.ok().build();
+    }
+
+    @PatchMapping(value = "/disableConfirmEventHost")
+    public ResponseEntity<Void> disableDefaultEventHostConfirmed() {
+        gate.dispatch(DefaultEventHostConfirmed
+                .builder()
+                .confirmedByDefault(false)
+                .userId(context.getUserId())
+                .build()
+        );
+        return ResponseEntity.ok().build();
     }
 
 }
