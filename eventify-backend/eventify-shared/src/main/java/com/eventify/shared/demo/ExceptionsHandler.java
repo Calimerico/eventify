@@ -14,7 +14,7 @@ import org.springframework.web.context.request.WebRequest;
 @ControllerAdvice
 public class ExceptionsHandler {
     @ExceptionHandler(value = {DataIntegrityViolationException.class})
-    protected ResponseEntity<DataIntegrityViolationException> handleConflict(DataIntegrityViolationException ex, WebRequest request) {//TODO Request can be deleted?
-        return new ResponseEntity<DataIntegrityViolationException>(ex,HttpStatus.CONFLICT);
+    protected ResponseEntity<DataIntegrityViolationException> handleConflict(DataIntegrityViolationException ex, WebRequest request) {
+        return new ResponseEntity<>(ex,HttpStatus.CONFLICT);
     }
 }
