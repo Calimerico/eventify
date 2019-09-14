@@ -1,5 +1,6 @@
 package com.eventify.userban.api.rest;
 
+import com.eventify.shared.kafka.KafkaEventProducer;
 import com.eventify.user.domain.UserAccount;
 import com.eventify.user.domain.UserBuilders;
 import com.eventify.user.infrastructure.UserRepository;
@@ -14,6 +15,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.annotation.Commit;
@@ -26,8 +28,11 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 import static com.eventify.shared.config.auth.TestSecurityConfig.*;
+import static com.eventify.userban.api.rest.UserBanController.BAN_USER;
 import static com.eventify.userban.api.rest.UserBanController.BASE_PATH;
 import static org.assertj.core.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
@@ -44,6 +49,9 @@ public class UserBanControllerIntegrationTest {
 
     @Autowired
     private ObjectMapper objectMapper;
+
+    @MockBean
+    private KafkaEventProducer kafkaEventProducer;
 
     @Autowired
     private UserRepository userRepository;
@@ -63,6 +71,7 @@ public class UserBanControllerIntegrationTest {
     @Before
     public void setUp() {
         userRepository.save(user);
+        doNothing().when(kafkaEventProducer).send(any(),any());
     }
 
     @Test
@@ -78,7 +87,7 @@ public class UserBanControllerIntegrationTest {
         banUserRequest.setUserId(user.getId());
 
         //when
-        mvc.perform(post(BASE_PATH)
+        mvc.perform(patch(BASE_PATH + BAN_USER)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(banUserRequest))
         );

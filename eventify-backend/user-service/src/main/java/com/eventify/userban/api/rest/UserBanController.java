@@ -21,9 +21,11 @@ import static com.eventify.userban.api.rest.UserBanController.BASE_PATH;
 public class UserBanController {
 
     public final static String BASE_PATH = "/userbans";
+    public final static String BAN_USER = "/ban";
+    public final static String UNBAN_USER = "/unban";
     private final Gate gate;
 
-    @PatchMapping(value = "/unban", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PatchMapping(value = BAN_USER, consumes = MediaType.APPLICATION_JSON_VALUE)
     @Secured(ROLE_ADMIN)
     public ResponseEntity<Void> banUser(@RequestBody BanUserRequest banUserRequest) {
         gate.dispatch(BanUser
@@ -36,7 +38,7 @@ public class UserBanController {
         return ResponseEntity.ok().build();
     }
 
-    @PatchMapping(value = "/ban/", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PatchMapping(value = UNBAN_USER, consumes = MediaType.APPLICATION_JSON_VALUE)
     @Secured(ROLE_ADMIN)
     public ResponseEntity<Void> unbanUser(@RequestBody UnbanUserRequest unbanUserRequest) {
         gate.dispatch(UnbanUser

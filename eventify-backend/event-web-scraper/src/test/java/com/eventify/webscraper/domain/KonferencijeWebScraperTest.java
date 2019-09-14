@@ -36,6 +36,6 @@ public class KonferencijeWebScraperTest {
     public void name() {
         EventsScraped eventsScraped = konferencijeWebScraper.scrapEvents();
         Assertions.assertThat(eventsScraped).isNotNull();
-        Assertions.assertThat(eventsScraped.getEventsScraped().size()).isEqualTo(30);
+        Assertions.assertThat(eventsScraped.getEventsScraped().size()).isEqualTo(99);
     }
 }

@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -59,6 +60,11 @@ public class ArchUnitTest {
     @ArchTest
     public static final ArchRule forbidUsingDate = ArchRuleDefinition.noFields()
             .should().haveRawType(Date.class);
+
+    @ArchTest
+    public static final ArchRule forbidUsingSimpleDateFormat = ArchRuleDefinition.noFields()
+            .should().haveRawType(SimpleDateFormat.class);
+
     @ArchTest
     public static final ArchRule finderShouldBeAnnotatedWithTransactional = ArchRuleDefinition.classes()
             .that()
