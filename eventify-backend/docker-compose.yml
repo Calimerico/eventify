@@ -146,6 +146,29 @@ services:
     networks:
       - event-network
 
+  analytics:
+    container_name: analytics
+    build:
+      context: .
+      dockerfile: analytics.Dockerfile
+    image: analytics-service
+    ports:
+      - "8182:8182"
+    depends_on:
+      - mongo
+    environment:
+      WAIT_HOSTS: mongo:27018
+
+  mongo:
+    image: mongo
+    container_name: mongo
+    ports:
+      - "27018:27018"
+    volumes:
+       - $HOME/data/mongo-data:/data/db
+       - $HOME/data/mongo-bkp:/data/bkp
+    restart: always
+
 networks:
   event-network:
     driver: bridge
