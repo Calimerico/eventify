@@ -154,8 +154,6 @@ services:
     image: analytics-service
     ports:
       - "8182:8182"
-    depends_on:
-      - mongo
     environment:
       WAIT_HOSTS: mongo:27018
 
