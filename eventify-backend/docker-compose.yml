@@ -154,8 +154,6 @@ services:
     image: analytics-service
     ports:
       - "8182:8182"
-    environment:
-      WAIT_HOSTS: mongo:27018
 
   mongo:
     image: mongo
@@ -165,7 +163,7 @@ services:
     volumes:
        - $HOME/data/mongo-data:/data/db
        - $HOME/data/mongo-bkp:/data/bkp
-    restart: always
+    restart: unless-stopped
 
 networks:
   event-network:
