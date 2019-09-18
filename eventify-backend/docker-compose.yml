@@ -1,21 +1,36 @@
 version: "2"
 
 services:
+#  postgres:
+#    container_name: postgres
+#    image: postgres
+#    environment:
+#      POSTGRES_USER: postgres
+#      POSTGRES_PASSWORD: changeme
+#      POSTGRES_DB: eventify
+#      PGDATA: /data/postgres
+#    volumes:
+#       - postgres:/data/postgres
+#    ports:
+#      - "5432:5432"
+#    networks:
+#      - event-network
+#    restart: unless-stopped
+
   postgres:
     container_name: postgres
     image: postgres
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: changeme
-      POSTGRES_DB: eventify
-      PGDATA: /data/postgres
     volumes:
-       - postgres:/data/postgres
+      - ./docker-postgresql-multiple-databases:/docker-entrypoint-initdb.d
     ports:
       - "5432:5432"
     networks:
       - event-network
     restart: unless-stopped
+    environment:
+      - POSTGRES_MULTIPLE_DATABASES=eventdb,postgres:userdb,postgres
+      - POSTGRES_PASSWORD=changeme
+      - POSTGRES_USER=postgres
   
   pgadmin:
     container_name: pgadmin
