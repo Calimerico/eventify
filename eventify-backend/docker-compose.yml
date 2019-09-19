@@ -82,12 +82,12 @@ services:
     networks:
       - event-network
 
-  zuul:
-    container_name: zuul
+  gateway:
+    container_name: gateway
     build:
       context: .
-      dockerfile: zuul.Dockerfile
-    image: zuul-service
+      dockerfile: gateway.Dockerfile
+    image: gateway-service
     ports: 
       - "8762:8762"
     networks:
