@@ -18,8 +18,7 @@ public class MakeUserHostOfEventHandler implements com.eventify.shared.demo.Comm
 
     @Override
     public Void handle(MakeUserHostOfEvent makeUserHostOfEvent) {
-        UserAccount user = userRepository.findById(makeUserHostOfEvent.getUserId())
-                .orElseThrow(() -> new NoSuchElementException("User with id " + makeUserHostOfEvent.getUserId() + " does not exist"));
+        UserAccount user = userRepository.loadUser(makeUserHostOfEvent.getUserId());
         user.getEventIdsThatUserOrganize().add(makeUserHostOfEvent.getEventId());//TODO This is not immutable. Change state with getter?
         userRepository.save(user);
         return null;
