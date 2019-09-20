@@ -3,7 +3,7 @@ package com.eventify.dataseeder;
 import lombok.Value;
 
 @Value
-public class LoginRequest {
+class LoginRequest {
     private String username;
     private String password;
 }

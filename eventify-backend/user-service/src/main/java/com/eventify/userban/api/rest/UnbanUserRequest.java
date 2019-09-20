@@ -11,7 +11,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Data
 @Builder
-public class UnbanUserRequest {
+class UnbanUserRequest {
     private UUID userId;
     private UUID adminId;
 }

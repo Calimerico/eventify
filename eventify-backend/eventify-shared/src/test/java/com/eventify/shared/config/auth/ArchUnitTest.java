@@ -1,5 +1,7 @@
 package com.eventify.shared.config.auth;
 
+import com.eventify.shared.ddd.UUIDAggregate;
+import com.eventify.shared.ddd.UUIDEntity;
 import com.eventify.shared.demo.Command;
 import com.eventify.shared.net.CommandHandler;
 import com.tngtech.archunit.junit.ArchTest;
@@ -11,6 +13,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.persistence.Entity;
+import javax.persistence.Inheritance;
+import javax.persistence.MappedSuperclass;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -18,6 +23,41 @@ import java.util.Date;
 //todo forbid using repository in controller!
 //todo Evenry controller must have integration test
 public class ArchUnitTest {
+
+
+    @ArchTest
+    public static final ArchRule uuidAggregateRules = ArchRuleDefinition.classes()
+            .that().areAssignableFrom(UUIDAggregate.class)
+            .and().doNotHaveSimpleName("UUIDAggregate")
+            .should().resideInAPackage("..domain..")
+            .andShould()
+            .beAnnotatedWith(Entity.class)
+            .orShould()
+            .beAnnotatedWith(MappedSuperclass.class)
+            .orShould()
+            .beAnnotatedWith(Inheritance.class)
+            .andShould()
+            .bePublic();
+
+    @ArchTest
+    public static final ArchRule uuidEntityRules = ArchRuleDefinition.classes()
+            .that().areAssignableFrom(UUIDEntity.class)
+            .and().doNotHaveSimpleName("UUIDEntity")
+            .should().resideInAPackage("..domain..")
+            .andShould()
+            .beAnnotatedWith(Entity.class)
+            .orShould()
+            .beAnnotatedWith(MappedSuperclass.class)
+            .orShould()
+            .beAnnotatedWith(Inheritance.class)
+            .andShould()
+            .notBePublic();
+
+    @ArchTest
+    public static final ArchRule requestsAndResponsesAreNotPublic = ArchRuleDefinition.classes()
+            .that().haveSimpleNameEndingWith("Response").or().haveSimpleNameEndingWith("Request")
+            .should()
+            .notBePublic();
 
     @ArchTest
     public static final ArchRule datesInRequestMustBeAnnotatedWithDateTimeFormat = ArchRuleDefinition.fields()

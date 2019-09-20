@@ -11,13 +11,13 @@ import java.util.UUID;
 @Builder
 @Value
 @Relation(value = "resource", collectionRelation = "resources")
-public class PlaceResource {
+class PlaceResource {
     private UUID id;
     private double latitude;
     private double longitude;
     private Set<String> names;
 
-    public static PlaceResource fromPlace(Place createdPlace) {
+    static PlaceResource fromPlace(Place createdPlace) {
         return new PlaceResource(createdPlace.getId(), createdPlace.getLatitude(), createdPlace.getLongitude(), createdPlace.getNames());
     }
 }

@@ -16,7 +16,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Data
 @Builder
-public class BanUserRequest {
+class BanUserRequest {
     private UUID userId;
     private UUID adminId;
     private String reasonForBan;

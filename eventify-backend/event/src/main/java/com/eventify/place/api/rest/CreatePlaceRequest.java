@@ -3,7 +3,7 @@ package com.eventify.place.api.rest;
 import lombok.Data;
 
 @Data
-public class CreatePlaceRequest {
+class CreatePlaceRequest {
     private double latitude;
     private double longitude;
     private String name;
