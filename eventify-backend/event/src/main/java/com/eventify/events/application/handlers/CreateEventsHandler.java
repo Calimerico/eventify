@@ -48,16 +48,8 @@ public class CreateEventsHandler implements CommandHandler<CreateEvents, Void> {
             kafkaEventProducer.send(EventAddedEvent
                     .builder()
                     .eventId(event.getEventId())
-                    .confirmedHosts(emptyIfNull(event.getHosts())
-                            .stream()
-                            .filter(hostOnEvent -> Objects.nonNull(hostOnEvent) && hostOnEvent.isConfirmed())
-                            .map(hostOnEvent -> hostOnEvent.getHost().getId())
-                            .collect(Collectors.toSet()))
-                    .unconfirmedHosts(emptyIfNull(event.getHosts())
-                            .stream()
-                            .filter(hostOnEvent -> Objects.nonNull(hostOnEvent) && !hostOnEvent.isConfirmed())
-                            .map(hostOnEvent -> hostOnEvent.getHost().getId())
-                            .collect(Collectors.toSet()))
+                    .confirmedHosts(event.findConfirmedHosts())
+                    .unconfirmedHosts(event.findUnconfirmedHosts())
                     .build(), EVENTS_TOPIC);
         });
 

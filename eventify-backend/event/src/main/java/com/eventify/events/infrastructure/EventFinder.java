@@ -2,8 +2,6 @@ package com.eventify.events.infrastructure;
 
 import com.eventify.events.api.rest.EventFilterBean;
 import com.eventify.events.domain.Event;
-import com.eventify.events.domain.Host;
-import com.eventify.events.domain.HostOnEvent;
 import com.eventify.place.domain.Place;
 import com.eventify.place.infrastructure.PlaceRepository;
 import lombok.RequiredArgsConstructor;
@@ -42,12 +40,7 @@ public class EventFinder {
         Page<Event> all = eventRepository.findAll(tExample, pageable);//todo we should create one findByUserId method and not user findall
         List<Event> myEvents = all.getContent()
                 .stream()
-                .filter(event -> event.getHosts()
-                        .stream()
-                        .filter(HostOnEvent::isConfirmed)
-                        .map(hostOnEvent -> hostOnEvent.getHost().getId())
-                        .collect(toList())
-                        .contains(userId))
+                .filter(event -> event.isUserHostForThisEvent(userId))
                 .collect(toList());
         return new PageImpl<>(myEvents,pageable,myEvents.size());
     }

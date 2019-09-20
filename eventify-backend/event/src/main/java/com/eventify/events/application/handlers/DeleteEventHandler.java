@@ -2,11 +2,9 @@ package com.eventify.events.application.handlers;
 
 import com.eventify.events.EventDeletedEvent;
 import com.eventify.events.application.commands.DeleteEvent;
-import com.eventify.events.domain.HostOnEvent;
 import com.eventify.events.infrastructure.EventRepository;
 import com.eventify.shared.demo.CommandHandler;
 import com.eventify.shared.kafka.KafkaEventProducer;
-import com.eventify.shared.kafka.Topic;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 
@@ -28,14 +26,7 @@ public class DeleteEventHandler implements CommandHandler<DeleteEvent,Void> {
 
     @Override
     public Void handle(DeleteEvent deleteEvent) {
-        Set<UUID> hostIds = CollectionUtils
-                .emptyIfNull(eventRepository.loadById(deleteEvent.getId())
-                        .getHosts()
-                )
-                .stream()
-                .filter(HostOnEvent::isConfirmed)
-                .map(hostOnEvent -> hostOnEvent.getHost().getId())
-                .collect(Collectors.toSet());
+        Set<UUID> hostIds = eventRepository.loadById(deleteEvent.getId()).findConfirmedHosts();
         eventRepository.deleteById(deleteEvent.getId());
         kafkaEventProducer.send(EventDeletedEvent
                 .builder()

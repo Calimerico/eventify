@@ -28,8 +28,6 @@ public class PermissionService {
         }
         Event event = eventRepository.loadById(eventId);
         UUID contextUserId = context.getUserId();
-        return CollectionUtils.emptyIfNull(event.getHosts())
-                .stream()
-                .anyMatch(hostOnEvent -> hostOnEvent.getHost().getId().equals(contextUserId) && hostOnEvent.isConfirmed());
+        return event.isUserHostForThisEvent(contextUserId);
     }
 }

@@ -14,7 +14,7 @@ import java.util.UUID;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class Host {
+class Host {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

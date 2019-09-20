@@ -10,7 +10,7 @@ import java.util.UUID;
 @Entity
 @Data
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class HostOnEvent {
+class HostOnEvent {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

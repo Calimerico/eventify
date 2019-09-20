@@ -2,23 +2,16 @@ package com.eventify.events.api.rest;
 
 import com.eventify.events.domain.Event;
 import com.eventify.events.domain.EventType;
-import com.eventify.events.domain.Host;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Value;
-import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.hateoas.ResourceSupport;
 import org.springframework.hateoas.core.Relation;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
-import java.util.stream.Collectors;
-
-import static java.util.stream.Collectors.toSet;
-import static org.apache.commons.collections4.CollectionUtils.emptyIfNull;
 
 /**
  * Created by spasoje on 02-Dec-18.
@@ -45,18 +38,10 @@ public class EventResource extends ResourceSupport {
         return EventResource.builder()
                 .eventId(event.getEventId())
                 .eventName(event.getEventName())
-                .confirmedHosts(emptyIfNull(event.getHosts())
-                        .stream()
-                        .filter(hostOnEvent -> Objects.nonNull(hostOnEvent) && hostOnEvent.isConfirmed())
-                        .map(hostOnEvent -> hostOnEvent.getHost().getId())
-                        .collect(toSet()))
-                .unconfirmedHosts(emptyIfNull(event.getHosts())
-                        .stream()
-                        .filter(hostOnEvent -> Objects.nonNull(hostOnEvent) && !hostOnEvent.isConfirmed())
-                        .map(hostOnEvent -> hostOnEvent.getHost().getId())
-                        .collect(toSet()))
+                .confirmedHosts(event.findConfirmedHosts())
+                .unconfirmedHosts(event.findUnconfirmedHosts())
                 .eventType(event.getEventType())
-                .placeId(event.getPlace() != null ? event.getPlace().getId() : null)
+                .placeId(event.getPlaceId())
                 .eventDateTime(event.getEventDateTime())
                 .description(event.getDescription())
                 .source(event.getSource())
