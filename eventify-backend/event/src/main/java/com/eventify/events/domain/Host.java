@@ -1,5 +1,6 @@
 package com.eventify.events.domain;
 
+import com.eventify.shared.ddd.UUIDEntity;
 import lombok.*;
 
 import javax.persistence.*;
@@ -14,11 +15,8 @@ import java.util.UUID;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-class Host {
+class Host extends UUIDEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
     @ElementCollection
     private List<String> names;
 }

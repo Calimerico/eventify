@@ -1,5 +1,6 @@
 package com.eventify.place.domain;
 
+import com.eventify.shared.ddd.UUIDAggregate;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -8,11 +9,8 @@ import java.util.UUID;
 
 @Entity
 @Data
-public class Place {
+public class Place extends UUIDAggregate {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
     private double latitude;
     private double longitude;
     @ElementCollection

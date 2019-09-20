@@ -1,5 +1,6 @@
 package com.eventify.userban.domain;
 
+import com.eventify.shared.ddd.UUIDAggregate;
 import com.eventify.user.domain.UserAccount;
 import lombok.AccessLevel;
 import lombok.Data;
@@ -14,10 +15,7 @@ import java.util.UUID;
 @Entity
 @Data
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class UserBanInfo {
-
-    @Id
-    private UUID id;
+public class UserBanInfo extends UUIDAggregate {
 
     @OneToOne
     @PrimaryKeyJoinColumn
@@ -27,7 +25,7 @@ public class UserBanInfo {
     private Set<BanInfo> banInfos;
 
     public UserBanInfo(UserAccount userAccount, Set<BanInfo> banInfos) {
-        this.id = userAccount.getId();
+        this.setId(userAccount.getId());
         this.userAccount = userAccount;
         this.banInfos = banInfos;
     }

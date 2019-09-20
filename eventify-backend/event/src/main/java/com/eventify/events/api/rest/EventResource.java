@@ -36,7 +36,7 @@ public class EventResource extends ResourceSupport {
 
     public static EventResource fromEvent(Event event) {
         return EventResource.builder()
-                .eventId(event.getEventId())
+                .eventId(event.getId())
                 .eventName(event.getEventName())
                 .confirmedHosts(event.findConfirmedHosts())
                 .unconfirmedHosts(event.findUnconfirmedHosts())

@@ -141,11 +141,11 @@ public class EventControllerIntegrationTest {
         doNothing().when(kafkaEventProducer).send(any(),any());
 
         //when
-        this.mvc.perform(put(BASE_PATH + ID_PATH, event.getEventId())
+        this.mvc.perform(put(BASE_PATH + ID_PATH, event.getId())
                 .contentType(APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(updateEventRequest)));
 
-        Event updatedEvent = eventRepository.loadById(event.getEventId());
+        Event updatedEvent = eventRepository.loadById(event.getId());
         assertThat(updatedEvent.getDescription()).isEqualTo(new_desc);
         assertThat(updatedEvent.getEventDateTime()).isEqualTo(newTime);
         assertThat(updatedEvent.getEventName()).isEqualTo(event.getEventName());
@@ -171,11 +171,11 @@ public class EventControllerIntegrationTest {
         doNothing().when(kafkaEventProducer).send(any(),any());
 
         //when
-        this.mvc.perform(put(BASE_PATH + ID_PATH, event.getEventId())
+        this.mvc.perform(put(BASE_PATH + ID_PATH, event.getId())
                 .contentType(APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(updateEventRequest)));
 
-        Event updatedEvent = eventRepository.loadById(event.getEventId());
+        Event updatedEvent = eventRepository.loadById(event.getId());
         assertThat(updatedEvent.getDescription()).isEqualTo("desc");
         assertThat(updatedEvent.getEventDateTime()).isEqualTo(eventDateTime);
         assertThat(updatedEvent.getEventName()).isEqualTo("event name");
@@ -207,7 +207,7 @@ public class EventControllerIntegrationTest {
         doNothing().when(kafkaEventProducer).send(any(),any());
 
         //when
-        this.mvc.perform(delete(BASE_PATH + ID_PATH,event.getEventId())
+        this.mvc.perform(delete(BASE_PATH + ID_PATH,event.getId())
                 .contentType(APPLICATION_JSON)
         );
     }

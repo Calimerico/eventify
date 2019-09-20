@@ -1,5 +1,6 @@
 package com.eventify.events.domain;
 
+import com.eventify.shared.ddd.UUIDEntity;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,11 +11,7 @@ import java.util.UUID;
 @Entity
 @Data
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-class HostOnEvent {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
+class HostOnEvent extends UUIDEntity {
 
     @OneToOne
     private Host host;

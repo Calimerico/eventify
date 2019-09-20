@@ -1,5 +1,6 @@
 package com.eventify.userban.domain;
 
+import com.eventify.shared.ddd.UUIDEntity;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,11 +15,8 @@ import java.util.UUID;
 @Entity
 @Data
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-class BanInfo {
+class BanInfo extends UUIDEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
     private UUID adminWhichBannedUser;
     private UUID adminWhichUnbannedUser;
     private String reasonForBan;

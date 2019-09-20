@@ -47,7 +47,7 @@ public class CreateEventsHandler implements CommandHandler<CreateEvents, Void> {
         events.forEach(event -> {
             kafkaEventProducer.send(EventAddedEvent
                     .builder()
-                    .eventId(event.getEventId())
+                    .eventId(event.getId())
                     .confirmedHosts(event.findConfirmedHosts())
                     .unconfirmedHosts(event.findUnconfirmedHosts())
                     .build(), EVENTS_TOPIC);

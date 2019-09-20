@@ -4,9 +4,9 @@ package com.eventify.events.domain;
  * Created by spasoje on 01-Nov-18.
  */
 
+import com.eventify.shared.ddd.UUIDAggregate;
 import lombok.*;
 import com.eventify.place.domain.Place;
-import org.apache.commons.collections4.CollectionUtils;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -15,7 +15,6 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
-import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 import static org.apache.commons.collections4.CollectionUtils.emptyIfNull;
 
@@ -27,11 +26,7 @@ import static org.apache.commons.collections4.CollectionUtils.emptyIfNull;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder
-@EqualsAndHashCode//todo
-public class Event {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID eventId;
+public class Event extends UUIDAggregate {
     private String eventName;
 
     @ManyToMany
@@ -54,7 +49,7 @@ public class Event {
                 .stream()
                 .filter(hostOnEvent -> hostOnEvent.getHost().getId().equals(hostId))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("Event " + eventId + " does not contain host " + hostId))
+                .orElseThrow(() -> new IllegalArgumentException("Event " + getId() + " does not contain host " + hostId))
                 .setConfirmed(true);
     }
 

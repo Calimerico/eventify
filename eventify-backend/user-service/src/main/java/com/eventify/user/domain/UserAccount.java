@@ -1,5 +1,6 @@
 package com.eventify.user.domain;
 
+import com.eventify.shared.ddd.UUIDAggregate;
 import com.eventify.shared.demo.Sex;
 import lombok.*;
 
@@ -14,11 +15,8 @@ import java.util.UUID;
 @NoArgsConstructor(access = AccessLevel.PACKAGE)
 @Getter(AccessLevel.PUBLIC)
 @Setter(AccessLevel.PUBLIC)
-public class UserAccount {
+public class UserAccount extends UUIDAggregate {
     private String email;
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
     private String username;
     private String password;
     private String firstName;

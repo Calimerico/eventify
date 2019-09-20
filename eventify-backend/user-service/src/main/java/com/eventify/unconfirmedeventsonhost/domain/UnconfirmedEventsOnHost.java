@@ -1,5 +1,6 @@
 package com.eventify.unconfirmedeventsonhost.domain;
 
+import com.eventify.shared.ddd.UUIDAggregate;
 import com.eventify.user.domain.UserAccount;
 import lombok.*;
 
@@ -12,11 +13,7 @@ import java.util.UUID;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class UnconfirmedEventsOnHost {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
+public class UnconfirmedEventsOnHost extends UUIDAggregate {
 
     @OneToOne
     @PrimaryKeyJoinColumn
