@@ -16,7 +16,6 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 
-
 	<properties>
 		<java.version>1.8</java.version>
 	</properties>
@@ -43,6 +42,12 @@
 			<artifactId>eventify-shared</artifactId>
 			<version>1.0-SNAPSHOT</version>
 			<scope>compile</scope>
+		</dependency>
+		<!--TODO Import lombok in all projects as part of some com.eventify.shared dependency, don't import in every module-->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<scope>provided</scope>
 		</dependency>
 
 	</dependencies>
