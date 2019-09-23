@@ -2,9 +2,8 @@ package com.eventify.event.application.handlers;
 
 import com.eventify.event.application.commands.UpdateEvent;
 import com.eventify.event.domain.Event;
-import com.eventify.event.infrastructure.EventRepository;
-import com.eventify.place.domain.Place;
 import com.eventify.place.infrastructure.PlaceRepository;
+import com.eventify.event.infrastructure.EventRepository;
 import com.eventify.shared.demo.CommandHandler;
 import lombok.RequiredArgsConstructor;
 
@@ -24,9 +23,8 @@ public class UpdateEventHandler implements CommandHandler<UpdateEvent, Event> {
     public Event handle(UpdateEvent updateEvent) {
         Event event = eventRepository.loadById(updateEvent.getId());
         if (updateEvent.getPlaceId() != null) {
-            Place place = placeRepository.findById(updateEvent.getPlaceId())
-                    .orElseThrow(() -> new NoSuchElementException("Place with id " + updateEvent.getPlaceId() + " does not exist!"));
-            event.setPlace(place);
+            event.setPlace(placeRepository.findById(updateEvent.getPlaceId())
+                    .orElseThrow(() -> new NoSuchElementException("Place with id " + updateEvent.getPlaceId() + " does not exist!")));
         }
         event.setEventName(updateEvent.getEventName());
         event.setEventType(updateEvent.getEventType());//TODO Should we allow type to be updated? In domain model we don't allow this

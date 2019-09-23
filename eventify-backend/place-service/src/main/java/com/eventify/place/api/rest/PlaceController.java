@@ -17,10 +17,11 @@ import static com.eventify.place.api.rest.PlaceResource.fromPlace;
 import static com.eventify.shared.security.RoleName.ROLE_ADMIN;
 
 @RestController
-@RequestMapping(value = "/places")
+@RequestMapping(value = PlaceController.BASE_PATH)
 @RequiredArgsConstructor
 public class PlaceController {
 
+    public static final String BASE_PATH = "/places";
     private final Gate gate;
     private final PlaceRepository placeRepository;//todo finder here needed
 

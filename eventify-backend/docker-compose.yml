@@ -1,22 +1,6 @@
 version: "2"
 
 services:
-#  postgres:
-#    container_name: postgres
-#    image: postgres
-#    environment:
-#      POSTGRES_USER: postgres
-#      POSTGRES_PASSWORD: changeme
-#      POSTGRES_DB: eventify
-#      PGDATA: /data/postgres
-#    volumes:
-#       - postgres:/data/postgres
-#    ports:
-#      - "5432:5432"
-#    networks:
-#      - event-network
-#    restart: unless-stopped
-
   postgres:
     container_name: postgres
     image: postgres
@@ -28,7 +12,7 @@ services:
       - event-network
     restart: unless-stopped
     environment:
-      - POSTGRES_MULTIPLE_DATABASES=eventdb,postgres:userdb,postgres
+      - POSTGRES_MULTIPLE_DATABASES=eventdb,postgres:userdb,postgres:placedb,postgres
       - POSTGRES_PASSWORD=changeme
       - POSTGRES_USER=postgres
   
@@ -158,6 +142,17 @@ services:
     image: user-service
     ports: 
       - "9100:9100"
+    networks:
+      - event-network
+
+  place:
+    container_name: place
+    build:
+      context: .
+      dockerfile: place.Dockerfile
+    image: place-service
+    ports:
+      - "4500:4500"
     networks:
       - event-network
 

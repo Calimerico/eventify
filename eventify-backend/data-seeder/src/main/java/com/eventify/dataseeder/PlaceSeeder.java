@@ -18,7 +18,7 @@ import java.util.List;
 @Component
 public class PlaceSeeder {
 
-    @Value("${eventService.url}")
+    @Value("${placeService.url}")
     private String url;
     private final ObjectMapper objectMapper;
     private final RestTemplate restTemplate;

@@ -4,7 +4,7 @@ import com.eventify.event.EventAddedEvent;
 import com.eventify.event.application.commands.CreateEvent;
 import com.eventify.event.domain.Event;
 import com.eventify.event.infrastructure.EventRepository;
-import com.eventify.place.domain.Place;
+import com.eventify.event.domain.Place;
 import com.eventify.place.infrastructure.PlaceRepository;
 import com.eventify.shared.demo.CommandHandler;
 import com.eventify.shared.kafka.KafkaEventProducer;

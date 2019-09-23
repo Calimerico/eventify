@@ -6,7 +6,6 @@ package com.eventify.event.domain;
 
 import com.eventify.shared.ddd.UUIDAggregate;
 import lombok.*;
-import com.eventify.place.domain.Place;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;

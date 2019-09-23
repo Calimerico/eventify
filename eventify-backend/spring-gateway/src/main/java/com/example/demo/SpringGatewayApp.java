@@ -16,6 +16,8 @@ public class SpringGatewayApp {
 	private String eventServiceUrl;
 	@Value("${webScraperService.url}")
 	private String webScraperServiceUrl;
+	@Value("${placeService.url}")
+	private String placeServiceUrl;
 
 	public static void main(String[] args) {
 		SpringApplication.run(SpringGatewayApp.class, args);
@@ -39,6 +41,11 @@ public class SpringGatewayApp {
 						.filters(f -> f.rewritePath("/scraper/", "/"))
 						.uri(webScraperServiceUrl)
 						.id("web-scraper"))
+				.route(p -> p
+						.path("/place/**")
+						.filters(f -> f.rewritePath("/place/", "/"))
+						.uri(placeServiceUrl)
+						.id("place-service"))
 				.build();
 	}
 

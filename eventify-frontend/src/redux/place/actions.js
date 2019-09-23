@@ -8,7 +8,7 @@ import types from './types';
 export const loadPlaces = (city) => {
     return (dispatch) => {
         dispatch({type:types.GET_ALL_PLACES});
-        axios.get('/event/places?city=' + city)
+        axios.get('/place/places?city=' + city)
             .then( response => {
                 dispatch({type:types.GET_ALL_PLACES_SUCCESS,payload:response.data});
             } )
@@ -21,7 +21,7 @@ export const loadPlaces = (city) => {
 export const addPlace = (request) => {
     return (dispatch) => {
         dispatch({type:types.ADD_PLACE});
-        axios.post('/event/places/', request)
+        axios.post('/place/places/', request)
             .then( response => {
                 dispatch({type:types.ADD_PLACE_SUCCESS,payload:response.data});
             } )

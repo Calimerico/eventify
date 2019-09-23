@@ -39,7 +39,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .addFilterAfter(new JwtTokenAuthenticationFilter(jwtConfig, context), UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
-                .antMatchers(HttpMethod.GET, "/events").permitAll()
+                .antMatchers(HttpMethod.GET, "/places").permitAll()
+                .antMatchers(HttpMethod.POST, "/places").permitAll()
+                .antMatchers(HttpMethod.OPTIONS, "/places").permitAll()//todo
                 // Any other request must be authenticated
                 .anyRequest().authenticated();
     }

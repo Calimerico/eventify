@@ -37,7 +37,7 @@ import static com.eventify.shared.security.RoleName.ROLE_REGISTERED_USER;
 @RequiredArgsConstructor
 public class EventController {
 
-    public static final String BASE_PATH = "/event";
+    public static final String BASE_PATH = "/events";
     public static final String MY_EVENTS = "/myEvents";
     public static final String ID_PATH = "/{id}";
     private final EventFinder eventFinder;

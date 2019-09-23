@@ -1,19 +1,18 @@
 package com.eventify.place.domain;
 
-import com.eventify.shared.ddd.UUIDAggregate;
-import lombok.Data;
+import com.eventify.shared.ddd.UUIDEntity;
+import lombok.*;
 
-import javax.persistence.*;
-import java.util.Set;
-import java.util.UUID;
+import javax.persistence.Entity;
 
 @Entity
 @Data
-public class Place extends UUIDAggregate {
-
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@Builder
+public class Place extends UUIDEntity {
+    private String name;
+    private String city;
     private double latitude;
     private double longitude;
-    @ElementCollection
-    private Set<String> names;
-    private String city;
 }

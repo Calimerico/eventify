@@ -1,7 +1,7 @@
 package com.eventify.event.infrastructure;
 
 import com.eventify.event.domain.Event;
-import com.eventify.place.domain.Place;
+import com.eventify.event.domain.Place;
 import com.eventify.place.infrastructure.PlaceRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
