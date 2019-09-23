@@ -4,7 +4,7 @@ import com.eventify.event.EventAddedEvent;
 import com.eventify.event.application.commands.CreateEvent;
 import com.eventify.event.domain.Event;
 import com.eventify.event.infrastructure.EventRepository;
-import com.eventify.event.domain.Place;
+import com.eventify.place.domain.Place;
 import com.eventify.place.infrastructure.PlaceRepository;
 import com.eventify.shared.demo.CommandHandler;
 import com.eventify.shared.kafka.KafkaEventProducer;
@@ -53,10 +53,8 @@ public class CreateEventHandler implements CommandHandler<CreateEvent, Event> {
     private Place getPlace(UUID placeId) {//todo
         Place place = null;
         if (placeId != null) {
-            Place defaultPlace = new Place();
-            HashSet<String> names = new HashSet<>();
-            names.add("Place");
-            defaultPlace.setNames(names);
+            Place defaultPlace = Place
+                    .builder().build();
             place = placeRepository.findById(placeId).orElse(defaultPlace);
         }
         return place;

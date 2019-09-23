@@ -4,6 +4,7 @@ package com.eventify.event.domain;
  * Created by spasoje on 01-Nov-18.
  */
 
+import com.eventify.place.domain.Place;
 import com.eventify.shared.ddd.UUIDAggregate;
 import lombok.*;
 

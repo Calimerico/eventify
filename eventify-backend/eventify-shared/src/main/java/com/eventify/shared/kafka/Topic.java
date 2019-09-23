@@ -1,7 +1,8 @@
 package com.eventify.shared.kafka;
 
 public enum Topic {
-    EVENTS_TOPIC("eventsTopic");
+    EVENTS_TOPIC("eventsTopic"),
+    PLACES_TOPIC("placesTopic");
 
     private final String name;
 

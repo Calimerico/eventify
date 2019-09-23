@@ -10,7 +10,7 @@ import com.eventify.place.domain.Place;
 
 import java.util.HashSet;
 
-import static com.eventify.shared.kafka.Topic.EVENTS_TOPIC;
+import static com.eventify.shared.kafka.Topic.PLACES_TOPIC;
 
 @com.eventify.shared.net.CommandHandler
 @RequiredArgsConstructor
@@ -37,7 +37,7 @@ public class CreatePlaceHandler implements CommandHandler<CreatePlace, Place> {
                 .longitude(savedPlace.getLongitude())
                 .name(savedPlace.getNames().stream().findFirst().orElseThrow(RuntimeException::new))//todo
                         .build(),
-                EVENTS_TOPIC
+                PLACES_TOPIC
         );
         return savedPlace;
     }
