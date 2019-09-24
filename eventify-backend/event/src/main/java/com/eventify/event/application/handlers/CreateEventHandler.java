@@ -53,9 +53,7 @@ public class CreateEventHandler implements CommandHandler<CreateEvent, Event> {
     private Place getPlace(UUID placeId) {//todo
         Place place = null;
         if (placeId != null) {
-            Place defaultPlace = Place
-                    .builder().build();
-            place = placeRepository.findById(placeId).orElse(defaultPlace);
+            place = placeRepository.findById(placeId).orElse(null);
         }
         return place;
     }

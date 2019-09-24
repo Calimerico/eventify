@@ -15,13 +15,13 @@ public class PlaceUpdatedEventHandler implements com.eventify.shared.demo.Comman
     @Override
     public Void handle(PlaceUpdatedEvent placeUpdatedEvent) {
         Place place = placeRepository.findById(placeUpdatedEvent.getId())
-                .orElse(Place
-                        .builder()
-                        .city(placeUpdatedEvent.getCity())
-                        .latitude(placeUpdatedEvent.getLatitude())
-                        .longitude(placeUpdatedEvent.getLongitude())
-                        .name(placeUpdatedEvent.getName())
-                        .build()
+                .orElse(new Place(
+                        placeUpdatedEvent.getId(),
+                        placeUpdatedEvent.getName(),
+                        placeUpdatedEvent.getCity(),
+                        placeUpdatedEvent.getLatitude(),
+                        placeUpdatedEvent.getLongitude()
+                        )
                 );
         placeRepository.save(place);
         return null;
