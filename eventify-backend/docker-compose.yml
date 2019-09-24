@@ -169,7 +169,7 @@ services:
     image: mongo
     container_name: mongo
     ports:
-      - "27018:27018"
+      - "27017:27017"
     volumes:
        - $HOME/data/mongo-data:/data/db
        - $HOME/data/mongo-bkp:/data/bkp
