@@ -12,10 +12,13 @@ import org.springframework.stereotype.Component;
 public class MessageChannelFactory {
     private final KafkaStreams kafkaStreams;
 
+    //todo test this!
     public MessageChannel create(Topic topic) {
         switch (topic) {
             case EVENTS_TOPIC:
                 return kafkaStreams.eventsTopicOutputChannel();
+            case PLACES_TOPIC:
+                return kafkaStreams.placesTopicOutputChannel();
             default:
                 throw new IllegalArgumentException("Topic " + topic.getName() + " does not exist!");
         }

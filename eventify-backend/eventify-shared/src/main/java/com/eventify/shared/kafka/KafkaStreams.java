@@ -18,7 +18,7 @@ public interface KafkaStreams {
     MessageChannel eventsTopicOutputChannel();
 
     @Input(PLACES_TOPIC_INPUT_CHANNEL)
-    SubscribableChannel placeTopicInputChannel();
+    SubscribableChannel placesTopicInputChannel();
 
     @Output(PLACES_TOPIC_OUTPUT_CHANNEL)
     MessageChannel placesTopicOutputChannel();
