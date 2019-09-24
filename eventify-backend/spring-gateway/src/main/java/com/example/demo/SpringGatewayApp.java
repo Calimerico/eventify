@@ -1,23 +1,15 @@
 package com.example.demo;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
+@EnableEurekaClient
 public class SpringGatewayApp {
-
-	@Value("${userService.url}")
-	private String userServiceUrl;
-	@Value("${eventService.url}")
-	private String eventServiceUrl;
-	@Value("${webScraperService.url}")
-	private String webScraperServiceUrl;
-	@Value("${placeService.url}")
-	private String placeServiceUrl;
 
 	public static void main(String[] args) {
 		SpringApplication.run(SpringGatewayApp.class, args);
@@ -29,24 +21,24 @@ public class SpringGatewayApp {
 				.route(p -> p
 						.path("/event/**")
 						.filters(f -> f.rewritePath("/event/", "/"))
-						.uri(eventServiceUrl)
+						.uri("lb://event-service/")
 						.id("event-service"))
 				.route(p -> p
 						.path("/user/**")
 						.filters(f -> f.rewritePath("/user/", "/"))
-						.uri(userServiceUrl)
+						.uri("lb://user-service/")
 						.id("user-service"))
 				.route(p -> p
 						.path("/scraper/**")
 						.filters(f -> f.rewritePath("/scraper/", "/"))
-						.uri(webScraperServiceUrl)
+						.uri("lb://web-scraper/")
 						.id("web-scraper"))
 				.route(p -> p
 						.path("/place/**")
 						.filters(f -> f.rewritePath("/place/", "/"))
-						.uri(placeServiceUrl)
+						.uri("lb://place-service/")
 						.id("place-service"))
-				.build();
+				.build();//todo here we have a problem when start locally event service UnknownHostException: event: name does not resolve
 	}
 
 }
