@@ -6,13 +6,13 @@ import java.util.UUID;
 
 @Component
 public class Context {
-    private UUID userId;
+    private ThreadLocal<UUID> userId = new ThreadLocal<>();
 
     public UUID getUserId() {
-        return userId;
+        return userId.get();
     }
 
     void setUserId(UUID userId) {
-        this.userId = userId;
+        this.userId.set(userId);
     }
 }
