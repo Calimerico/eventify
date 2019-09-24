@@ -10,8 +10,7 @@ import java.util.UUID;
 @MappedSuperclass
 public class UUIDEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
+    private UUID id = UUID.randomUUID();
 
     public UUID getId() {
         return id;

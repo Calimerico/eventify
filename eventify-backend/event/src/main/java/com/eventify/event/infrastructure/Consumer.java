@@ -64,6 +64,7 @@ public class Consumer {//TODO Rename
     public void handleEventHostConfirmed(@Payload PlaceUpdatedEvent placeUpdatedEvent) {
         gate.dispatch(com.eventify.event.application.commands.PlaceUpdatedEvent
                 .builder()
+                .id(placeUpdatedEvent.getId())
                 .city(placeUpdatedEvent.getCity())
                 .latitude(placeUpdatedEvent.getLatitude())
                 .longitude(placeUpdatedEvent.getLongitude())

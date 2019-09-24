@@ -24,6 +24,11 @@ public class DataSeeder implements ApplicationListener<ContextRefreshedEvent> {
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         userSeeder.seed();
         placeSeeder.seed();
+        try {
+            Thread.sleep(3000);//todo this is waiting for replication of places, think of better solution for this!
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         eventSeeder.seed();
         SpringApplication.exit(applicationContext, () -> 0);
     }
