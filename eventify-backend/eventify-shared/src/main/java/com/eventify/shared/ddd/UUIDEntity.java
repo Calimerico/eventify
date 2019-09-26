@@ -1,9 +1,6 @@
 package com.eventify.shared.ddd;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -11,6 +8,8 @@ import java.util.UUID;
 public class UUIDEntity {
     @Id
     private UUID id = UUID.randomUUID();
+    @Version
+    private long version;
 
     public UUID getId() {
         return id;
