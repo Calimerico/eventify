@@ -1,6 +1,6 @@
 package com.eventify.event.api.rest;
 
-import com.eventify.event.domain.EventType;
+import com.eventify.shared.demo.EventType;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 

@@ -1,6 +1,6 @@
 package com.eventify.event.infrastructure;
 
-import com.eventify.event.domain.EventType;
+import com.eventify.shared.demo.EventType;
 import lombok.Builder;
 import lombok.Data;
 

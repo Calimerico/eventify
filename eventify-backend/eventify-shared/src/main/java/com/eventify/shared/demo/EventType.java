@@ -1,4 +1,4 @@
-package com.eventify.event.domain;
+package com.eventify.shared.demo;
 
 public enum EventType {
     THEATER,

@@ -6,6 +6,7 @@ package com.eventify.event.domain;
 
 import com.eventify.place.domain.Place;
 import com.eventify.shared.ddd.UUIDAggregate;
+import com.eventify.shared.demo.EventType;
 import lombok.*;
 
 import javax.persistence.*;

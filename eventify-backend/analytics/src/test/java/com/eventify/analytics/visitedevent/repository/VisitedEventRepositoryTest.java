@@ -1,6 +1,7 @@
 package com.eventify.analytics.visitedevent.repository;
 
 import com.eventify.analytics.visitedevent.domain.VisitedEvent;
+import com.eventify.shared.demo.EventType;
 import com.eventify.shared.demo.Sex;
 import org.junit.After;
 import org.junit.Before;
@@ -39,7 +40,7 @@ public class VisitedEventRepositoryTest {
                 .userId(UUID.randomUUID())
                 .eventId(UUID.randomUUID())
                 .age(50).sex(Sex.FEMALE)
-                .eventType("BoringOpera")
+                .eventType(EventType.THEATER)
                 .hostIds(Arrays.asList(UUID.randomUUID(),UUID.randomUUID()))
                 .placeId(UUID.randomUUID())
                 .build();
@@ -49,7 +50,7 @@ public class VisitedEventRepositoryTest {
                 .userId(UUID.randomUUID())
                 .eventId(UUID.randomUUID())
                 .age(50).sex(Sex.FEMALE)
-                .eventType("BoringOpera")
+                .eventType(EventType.THEATER)
                 .hostIds(Arrays.asList(UUID.randomUUID(),UUID.randomUUID()))
                 .placeId(UUID.randomUUID())
                 .build();

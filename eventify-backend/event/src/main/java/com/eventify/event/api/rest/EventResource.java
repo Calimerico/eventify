@@ -1,7 +1,7 @@
 package com.eventify.event.api.rest;
 
 import com.eventify.event.domain.Event;
-import com.eventify.event.domain.EventType;
+import com.eventify.shared.demo.EventType;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Value;

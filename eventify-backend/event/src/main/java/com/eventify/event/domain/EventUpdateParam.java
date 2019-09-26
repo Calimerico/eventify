@@ -1,6 +1,7 @@
 package com.eventify.event.domain;
 
 import com.eventify.place.domain.Place;
+import com.eventify.shared.demo.EventType;
 import lombok.Builder;
 import lombok.Value;
 

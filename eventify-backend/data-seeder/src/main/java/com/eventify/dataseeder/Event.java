@@ -1,5 +1,6 @@
 package com.eventify.dataseeder;
 
+import com.eventify.shared.demo.EventType;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Data;
@@ -16,7 +17,7 @@ import java.util.UUID;
 public class Event {
     private int id;
     private String eventName;
-    private String eventType;
+    private EventType eventType;
     @JsonDeserialize(using = IntegerToUUIDDeserializer.class)
     private UUID placeId;
     private LocalDateTime eventDateTime;

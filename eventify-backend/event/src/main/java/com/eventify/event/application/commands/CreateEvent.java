@@ -1,7 +1,7 @@
 package com.eventify.event.application.commands;
 
 import com.eventify.event.domain.Event;
-import com.eventify.event.domain.EventType;
+import com.eventify.shared.demo.EventType;
 import com.eventify.shared.demo.Command;
 import lombok.Builder;
 import lombok.Value;

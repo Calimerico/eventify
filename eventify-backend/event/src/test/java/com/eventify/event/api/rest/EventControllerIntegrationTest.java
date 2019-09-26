@@ -1,7 +1,7 @@
 package com.eventify.event.api.rest;
 
 import com.eventify.event.domain.Event;
-import com.eventify.event.domain.EventType;
+import com.eventify.shared.demo.EventType;
 import com.eventify.event.infrastructure.EventRepository;
 import com.eventify.shared.config.auth.TestSecurityConfig;
 import com.eventify.shared.kafka.KafkaEventProducer;

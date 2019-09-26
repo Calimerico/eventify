@@ -1,5 +1,6 @@
 package com.eventify.analytics.visitedevent.domain;
 
+import com.eventify.shared.demo.EventType;
 import com.eventify.shared.demo.Sex;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -18,7 +19,7 @@ public class VisitedEvent {
     private Sex sex;
     private Integer age;
     private UUID eventId;
-    private String eventType;
+    private EventType eventType;
     private List<UUID> hostIds;
     private  UUID placeId;
 }

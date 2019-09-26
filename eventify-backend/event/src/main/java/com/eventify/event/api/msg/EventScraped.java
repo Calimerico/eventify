@@ -1,6 +1,6 @@
 package com.eventify.event.api.msg;
 
-import com.eventify.event.domain.EventType;
+import com.eventify.shared.demo.EventType;
 import com.eventify.shared.demo.DomainEvent;
 import lombok.*;
 
