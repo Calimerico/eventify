@@ -135,6 +135,8 @@ public class EventControllerIntegrationTest {
         UpdateEventRequest updateEventRequest = new UpdateEventRequest();
         String new_desc = "new desc";
         updateEventRequest.setDescription(new_desc);
+        updateEventRequest.setEventName(event.getEventName());
+        updateEventRequest.setEventType(event.getEventType());
         LocalDateTime newTime = LocalDateTime.now().minusDays(2);
         updateEventRequest.setEventDateTime(newTime);
         doNothing().when(kafkaEventProducer).send(any(),any());

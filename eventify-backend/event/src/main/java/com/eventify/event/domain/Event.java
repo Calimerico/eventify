@@ -22,10 +22,9 @@ import static org.apache.commons.collections4.CollectionUtils.emptyIfNull;
  * Created by spasoje on 15-Jun-17.
  */
 @Entity
-@Data
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-@Builder
+@Builder//todo remove this annotation from ALL domain classes!
 public class Event extends UUIDAggregate {
     private String eventName;
 
@@ -44,8 +43,20 @@ public class Event extends UUIDAggregate {
     @ElementCollection
     private List<Integer> prices;//TODO Introduce Ticket entity or maybe embeddable?
 
+    public void update(EventUpdateParam param) {
+        this.eventName = param.getEventName();
+        this.hosts = param.getHosts();
+        this.place = param.getPlace();
+        this.eventType = param.getEventType();
+        this.eventDateTime = param.getEventDateTime();
+        this.description = param.getDescription();
+        this.source = param.getSource();
+        this.profilePicture = param.getProfilePicture();
+        this.prices = param.getPrices();
+    }
+
     public void confirmHost(UUID hostId) {
-        getHosts()
+        hosts
                 .stream()
                 .filter(hostOnEvent -> hostOnEvent.getHost().getId().equals(hostId))
                 .findFirst()
@@ -53,26 +64,82 @@ public class Event extends UUIDAggregate {
                 .setConfirmed(true);
     }
 
-    public Set<UUID> findConfirmedHosts() {
+    public Set<HostDto> findConfirmedHosts() {
         return emptyIfNull(hosts).stream()
                 .filter(hostOnEvent -> Objects.nonNull(hostOnEvent) && hostOnEvent.isConfirmed())
-                .map(hostOnEvent -> hostOnEvent.getHost().getId())
+                .map(hostOnEvent -> new HostDto(hostOnEvent.getId(),hostOnEvent.getHost().getName()))
                 .collect(toSet());
     }
 
-    public Set<UUID> findUnconfirmedHosts() {
+    public Set<HostDto> findUnconfirmedHosts() {
         return emptyIfNull(hosts).stream()
                 .filter(hostOnEvent -> Objects.nonNull(hostOnEvent) && !hostOnEvent.isConfirmed())
-                .map(hostOnEvent -> hostOnEvent.getHost().getId())
+                .map(hostOnEvent -> new HostDto(hostOnEvent.getId(),hostOnEvent.getHost().getName()))
                 .collect(toSet());
+    }
+
+    public Set<UUID> findConfirmedHostIds() {
+        return findConfirmedHosts().stream().map(HostDto::getId).collect(toSet());
+    }
+
+    public Set<UUID> findUnconfirmedHostIds() {
+        return findUnconfirmedHosts().stream().map(HostDto::getId).collect(toSet());
     }
 
     public boolean isUserHostForThisEvent(UUID userId) {
-        return findConfirmedHosts().contains(userId);
+        return findConfirmedHostIds().contains(userId);
     }
 
     public UUID getPlaceId() {
-        return getPlace() == null ? null : getPlace().getId();
+        return place == null ? null : place.getId();
+    }
+
+    public String getEventName() {
+        return eventName;
+    }
+
+    public LocalDateTime getEventDateTime() {
+        return eventDateTime;
+    }
+
+    public List<Integer> getPrices() {
+        return prices;
+    }
+
+    public EventType getEventType() {
+        return eventType;
+    }
+
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getSource() {
+        return source;
+    }
+
+    public String getProfilePicture() {
+        return profilePicture;
+    }
+
+    public PlaceDto getPlace() {
+        if (place == null)
+            return null;
+        return new PlaceDto(place.getId(),place.getName(),place.getLatitude(),place.getLongitude());
+    }
+
+    public static Event eventExample(String name, Place place, EventType eventType) {
+        Event event = new Event();
+        event.update(EventUpdateParam
+                .builder()
+                .eventName(name)
+                .place(place)
+                .eventType(eventType)
+                .build()
+        );
+        event.setId(null);
+        return event;
     }
 }
 

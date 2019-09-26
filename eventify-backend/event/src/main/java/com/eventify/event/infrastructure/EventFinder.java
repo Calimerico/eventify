@@ -49,12 +49,11 @@ public class EventFinder {
         //TODO For line above take a look here https://stackoverflow.com/questions/13539050/entitynotfoundexception-in-hibernate-many-to-one-mapping-however-data-exist
         //TODO https://stackoverflow.com/questions/39784344/check-date-between-two-other-dates-spring-data-jpa
         Place place = eventFilter.getPlaceId() != null ? placeRepository.findById(eventFilter.getPlaceId()).orElse(null) : null;
-        Example<Event> example = Example.of(Event
-                .builder()
-                .eventName(eventFilter.getEventName())
-                .eventType(eventFilter.getEventType())
-                .place(place)
-                .build());//TODO Places and hosts filter?
+        //TODO Places and hosts filter?
+        Example<Event> example = Example.of(Event.eventExample(
+                eventFilter.getEventName(),
+                place,
+                eventFilter.getEventType()));
         List<Event> events = eventRepository.findAll(example, pageable)
                 .stream()
                 .filter(event -> eventFilter.getTimeFrom() == null || (event.getEventDateTime() == null || !event.getEventDateTime().isBefore(eventFilter.getTimeFrom())))

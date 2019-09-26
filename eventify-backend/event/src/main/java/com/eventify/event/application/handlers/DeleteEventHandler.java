@@ -24,7 +24,7 @@ public class DeleteEventHandler implements CommandHandler<DeleteEvent,Void> {
 
     @Override
     public Void handle(DeleteEvent deleteEvent) {
-        Set<UUID> hostIds = eventRepository.loadById(deleteEvent.getId()).findConfirmedHosts();
+        Set<UUID> hostIds = eventRepository.loadById(deleteEvent.getId()).findConfirmedHostIds();
         eventRepository.deleteById(deleteEvent.getId());
         kafkaEventProducer.send(EventDeletedEvent
                 .builder()

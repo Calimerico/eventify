@@ -30,6 +30,4 @@ public class Place extends UUIDEntity {
         this.latitude = latitude;
         this.longitude = longitude;
     }
-
-
 }

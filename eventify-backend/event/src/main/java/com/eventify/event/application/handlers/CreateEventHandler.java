@@ -10,7 +10,6 @@ import com.eventify.shared.demo.CommandHandler;
 import com.eventify.shared.kafka.KafkaEventProducer;
 import lombok.RequiredArgsConstructor;
 
-import java.util.HashSet;
 import java.util.UUID;
 
 import static com.eventify.shared.kafka.Topic.EVENTS_TOPIC;
@@ -44,8 +43,8 @@ public class CreateEventHandler implements CommandHandler<CreateEvent, Event> {
         kafkaEventProducer.send(EventAddedEvent
                 .builder()
                 .eventId(event.getId())
-                .confirmedHosts(event.findConfirmedHosts())
-                .unconfirmedHosts(event.findUnconfirmedHosts())
+                .confirmedHosts(event.findConfirmedHostIds())
+                .unconfirmedHosts(event.findUnconfirmedHostIds())
                 .build(), EVENTS_TOPIC);
         return event;
     }

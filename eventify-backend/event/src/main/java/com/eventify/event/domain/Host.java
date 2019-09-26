@@ -10,7 +10,6 @@ import java.util.List;
  * Created by spasoje on 03-Feb-19.
  */
 @Entity
-@Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -18,4 +17,8 @@ class Host extends UUIDEntity {
 
     @ElementCollection
     private List<String> names;
+
+    public List<String> getNames() {
+        return names;
+    }
 }

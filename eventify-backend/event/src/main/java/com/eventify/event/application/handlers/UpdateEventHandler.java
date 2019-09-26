@@ -2,6 +2,8 @@ package com.eventify.event.application.handlers;
 
 import com.eventify.event.application.commands.UpdateEvent;
 import com.eventify.event.domain.Event;
+import com.eventify.event.domain.EventUpdateParam;
+import com.eventify.place.domain.Place;
 import com.eventify.place.infrastructure.PlaceRepository;
 import com.eventify.event.infrastructure.EventRepository;
 import com.eventify.shared.demo.CommandHandler;
@@ -22,17 +24,23 @@ public class UpdateEventHandler implements CommandHandler<UpdateEvent, Event> {
     @Override
     public Event handle(UpdateEvent updateEvent) {
         Event event = eventRepository.loadById(updateEvent.getId());
+        Place place = null;
         if (updateEvent.getPlaceId() != null) {
-            event.setPlace(placeRepository.findById(updateEvent.getPlaceId())
-                    .orElseThrow(() -> new NoSuchElementException("Place with id " + updateEvent.getPlaceId() + " does not exist!")));
+            place = placeRepository.findById(updateEvent.getPlaceId())
+                    .orElseThrow(() -> new NoSuchElementException("Place with id " + updateEvent.getPlaceId() + " does not exist!"));
         }
-        event.setEventName(updateEvent.getEventName());
-        event.setEventType(updateEvent.getEventType());//TODO Should we allow type to be updated? In domain model we don't allow this
-        event.setEventDateTime(updateEvent.getEventDateTime());
-        event.setDescription(updateEvent.getDescription());
-        event.setSource(updateEvent.getSource());
-        event.setProfilePicture(updateEvent.getProfilePicture());
-        event.setPrices(updateEvent.getPrices());
+        event.update(EventUpdateParam
+                .builder()
+                .eventName(updateEvent.getEventName())
+                .eventType(updateEvent.getEventType())
+                .eventDateTime(updateEvent.getEventDateTime())
+                .description(updateEvent.getDescription())
+                .source(updateEvent.getSource())
+                .profilePicture(updateEvent.getProfilePicture())
+                .prices(updateEvent.getPrices())
+                .place(place)
+//                .hosts(updateEvent.geHo)//todo
+                .build());
         return eventRepository.save(event);
     }
 }
