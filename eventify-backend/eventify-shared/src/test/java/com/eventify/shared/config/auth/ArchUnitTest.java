@@ -7,7 +7,6 @@ import com.eventify.shared.net.CommandHandler;
 import com.tngtech.archunit.junit.ArchTest;
 import com.tngtech.archunit.lang.ArchRule;
 import com.tngtech.archunit.lang.syntax.ArchRuleDefinition;
-import com.tngtech.archunit.library.dependencies.SlicesRuleDefinition;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -93,9 +92,10 @@ public class ArchUnitTest {
             .resideInAPackage("..application.commands..");
 
     @ArchTest
-    public static final ArchRule domainDoesNotOnOtherLayers = ArchRuleDefinition.noClasses()
+    public static final ArchRule domainDoesNotDependOnOtherLayers = ArchRuleDefinition.noClasses()
             .that().resideInAPackage("..domain..")
-            .should().dependOnClassesThat().resideInAnyPackage("..controller..", "..api..","..application..");
+            .should()
+            .dependOnClassesThat().resideInAnyPackage("..controller..", "..api..","..application..");
 
     @ArchTest
     public static final ArchRule forbidUsingDate = ArchRuleDefinition.noFields()
