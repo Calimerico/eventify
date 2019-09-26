@@ -34,8 +34,10 @@ public class KonferencijeWebScraperTest {
 
     @Test
     public void name() {
+        long startTime = System.currentTimeMillis();
         EventsScraped eventsScraped = konferencijeWebScraper.scrapEvents();
         Assertions.assertThat(eventsScraped).isNotNull();
         Assertions.assertThat(eventsScraped.getEventsScraped().size()).isEqualTo(99);
+        System.out.println("vreme je " + (System.currentTimeMillis() - startTime));
     }
 }
