@@ -4,7 +4,6 @@ package com.eventify.webscraper.domain;
 import org.assertj.core.api.Assertions;
 import org.jsoup.Jsoup;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,23 +18,23 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = RANDOM_PORT)
-public class KonferencijeWebScraperTest {
+public class KonferencijeEventsWebScraperTest {
 
     @SpyBean
-    private KonferencijeWebScraper konferencijeWebScraper;
+    private KonferencijeEventsWebScraper konferencijeEventsWebScraper;
 
     @Before
     public void setUp() throws Exception {
         URL url = Thread.currentThread().getContextClassLoader().getResource("konferencije.html");
         File file = new File(url.getPath());
-        when(konferencijeWebScraper.getBaseDocument()).thenReturn(Jsoup.parse(file,"UTF-8"));
-        when(konferencijeWebScraper.getNextPageUrl("https://konferencije.rs/sr/doga%C4%91aji")).thenReturn(null);
+        when(konferencijeEventsWebScraper.getBaseDocument()).thenReturn(Jsoup.parse(file,"UTF-8"));
+        when(konferencijeEventsWebScraper.getNextPageUrl("https://konferencije.rs/sr/doga%C4%91aji")).thenReturn(null);
     }
 
     @Test
     public void name() {
         long startTime = System.currentTimeMillis();
-        EventsScraped eventsScraped = konferencijeWebScraper.scrapEvents();
+        EventsScraped eventsScraped = konferencijeEventsWebScraper.scrapEvents();
         Assertions.assertThat(eventsScraped).isNotNull();
         Assertions.assertThat(eventsScraped.getEventsScraped().size()).isEqualTo(99);
         System.out.println("vreme je " + (System.currentTimeMillis() - startTime));

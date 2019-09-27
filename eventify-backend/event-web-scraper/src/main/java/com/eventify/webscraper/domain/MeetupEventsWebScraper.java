@@ -4,7 +4,7 @@ package com.eventify.webscraper.domain;
  * Created by spasoje on 21-Nov-18.
  */
 //@Component TODO Temporary removed
-public class MeetupWebScraper implements EventWebScraper {
+public class MeetupEventsWebScraper implements EventsWebScraper {
     @Override
     public EventsScraped scrapEvents() {
 //        List<Event> events = new ArrayList<>();

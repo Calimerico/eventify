@@ -1,29 +1,17 @@
 package com.eventify.webscraper.domain;
 
-import com.google.common.collect.Sets;
 import org.assertj.core.api.Assertions;
 import org.jsoup.Jsoup;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.File;
 import java.net.URL;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.Month;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -34,23 +22,22 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = RANDOM_PORT)
-@Ignore
-public class NaSceniWebScraperTest {
+public class NaSceniEventsWebScraperTest {
 
     @SpyBean
-    private NaSceniWebScraper naSceniWebScraper;
+    private NaSceniEventsWebScraper naSceniEventsWebScraper;
 
     @Before
     public void setUp() throws Exception {
         URL url = Thread.currentThread().getContextClassLoader().getResource("nasceni.html");
         File file = new File(url.getPath());
-        when(naSceniWebScraper.getBaseDocument()).thenReturn(Jsoup.parse(file,"UTF-8"));
-        when(naSceniWebScraper.getNextPageUrl("https://nasceni.tickets.rs/event/category/pozoriste-1")).thenReturn(null);
+        when(naSceniEventsWebScraper.getBaseDocument()).thenReturn(Jsoup.parse(file,"UTF-8"));
+        when(naSceniEventsWebScraper.getNextPageUrl("https://nasceni.tickets.rs/event/category/pozoriste-1")).thenReturn(null);
     }
 
     @Test
     public void name() throws Exception {
-        EventsScraped eventsScraped = naSceniWebScraper.scrapEvents();
+        EventsScraped eventsScraped = naSceniEventsWebScraper.scrapEvents();
         Assertions.assertThat(eventsScraped).isNotNull();
 //        Assertions.assertThat(eventsScraped.getEventsScraped().size()).isEqualTo(30);//todo
 //        Assertions.assertThat(new HashSet<>(eventsScraped.getEventsScraped())).contains(
