@@ -1,9 +1,9 @@
-package com.eventify.webscraper.domain;
+package com.eventify.webscraper.domain.nasceni;
 
+import com.eventify.webscraper.domain.EventsScraped;
 import org.assertj.core.api.Assertions;
 import org.jsoup.Jsoup;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -13,7 +13,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.io.File;
 import java.net.URL;
 
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 

@@ -1,5 +1,7 @@
-package com.eventify.webscraper.domain;
+package com.eventify.webscraper.domain.nasceni;
 
+import com.eventify.shared.demo.EventType;
+import com.eventify.webscraper.domain.BaseEventWebScraper;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -8,10 +10,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
-public class NaSceniEventWebScraper extends BaseEventWebScraper{
+public class NaSceniEventWebScraper extends BaseEventWebScraper {
 
     @Override
     protected String getDescription(Document document) {

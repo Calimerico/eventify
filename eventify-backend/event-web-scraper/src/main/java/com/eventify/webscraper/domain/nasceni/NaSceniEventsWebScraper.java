@@ -1,16 +1,13 @@
-package com.eventify.webscraper.domain;
+package com.eventify.webscraper.domain.nasceni;
 
+import com.eventify.webscraper.domain.BaseEventsWebScraper;
+import com.eventify.webscraper.domain.ScraperType;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 

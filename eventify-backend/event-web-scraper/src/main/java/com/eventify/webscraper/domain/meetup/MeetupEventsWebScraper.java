@@ -1,4 +1,7 @@
-package com.eventify.webscraper.domain;
+package com.eventify.webscraper.domain.meetup;
+
+import com.eventify.webscraper.domain.EventsScraped;
+import com.eventify.webscraper.domain.EventsWebScraper;
 
 /**
  * Created by spasoje on 21-Nov-18.

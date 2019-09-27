@@ -1,5 +1,8 @@
 package com.eventify.webscraper.domain;
 
+import com.eventify.webscraper.domain.konferencije.KonferencijeEventWebScraper;
+import com.eventify.webscraper.domain.nasceni.NaSceniEventWebScraper;
+
 public class EventWebScraperFactory {
     public static EventWebScraper create(ScraperType scraperType) {
         switch (scraperType) {

@@ -1,5 +1,6 @@
 package com.eventify.webscraper.domain;
 
+import com.eventify.shared.demo.EventType;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;

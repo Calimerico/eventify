@@ -1,5 +1,6 @@
 package com.eventify.webscraper.domain;
 
+import com.eventify.shared.demo.EventType;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 

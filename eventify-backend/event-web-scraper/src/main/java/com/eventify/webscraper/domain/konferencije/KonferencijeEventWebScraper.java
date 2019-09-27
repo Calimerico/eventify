@@ -1,13 +1,13 @@
-package com.eventify.webscraper.domain;
+package com.eventify.webscraper.domain.konferencije;
 
+import com.eventify.shared.demo.EventType;
+import com.eventify.webscraper.domain.BaseEventWebScraper;
 import org.jsoup.nodes.Document;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 public class KonferencijeEventWebScraper extends BaseEventWebScraper {
     @Override
