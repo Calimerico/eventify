@@ -1,5 +1,5 @@
 package com.eventify.shared.ddd;
 
-public class UUIDAggregate extends UUIDEntity {
+public abstract class UUIDAggregate extends UUIDEntity {
 
 }
