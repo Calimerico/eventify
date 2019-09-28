@@ -51,6 +51,14 @@ public class Event extends UUIDAggregate {
         checkAggregate();
     }
 
+    //TODO THIS CONSTRUCTOR PRODUCE INVALID DATA AND IT IS USED JUST FOR EVENT EXAMPLE WHEN SEARCHING FOR EVENTS!
+    //todo Consider split domain and data model for this entity
+    private Event(String name, Place place, EventType eventType) {
+        this.eventName = name;
+        this.place = place;
+        this.eventType = eventType;
+    }
+
     private Event() {
     }
 
@@ -155,14 +163,7 @@ public class Event extends UUIDAggregate {
     }
 
     public static Event eventExample(String name, Place place, EventType eventType) {
-        Event event = new Event();
-        event.update(EventUpdateParam
-                .builder()
-                .eventName(name)
-                .place(place)
-                .eventType(eventType)
-                .build()
-        );
+        Event event = new Event(name, place, eventType);
         event.setId(null);
         return event;
     }
