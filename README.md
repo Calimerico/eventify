@@ -62,3 +62,5 @@ Other notable technologies / frameworks / tools / libraries:
 - Postgres
 - Lombok
 - Jsoup
+
+I plan to include more technologies soon, most notably **Kubernetes**.
