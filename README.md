@@ -42,6 +42,18 @@ That's it! You are now able to access application on ```http://localhost:8080/``
 
 If you have any trouble with starting application, open an issue and I will resolve it.
 
+To stop application ``` docker-compose down ``` is enough.
+
+Only first time when you are starting app ``` start.sh ``` script is neccesary, later you can just start it with ``` docker-compose up -d ``` since you already have jars and images created.
+
+# Develop new features
+If you want to implement new feature you can contact me through [Linkedin](https://www.linkedin.com/in/spasoje-petronijevi%C4%87/) or you can open issue. If new feature is accepted you can push it through pull request.
+
+You don't want to stop all services and start them again for every small change you made.
+
+
+You will usually not work on all services at a time. If your services are up and you are working for example on ```place-service```  and you want to try it, process for doing that is simple. Stop place service with ```docker stop place``` and then you can start ```place-service``` in your local enviroment like any spring-boot app, service will know how to communicate with rest of the services. Just make sure that you started your service with ```dev``` profile when you are starting it locally.
+
 # Tech/Frameworks/Architecture used
 
 We implemented microservice architecture on backand and single page application on frontend.
@@ -64,3 +76,5 @@ Other notable technologies / frameworks / tools / libraries:
 - Jsoup
 
 I plan to include more technologies soon, most notably **Kubernetes**.
+
+
