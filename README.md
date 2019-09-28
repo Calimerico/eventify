@@ -30,7 +30,11 @@ chmod 755 start.sh
 ```
 This command will take few minutes(it need to build your project, create docker images,register service to eureka, etc.)
 
-When you end up with this screen ![alt text](docker-compose-success.png) app is not ready yet, you can receive 5xx error from server. Servers should register themself to eureka. It usually last ~30 seconds. Be patient. :)
+When you end up with this screen:
+
+![docker-compose-success](docker-compose-success.png)
+
+app is not ready yet, you can receive 5xx error from server. Servers should register themself to eureka. It usually last ~30 seconds. Be patient. :)
 
 
 That's it! You are now able to access application on ```http://localhost:8080/```
