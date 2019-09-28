@@ -29,7 +29,6 @@ public class EventFinder {
     }
 
     public Event findById(UUID id) {
-        //TODO Read this https://tuhrig.de/anti-pattern-dont-use-optionals-for-data-repositories/ Change to Optional<Event> or not? Provide both method obtain and get
         return eventRepository.loadById(id);
     }
 
