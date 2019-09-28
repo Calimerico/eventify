@@ -24,11 +24,12 @@ Just make sure that if you are changing port for example 9092 to 9093 change tha
 
 
 ```
+git clone https://github.com/Calimerico/eventify.git
 cd eventify-backend
 chmod 755 start.sh
 ./start.sh
 ```
-This command will take few minutes(it need to build your project, create docker images,register service to eureka, etc.)
+This command will take few minutes(it need to build your project, create docker images,register services to eureka, etc.)
 
 When you end up with this screen:
 
@@ -38,6 +39,8 @@ app is not ready yet, you can receive 5xx error from server. Servers should regi
 
 
 That's it! You are now able to access application on ```http://localhost:8080/```
+
+If you have any trouble with starting application, open an issue and I will resolve it.
 
 # Tech/Frameworks/Architecture used
 
