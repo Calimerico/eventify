@@ -53,6 +53,7 @@ public class EventController {
     }
 
     @GetMapping(value = MY_EVENTS, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @Secured({ROLE_REGISTERED_USER})
     public ResponseEntity<PagedResources<EventResource>> getMyEvents(
             @PageableDefault Pageable pageable,
             PagedResourcesAssembler<Event> pagedAssembler) {

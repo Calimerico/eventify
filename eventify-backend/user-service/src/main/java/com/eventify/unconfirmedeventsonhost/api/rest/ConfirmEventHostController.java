@@ -40,6 +40,7 @@ public class ConfirmEventHostController {
         );
         return ResponseEntity.ok().build();
     }
+    //todo we are missing unconfirm host on event method
 
     @GetMapping
     @Secured(ROLE_REGISTERED_USER)

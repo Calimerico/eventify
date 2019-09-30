@@ -17,6 +17,7 @@ import java.util.UUID;
 @Value
 @Builder
 public class CreateEvent implements Command<Event> {
+    //todo we needed created by and created date here as params
     private String eventName;
     private EventType eventType;
     private UUID placeId;
