@@ -104,6 +104,11 @@ Registered user can:
 Admin can:
 - See popularities of events(by age, gender, type, etc.)
 - See popularities of hosts(by age, gender, type, etc.)
+- Ban user
+- Unban user
+- Add event
+- Remove event
+- Update event
 
 For more informations about this features, visit readme pages of appropriate services.
 
