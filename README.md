@@ -77,4 +77,33 @@ Other notable technologies / frameworks / tools / libraries:
 
 I plan to include more technologies soon, most notably **Kubernetes**.
 
+# Features:
+
+There are 3 roles that you can possibly have in eventify system: **Administrator**, **Registered user**, **Non-registered user**.
+
+Non-registered person can:
+- Login
+- Register
+- View filtered list of events(sorted by popularity)
+- View events that particular host is organizing(sorted by popularity)
+- View events that happen on particular place(sorted by popularity)
+
+Registered user can:
+- View filtered list of events
+- View events that particular host is organizing(sorted by popularity and user preferences)
+- View events that happen on particular place(sorted by popularity and user preferences)
+- View events where he is host or he added
+- Add event
+- Remove event where he is host or he added
+- Update event where hi is hot or he added
+- Configure that when someone mark him as host he is automatically confirmed as host
+- Configure that when someone mark him as host he is not automatically confirmed as host
+- Confirm that he is host of an event
+- Unconfirm that he is host of an event
+
+Admin can:
+- See popularities of events(by age, gender, type, etc.)
+- See popularities of hosts(by age, gender, type, etc.)
+
+For more informations about this features, visit readme pages of appropriate services.
 
