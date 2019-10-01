@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.util.UUID;
 
 /**
  * Created by spasoje on 13-Dec-18.
@@ -25,8 +26,8 @@ public class UserController {
     private final Gate gate;
 
     @PostMapping
-    public ResponseEntity registerUser(@RequestBody @Valid RegisterUserRequest registerUserRequest) {
-        gate.dispatch(RegisterUser
+    public ResponseEntity<UUID> registerUser(@RequestBody @Valid RegisterUserRequest registerUserRequest) {
+        UUID userId = gate.dispatch(RegisterUser
                 .builder()
                 .email(registerUserRequest.getEmail())
                 .username(registerUserRequest.getUsername())
@@ -36,7 +37,7 @@ public class UserController {
                 .sex(registerUserRequest.getSex())
                 .role(registerUserRequest.getRole())
                 .build());
-        return ResponseEntity.ok().build();//TODO Should be status created, not ok
+        return ResponseEntity.ok(userId);//TODO Should be status created, not ok
     }
 
 }

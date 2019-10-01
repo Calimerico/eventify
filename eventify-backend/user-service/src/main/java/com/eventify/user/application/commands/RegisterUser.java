@@ -5,12 +5,14 @@ import com.eventify.shared.demo.Sex;
 import lombok.Builder;
 import lombok.Value;
 
+import java.util.UUID;
+
 /**
  * Created by spasoje on 13-Dec-18.
  */
 @Value
 @Builder
-public class RegisterUser implements Command<Void> {
+public class RegisterUser implements Command<UUID> {
     private final String email;
     private final String username;
     private final String password;
