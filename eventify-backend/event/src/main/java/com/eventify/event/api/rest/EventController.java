@@ -84,7 +84,7 @@ public class EventController {
                 .prices(createEventRequest.getPrices())
                 .hosts(createEventRequest.getHostIds())
                 .build());
-        return ResponseEntity.ok(EventResource.fromEvent(createdEvent));
+        return ResponseEntity.ok(EventResource.fromEvent(createdEvent));//todo created instead of ok
     }
 
     @PutMapping(value = ID_PATH, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -111,7 +111,7 @@ public class EventController {
                 .builder()
                 .id(id)
                 .build());
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 
     @Component
