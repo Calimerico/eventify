@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 import static com.eventify.shared.security.RoleName.ROLE_ADMIN;
 import static com.eventify.userban.api.rest.UserBanController.BASE_PATH;
 
@@ -27,7 +29,7 @@ public class UserBanController {
 
     @PatchMapping(value = BAN_USER, consumes = MediaType.APPLICATION_JSON_VALUE)
     @Secured(ROLE_ADMIN)
-    public ResponseEntity<Void> banUser(@RequestBody BanUserRequest banUserRequest) {
+    public ResponseEntity<Void> banUser(@RequestBody @Valid BanUserRequest banUserRequest) {
         gate.dispatch(BanUser
                 .builder()
                 .adminId(banUserRequest.getAdminId())

@@ -23,6 +23,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.UUID;
 
 import static com.eventify.shared.security.RoleName.ROLE_ADMIN;
@@ -45,7 +46,7 @@ public class EventController {
     private final Context context;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<PagedResources<EventResource>> getEvents(@ModelAttribute EventFilterRequest eventFilterRequest,
+    public ResponseEntity<PagedResources<EventResource>> getEvents(@ModelAttribute @Valid EventFilterRequest eventFilterRequest,
                                                                    @PageableDefault Pageable pageable,
                                                                    PagedResourcesAssembler<Event> pagedAssembler) {
         Page<Event> pageOfEvents = eventFinder.findByExample(convertToDto(eventFilterRequest), pageable);
@@ -70,7 +71,7 @@ public class EventController {
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     @Secured({ROLE_REGISTERED_USER, ROLE_ADMIN})
-    public ResponseEntity<EventResource> insertEvent(@RequestBody CreateEventRequest createEventRequest) {
+    public ResponseEntity<EventResource> insertEvent(@RequestBody @Valid CreateEventRequest createEventRequest) {
         Event createdEvent = gate.dispatch(CreateEvent
                 .builder()
                 .description(createEventRequest.getDescription())
@@ -88,7 +89,7 @@ public class EventController {
 
     @PutMapping(value = ID_PATH, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("@permissionService.hasPermissionToModifyEvent(#id)")
-    public ResponseEntity<EventResource> updateEvent(@PathVariable UUID id, @RequestBody UpdateEventRequest updateEventRequest) {
+    public ResponseEntity<EventResource> updateEvent(@PathVariable UUID id, @RequestBody @Valid UpdateEventRequest updateEventRequest) {
         Event updatedEvent = gate.dispatch(UpdateEvent
                 .builder()
                 .id(id)

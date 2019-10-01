@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 /**
  * Created by spasoje on 13-Dec-18.
  */
@@ -23,7 +25,7 @@ public class UserController {
     private final Gate gate;
 
     @PostMapping
-    public ResponseEntity registerUser(@RequestBody RegisterUserRequest registerUserRequest) {
+    public ResponseEntity registerUser(@RequestBody @Valid RegisterUserRequest registerUserRequest) {
         gate.dispatch(RegisterUser
                 .builder()
                 .email(registerUserRequest.getEmail())

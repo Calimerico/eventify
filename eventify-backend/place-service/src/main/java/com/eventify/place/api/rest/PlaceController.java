@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,7 +28,7 @@ public class PlaceController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @Secured(ROLE_ADMIN)
-    public ResponseEntity<PlaceResource> insertPlace(@RequestBody CreatePlaceRequest createPlaceRequest) {
+    public ResponseEntity<PlaceResource> insertPlace(@RequestBody @Valid CreatePlaceRequest createPlaceRequest) {
         Place createdPlace = gate.dispatch(CreatePlace
                 .builder()
                 .name(createPlaceRequest.getName())

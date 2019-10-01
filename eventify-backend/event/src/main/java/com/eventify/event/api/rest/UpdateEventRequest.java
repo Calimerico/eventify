@@ -4,6 +4,8 @@ import com.eventify.shared.demo.EventType;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -13,9 +15,12 @@ import java.util.UUID;
  */
 @Data
 class UpdateEventRequest {
+    @NotBlank
     private String eventName;
+    @NotNull
     private EventType eventType;
     private UUID placeId;
+    @NotNull
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime eventDateTime;
     private String description;

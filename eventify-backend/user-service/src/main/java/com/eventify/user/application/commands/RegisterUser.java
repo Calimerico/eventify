@@ -1,6 +1,7 @@
 package com.eventify.user.application.commands;
 
 import com.eventify.shared.demo.Command;
+import com.eventify.shared.demo.Sex;
 import lombok.Builder;
 import lombok.Value;
 
@@ -15,6 +16,6 @@ public class RegisterUser implements Command<Void> {
     private final String password;
     private final String firstName;
     private final String lastName;
-    private final String sex;
+    private final Sex sex;
     private final String role;
 }

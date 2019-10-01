@@ -12,14 +12,14 @@ import java.util.UUID;
 public class UserBuilders {
 
     @Builder(builderMethodName = "aUser")
-    private static UserAccount createUser(String email, String username, String password, String firstName, String lastName, String sex, String role, Set<UUID> eventIdsThatUserOrganize) {
+    private static UserAccount createUser(String email, String username, String password, String firstName, String lastName, Sex sex, String role, Set<UUID> eventIdsThatUserOrganize) {
         UserAccount user = new UserAccount();
         user.setEmail(email);
         user.setUsername(username);
         user.setPassword(password);
         user.setFirstName(firstName);
         user.setLastName(lastName);
-        user.setSex(Sex.valueOf(sex));
+        user.setSex(sex);
         user.setRole(role);
         user.setEventIdsThatUserOrganize(eventIdsThatUserOrganize);
         return user;
