@@ -1,12 +1,11 @@
 package com.eventify.user.application.handlers;
 
+import com.eventify.eventsonhost.domain.EventsOnHost;
+import com.eventify.eventsonhost.domain.EventsOnHostRepository;
 import com.eventify.user.application.commands.MakeUserHostOfEvent;
-import com.eventify.user.domain.UserAccount;
 import com.eventify.user.infrastructure.UserRepository;
 import com.eventify.shared.net.CommandHandler;
 import lombok.RequiredArgsConstructor;
-
-import java.util.NoSuchElementException;
 
 /**
  * Created by spasoje on 20-Dec-18.
@@ -14,13 +13,16 @@ import java.util.NoSuchElementException;
 @CommandHandler
 @RequiredArgsConstructor
 public class MakeUserHostOfEventHandler implements com.eventify.shared.demo.CommandHandler<MakeUserHostOfEvent, Void> {
+    private final EventsOnHostRepository eventsOnHostRepository;
     private final UserRepository userRepository;
 
     @Override
     public Void handle(MakeUserHostOfEvent makeUserHostOfEvent) {
-        UserAccount user = userRepository.loadUser(makeUserHostOfEvent.getUserId());
-        user.getEventIdsThatUserOrganize().add(makeUserHostOfEvent.getEventId());//TODO This is not immutable. Change state with getter?
-        userRepository.save(user);
+        EventsOnHost eventsOnHost = eventsOnHostRepository.findById(makeUserHostOfEvent.getUserId())
+                .orElseGet(() -> new EventsOnHost(userRepository.loadUser(makeUserHostOfEvent.getUserId())));
+        eventsOnHost.removeEvent(makeUserHostOfEvent.getEventId());
+        eventsOnHost.addConfirmedEvent(makeUserHostOfEvent.getEventId());
+        eventsOnHostRepository.save(eventsOnHost);
         return null;
     }
 }

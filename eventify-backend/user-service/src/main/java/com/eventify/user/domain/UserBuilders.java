@@ -12,7 +12,7 @@ import java.util.UUID;
 public class UserBuilders {
 
     @Builder(builderMethodName = "aUser")
-    private static UserAccount createUser(String email, String username, String password, String firstName, String lastName, Sex sex, String role, Set<UUID> eventIdsThatUserOrganize) {
+    private static UserAccount createUser(String email, String username, String password, String firstName, String lastName, Sex sex, String role) {
         UserAccount user = new UserAccount();
         user.setEmail(email);
         user.setUsername(username);
@@ -21,7 +21,6 @@ public class UserBuilders {
         user.setLastName(lastName);
         user.setSex(sex);
         user.setRole(role);
-        user.setEventIdsThatUserOrganize(eventIdsThatUserOrganize);
         return user;
     }
 }

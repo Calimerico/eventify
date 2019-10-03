@@ -1,11 +1,11 @@
 package com.eventify.user.infrastructure;
 
+import com.eventify.eventsonhost.application.commands.UnconfirmEventHost;
 import com.eventify.user.api.msg.EventAddedEvent;
 import com.eventify.user.api.msg.EventDeletedEvent;
 import com.eventify.user.application.commands.MakeUserHostOfEvent;
 import com.eventify.user.application.commands.RemoveEventFromUsers;
 import com.eventify.shared.demo.Gate;
-import com.eventify.unconfirmedeventsonhost.application.commands.UnconfirmedEventOnHost;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cloud.stream.annotation.StreamListener;
 import org.springframework.messaging.handler.annotation.Payload;
@@ -34,7 +34,7 @@ public class KafkaConsumer {
                     .build());
         });
         emptyIfNull(eventAddedEvent.getUnconfirmedHosts()).forEach(unconfirmedHostId -> {
-            gate.dispatch(UnconfirmedEventOnHost
+            gate.dispatch(UnconfirmEventHost
                     .builder()
                     .eventId(eventAddedEvent.getEventId())
                     .hostId(unconfirmedHostId)

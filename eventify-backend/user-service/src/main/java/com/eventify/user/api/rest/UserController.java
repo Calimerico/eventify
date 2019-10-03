@@ -26,7 +26,7 @@ public class UserController {
     private final Gate gate;
 
     @PostMapping
-    public ResponseEntity<UUID> registerUser(@RequestBody @Valid RegisterUserRequest registerUserRequest) {
+    public ResponseEntity<UserResource> registerUser(@RequestBody @Valid RegisterUserRequest registerUserRequest) {
         UUID userId = gate.dispatch(RegisterUser
                 .builder()
                 .email(registerUserRequest.getEmail())
@@ -37,7 +37,11 @@ public class UserController {
                 .sex(registerUserRequest.getSex())
                 .role(registerUserRequest.getRole())
                 .build());
-        return ResponseEntity.ok(userId);//TODO Should be status created, not ok
+        return ResponseEntity.ok(UserResource
+                .builder()
+                .id(userId)
+                .build()
+        );//TODO Should be status created, not ok
     }
 
 }

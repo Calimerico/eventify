@@ -1,4 +1,4 @@
-package com.eventify.unconfirmedeventsonhost.domain;
+package com.eventify.eventsonhost.domain;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -11,9 +11,9 @@ import java.util.UUID;
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class UnconfirmedEventsOnHostFinder {
-    private final UnconfirmedEventsOnHostRepository unconfirmedEventsOnHostRepository;
+    private final EventsOnHostRepository eventsOnHostRepository;
 
     public Set<UUID> findUnconfirmedEventsForHost(UUID hostId) {
-        return unconfirmedEventsOnHostRepository.findByUserId(hostId).getUnconfirmedEvents();
+        return eventsOnHostRepository.findByHostId(hostId).getUnconfirmedEvents();
     }
 }

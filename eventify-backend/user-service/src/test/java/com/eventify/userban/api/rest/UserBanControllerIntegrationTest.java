@@ -1,5 +1,6 @@
 package com.eventify.userban.api.rest;
 
+import com.eventify.shared.demo.Sex;
 import com.eventify.shared.kafka.KafkaEventProducer;
 import com.eventify.user.domain.UserAccount;
 import com.eventify.user.domain.UserBuilders;
@@ -65,7 +66,7 @@ public class UserBanControllerIntegrationTest {
             .lastName("Petronijevic")
             .username("spasoje")
             .password("spasoje")
-            .sex("MALE")
+            .sex(Sex.MALE)
             .build();
 
     @Before

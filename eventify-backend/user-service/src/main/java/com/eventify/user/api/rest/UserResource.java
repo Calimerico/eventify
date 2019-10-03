@@ -17,7 +17,6 @@ import java.util.UUID;
 @Data
 @Builder
 @Relation(value = "resource", collectionRelation = "resources")
-public class UserResource extends ResourceSupport {
-    @JsonProperty("id")
-    private UUID userId;
+public class UserResource {
+    private UUID id;
 }

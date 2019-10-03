@@ -12,11 +12,10 @@ import java.util.List;
 @Entity
 class Host extends UUIDEntity {
 
-    @ElementCollection
-    private List<String> names;
+    private String name;
 
-    public Host(List<String> names) {
-        this.names = names;
+    public Host(String name) {
+        this.name = name;
         checkAggregate();
     }
 
@@ -24,7 +23,7 @@ class Host extends UUIDEntity {
     }
 
     private void checkAggregate() {
-        if (names == null || names.isEmpty()) {
+        if (name == null || name.isEmpty()) {
             throw new IllegalStateException("Host must has a name!");
         }
     }
@@ -32,23 +31,23 @@ class Host extends UUIDEntity {
         return new HostBuilder();
     }
 
-    public List<String> getNames() {
-        return names;
+    public String getName() {
+        return name;
     }
 
     public static class HostBuilder {
-        private List<String> names;
+        private String name;
 
         HostBuilder() {
         }
 
-        public Host.HostBuilder names(List<String> names) {
-            this.names = names;
+        public Host.HostBuilder names(String name) {
+            this.name = name;
             return this;
         }
 
         public Host build() {
-            return new Host(names);
+            return new Host(name);
         }
     }
 }

@@ -1,6 +1,7 @@
 package com.eventify.event.infrastructure;
 
 import com.eventify.event.api.msg.EventHostConfirmed;
+import com.eventify.event.api.msg.EventHostUnconfirmed;
 import com.eventify.event.api.msg.EventsScraped;
 import com.eventify.place.api.msg.PlaceUpdatedEvent;
 import com.eventify.event.application.commands.CreateEvent;
@@ -56,6 +57,16 @@ public class Consumer {//TODO Rename
                 .builder()
                 .eventId(eventHostConfirmed.getEventId())
                 .hostId(eventHostConfirmed.getHostId())
+                .build()
+        );
+    }
+
+    @StreamListener(condition = "headers['eventType'] == 'EventHostUnconfirmed' ", value = EVENTS_TOPIC_INPUT_CHANNEL)
+    public void handleEventHostConfirmed(@Payload EventHostUnconfirmed eventHostUnconfirmed) {
+        gate.dispatch(com.eventify.event.application.commands.EventHostUnconfirmed
+                .builder()
+                .eventId(eventHostUnconfirmed.getEventId())
+                .hostId(eventHostUnconfirmed.getHostId())
                 .build()
         );
     }

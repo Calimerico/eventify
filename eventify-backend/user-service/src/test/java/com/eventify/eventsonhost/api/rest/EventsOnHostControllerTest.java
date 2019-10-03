@@ -1,12 +1,14 @@
-package com.eventify.unconfirmedeventsonhost.api.rest;
+package com.eventify.eventsonhost.api.rest;
 
+import com.eventify.shared.demo.Sex;
+import com.eventify.shared.security.Context;
 import com.eventify.user.domain.UserAccount;
 import com.eventify.user.domain.UserBuilders;
 import com.eventify.user.infrastructure.UserRepository;
 import com.eventify.config.security.PermissionService;
 import com.eventify.shared.config.auth.TestSecurityConfig;
-import com.eventify.unconfirmedeventsonhost.domain.UnconfirmedEventsOnHost;
-import com.eventify.unconfirmedeventsonhost.domain.UnconfirmedEventsOnHostRepository;
+import com.eventify.eventsonhost.domain.EventsOnHost;
+import com.eventify.eventsonhost.domain.EventsOnHostRepository;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,8 +28,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.HashSet;
 import java.util.UUID;
 
+import static com.eventify.eventsonhost.api.rest.EventsOnHostController.*;
 import static com.eventify.shared.config.auth.TestSecurityConfig.REGULAR_USER;
-import static com.eventify.unconfirmedeventsonhost.api.rest.ConfirmEventHostController.BASE_PATH;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.mockito.ArgumentMatchers.any;
@@ -43,7 +45,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ContextConfiguration
 @Commit//todo read this https://stackoverflow.com/questions/43519761/replacement-of-transactionconfiguration
 @Transactional
-public class ConfirmEventHostControllerTest {
+public class EventsOnHostControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -54,60 +56,86 @@ public class ConfirmEventHostControllerTest {
     @MockBean
     private PermissionService permissionService;
 
+    @MockBean
+    private Context context;
+
     private UUID eventId = UUID.randomUUID();
     private UUID eventId2 = UUID.randomUUID();
     private UUID userId;
+    private UserAccount user = UserBuilders
+            .aUser()
+            .firstName("Spasoje")
+            .sex(Sex.MALE)
+            .lastName("Petros")
+            .build();
 
     @Autowired
-    private UnconfirmedEventsOnHostRepository unconfirmedEventsOnHostRepository;
+    private EventsOnHostRepository eventsOnHostRepository;
+
 
     @Before
     public void setUp() throws Exception {
         //todo improve security testing!
+        Mockito.when(context.getUserId()).thenReturn(user.getId());
         Mockito.when(permissionService.hasPermissionToConfirmHostOnEvent(any())).thenReturn(true);
-        UserAccount user = UserBuilders
-                .aUser()
-                .firstName("Spasoje")
-                .sex("MALE")
-                .lastName("Petros")
-                .build();
         userId = user.getId();
         userRepository.save(user);
-        HashSet<UUID> unconfirmedEvents = new HashSet<>();
-        unconfirmedEvents.add(eventId);
-        unconfirmedEvents.add(eventId2);
-        unconfirmedEventsOnHostRepository.save(UnconfirmedEventsOnHost
-                .builder()
-                .user(user)
-                .unconfirmedEvents(unconfirmedEvents)
-                .build()
-        );
     }
 
     @Test
     @WithUserDetails(REGULAR_USER)
     public void confirmHostOnEventTest() throws Exception {
-        //given
+        //given Add unconfirmed events so we can confirm one of them
+        HashSet<UUID> unconfirmedEvents = new HashSet<>();
+        unconfirmedEvents.add(eventId);
+        unconfirmedEvents.add(eventId2);
+        EventsOnHost eventsOnHost = new EventsOnHost(user);
+        unconfirmedEvents.forEach(eventsOnHost::addUnconfirmedEvent);
+        eventsOnHostRepository.save(eventsOnHost);
         //when
         mockMvc.perform(
-                patch(BASE_PATH + "/" + eventId)
+                patch(BASE_PATH + "/" + eventId + CONFIRM_HOST)
         );
         //then
-        UnconfirmedEventsOnHost unconfirmedEventsOnHost = unconfirmedEventsOnHostRepository.findByUserId(userId);
-        assertThat(unconfirmedEventsOnHost.getUnconfirmedEvents().contains(eventId2)).isEqualTo(true);
-        assertThat(unconfirmedEventsOnHost.getUnconfirmedEvents().contains(eventId)).isEqualTo(false);
+        EventsOnHost eventsOnHostAfter = eventsOnHostRepository.findByHostId(userId);
+        assertThat(eventsOnHostAfter.getUnconfirmedEvents().contains(eventId2)).isEqualTo(true);
+        assertThat(eventsOnHostAfter.getUnconfirmedEvents().contains(eventId)).isEqualTo(false);
+        assertThat(eventsOnHostAfter.getConfirmedEvents().contains(eventId2)).isEqualTo(false);
+        assertThat(eventsOnHostAfter.getConfirmedEvents().contains(eventId)).isEqualTo(true);
+    }
+
+    @Test
+    @WithUserDetails(REGULAR_USER)
+    public void unconfirmHostOnEventTest() throws Exception {
+        //given Add confirmed events so we can confirm one of them
+        HashSet<UUID> confirmedEvents = new HashSet<>();
+        confirmedEvents.add(eventId);
+        confirmedEvents.add(eventId2);
+        EventsOnHost eventsOnHost = new EventsOnHost(user);
+        confirmedEvents.forEach(eventsOnHost::addConfirmedEvent);
+        eventsOnHostRepository.save(eventsOnHost);
+        //when
+        mockMvc.perform(
+                patch(BASE_PATH + "/" + eventId + UNCONFIRM_HOST)
+        );
+        //then
+        EventsOnHost eventsOnHostAfter = eventsOnHostRepository.findByHostId(userId);
+        assertThat(eventsOnHostAfter.getUnconfirmedEvents().contains(eventId2)).isEqualTo(false);
+        assertThat(eventsOnHostAfter.getUnconfirmedEvents().contains(eventId)).isEqualTo(true);
+        assertThat(eventsOnHostAfter.getConfirmedEvents().contains(eventId2)).isEqualTo(true);
+        assertThat(eventsOnHostAfter.getConfirmedEvents().contains(eventId)).isEqualTo(false);
     }
 
     @Test
     @WithUserDetails(REGULAR_USER)
     public void getEventsForConfirmation() throws Exception {
-        mockMvc.perform(get(BASE_PATH))
+        mockMvc.perform(get(BASE_PATH + UNCONFIRMED_EVENTS))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()", is(2)));
     }
 
     @After
     public void tearDown() throws Exception {
-        unconfirmedEventsOnHostRepository.deleteAll();
+        eventsOnHostRepository.deleteAll();
     }
 }

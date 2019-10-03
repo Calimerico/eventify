@@ -1,4 +1,4 @@
-package com.eventify.unconfirmedeventsonhost.application.commands;
+package com.eventify.eventsonhost.application.commands;
 
 import com.eventify.shared.demo.Command;
 import lombok.Builder;

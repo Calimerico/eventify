@@ -19,7 +19,6 @@ import static org.apache.commons.collections4.CollectionUtils.emptyIfNull;
  * Created by spasoje on 15-Jun-17.
  */
 @Entity
-//todo remove this annotation from ALL domain classes!
 public class Event extends UUIDAggregate {
     private String eventName;
 
@@ -95,6 +94,15 @@ public class Event extends UUIDAggregate {
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("Event " + getId() + " does not contain host " + hostId))
                 .setConfirmed(true);
+    }
+
+    public void unconfirmHost(UUID hostId) {
+        hosts
+                .stream()
+                .filter(hostOnEvent -> hostOnEvent.getHost().getId().equals(hostId))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Event " + getId() + " does not contain host " + hostId))
+                .setConfirmed(false);
     }
 
     public Set<HostDto> findConfirmedHosts() {

@@ -1,32 +1,24 @@
 package com.eventify.user.application.handlers;
 
 import com.eventify.user.application.commands.RemoveEventFromUsers;
-import com.eventify.user.domain.UserAccount;
-import com.eventify.user.infrastructure.UserRepository;
 import com.eventify.shared.net.CommandHandler;
-import com.eventify.unconfirmedeventsonhost.domain.UnconfirmedEventsOnHost;
-import com.eventify.unconfirmedeventsonhost.domain.UnconfirmedEventsOnHostRepository;
+import com.eventify.eventsonhost.domain.EventsOnHost;
+import com.eventify.eventsonhost.domain.EventsOnHostRepository;
 import lombok.RequiredArgsConstructor;
-
-import java.util.Set;
 
 @CommandHandler
 @RequiredArgsConstructor
 public class RemoveEventFromUsersHandler implements com.eventify.shared.demo.CommandHandler<RemoveEventFromUsers, Void> {
 
-    private final UserRepository userRepository;
-    private final UnconfirmedEventsOnHostRepository unconfirmedEventsOnHostRepository;
+    private final EventsOnHostRepository eventsOnHostRepository;
 
     @Override
     public Void handle(RemoveEventFromUsers removeEventFromUsers) {
-        Iterable<UserAccount> users = userRepository.findAllById(removeEventFromUsers.getConfirmedHosts());
-        for (UserAccount user : users) {
-            user.getEventIdsThatUserOrganize().remove(removeEventFromUsers.getEventId());
-            userRepository.save(user);
+        Iterable<EventsOnHost> eventsOnHostList = eventsOnHostRepository.findAllById(removeEventFromUsers.getConfirmedHosts());
+        for (EventsOnHost eventsOnHost : eventsOnHostList) {
+            eventsOnHost.removeEvent(removeEventFromUsers.getEventId());
+            eventsOnHostRepository.save(eventsOnHost);
         }
-        Set<UnconfirmedEventsOnHost> unconfirmedEventsOnHosts = unconfirmedEventsOnHostRepository.findByUnconfirmedEventsContains(removeEventFromUsers.getEventId());
-        unconfirmedEventsOnHosts.forEach(unconfirmedEventsOnHost -> unconfirmedEventsOnHost.getUnconfirmedEvents().remove(removeEventFromUsers.getEventId()));
-        unconfirmedEventsOnHostRepository.saveAll(unconfirmedEventsOnHosts);
         return null;
     }
 }

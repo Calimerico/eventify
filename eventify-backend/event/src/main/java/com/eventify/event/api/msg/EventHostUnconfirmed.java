@@ -1,4 +1,4 @@
-package com.eventify.unconfirmedeventsonhost.api.rest;
+package com.eventify.event.api.msg;
 
 import com.eventify.shared.demo.DomainEvent;
 import lombok.AllArgsConstructor;
@@ -12,7 +12,7 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class EventHostConfirmed implements DomainEvent {
+public class EventHostUnconfirmed implements DomainEvent {
     private UUID eventId;
     private UUID hostId;
 }

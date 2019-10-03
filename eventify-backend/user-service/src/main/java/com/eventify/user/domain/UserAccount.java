@@ -24,6 +24,4 @@ public class UserAccount extends UUIDAggregate {
     @Enumerated(EnumType.STRING)
     private Sex sex;
     private String role;
-    @ElementCollection
-    private Set<UUID> eventIdsThatUserOrganize;
 }

@@ -1,4 +1,4 @@
-package com.eventify.unconfirmedeventsonhost.application.commands;
+package com.eventify.eventsonhost.application.commands;
 
 import com.eventify.shared.demo.Command;
 import lombok.Builder;
@@ -8,7 +8,7 @@ import java.util.UUID;
 
 @Value
 @Builder
-public class UnconfirmedEventOnHost implements Command<Void> {
+public class ConfirmEventHost implements Command<Void> {
     private UUID eventId;
     private UUID hostId;
 }

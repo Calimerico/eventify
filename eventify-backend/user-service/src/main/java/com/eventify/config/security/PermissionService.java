@@ -1,7 +1,7 @@
 package com.eventify.config.security;
 
 import com.eventify.shared.security.Context;
-import com.eventify.unconfirmedeventsonhost.domain.UnconfirmedEventsOnHostFinder;
+import com.eventify.eventsonhost.domain.UnconfirmedEventsOnHostFinder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

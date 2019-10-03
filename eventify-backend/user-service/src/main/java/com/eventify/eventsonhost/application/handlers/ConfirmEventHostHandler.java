@@ -1,11 +1,11 @@
-package com.eventify.unconfirmedeventsonhost.application.handlers;
+package com.eventify.eventsonhost.application.handlers;
 
 import com.eventify.shared.demo.CommandHandler;
 import com.eventify.shared.kafka.KafkaEventProducer;
-import com.eventify.unconfirmedeventsonhost.api.rest.EventHostConfirmed;
-import com.eventify.unconfirmedeventsonhost.application.commands.ConfirmEventHost;
-import com.eventify.unconfirmedeventsonhost.domain.UnconfirmedEventsOnHost;
-import com.eventify.unconfirmedeventsonhost.domain.UnconfirmedEventsOnHostRepository;
+import com.eventify.eventsonhost.api.rest.EventHostConfirmed;
+import com.eventify.eventsonhost.application.commands.ConfirmEventHost;
+import com.eventify.eventsonhost.domain.EventsOnHost;
+import com.eventify.eventsonhost.domain.EventsOnHostRepository;
 import lombok.RequiredArgsConstructor;
 
 import static com.eventify.shared.kafka.Topic.EVENTS_TOPIC;
@@ -14,14 +14,15 @@ import static com.eventify.shared.kafka.Topic.EVENTS_TOPIC;
 @RequiredArgsConstructor
 public class ConfirmEventHostHandler implements CommandHandler<ConfirmEventHost, Void> {
 
-    private final UnconfirmedEventsOnHostRepository unconfirmedEventsOnHostRepository;
+    private final EventsOnHostRepository eventsOnHostRepository;
     private final KafkaEventProducer kafkaEventProducer;
 
     @Override
     public Void handle(ConfirmEventHost confirmEventHost) {
-        UnconfirmedEventsOnHost byUserId = unconfirmedEventsOnHostRepository.findByUserId(confirmEventHost.getHostId());
-        byUserId.getUnconfirmedEvents().remove(confirmEventHost.getEventId());
-        unconfirmedEventsOnHostRepository.save(byUserId);
+        EventsOnHost eventsOnHost = eventsOnHostRepository.findByHostId(confirmEventHost.getHostId());
+        eventsOnHost.removeEvent(confirmEventHost.getEventId());
+        eventsOnHost.addConfirmedEvent(confirmEventHost.getEventId());
+        eventsOnHostRepository.save(eventsOnHost);
         kafkaEventProducer.send(EventHostConfirmed
                 .builder()
                 .eventId(confirmEventHost.getEventId())

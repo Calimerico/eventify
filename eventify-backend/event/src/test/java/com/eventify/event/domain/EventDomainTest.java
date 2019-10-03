@@ -71,7 +71,7 @@ public class EventDomainTest {
                 .eventName("name")
                 .eventDateTime(LocalDateTime.now().plusDays(2L))
                 .eventType(EventType.THEATER)
-                .host(new Host(singletonList("some host")))
+                .host(new Host("some host"))
                 .description("desc")
                 .place(new Place(UUID.randomUUID(), "place name", "SD", 1l, 2l))
                 .build()).doesNotThrowAnyException();
@@ -84,7 +84,7 @@ public class EventDomainTest {
                 .eventName("name")
                 .eventDateTime(LocalDateTime.now().plusDays(2L))
                 .eventType(EventType.THEATER)
-                .host(new Host(singletonList("some host")))
+                .host(new Host("some host"))
                 .description("desc")
                 .place(new Place(UUID.randomUUID(), "place name", "SD", 1l, 2l))
                 .build();
@@ -95,7 +95,7 @@ public class EventDomainTest {
 
     @Test
     public void noExceptionsWhenWeTryToUpdateHostAndHostIsPresent() {
-        Host host = new Host(singletonList("some host"));
+        Host host = new Host("some host");
         Event event = Event
                 .builder()
                 .eventName("name")
@@ -114,7 +114,7 @@ public class EventDomainTest {
 
     @Test
     public void userIsHostOfEventIfConfirmationHappened() {
-        Host host = new Host(singletonList("some host"));
+        Host host = new Host("some host");
         Event event = Event
                 .builder()
                 .eventName("name")
@@ -130,7 +130,7 @@ public class EventDomainTest {
 
     @Test
     public void userIsNotHostOfEventIfConfirmationHasntHappened() {
-        Host host = new Host(singletonList("some host"));
+        Host host = new Host("some host");
         Event event = Event
                 .builder()
                 .eventName("name")
