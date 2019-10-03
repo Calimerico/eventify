@@ -1,4 +1,4 @@
-package com.eventify.dataseeder;
+package com.eventify.dataseeder.place;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;

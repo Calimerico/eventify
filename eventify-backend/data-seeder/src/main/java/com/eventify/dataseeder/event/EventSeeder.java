@@ -1,5 +1,8 @@
-package com.eventify.dataseeder;
+package com.eventify.dataseeder.event;
 
+import com.eventify.dataseeder.idresolver.EntityType;
+import com.eventify.dataseeder.idresolver.IdResolver;
+import com.eventify.dataseeder.listeners.DataSeeder;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -27,11 +30,11 @@ public class EventSeeder {
         try {
             List<Event> events = objectMapper.readValue(EventSeeder.class.getResourceAsStream("/data/events.json"), new TypeReference<List<Event>>(){});
             log.info("Events that should be seeded: " + events);
-            events.forEach(event -> restTemplate.exchange(
+            events.forEach(event -> IdResolver.linkId(EntityType.EVENT, restTemplate.exchange(
                     url + "/events",
                     HttpMethod.POST,
-                    new HttpEntity<>(event,DataSeeder.httpHeaders)
-                    ,Object.class)
+                    new HttpEntity<>(event, DataSeeder.httpHeaders)
+                    ,Object.class).getBody(), event.getId())
             );
         } catch (IOException e) {
             e.printStackTrace();//todo

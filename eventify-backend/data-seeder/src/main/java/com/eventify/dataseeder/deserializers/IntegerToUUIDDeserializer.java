@@ -1,5 +1,7 @@
-package com.eventify.dataseeder;
+package com.eventify.dataseeder.deserializers;
 
+import com.eventify.dataseeder.idresolver.EntityType;
+import com.eventify.dataseeder.idresolver.IdResolver;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;

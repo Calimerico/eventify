@@ -1,5 +1,8 @@
-package com.eventify.dataseeder;
+package com.eventify.dataseeder.place;
 
+import com.eventify.dataseeder.listeners.DataSeeder;
+import com.eventify.dataseeder.idresolver.EntityType;
+import com.eventify.dataseeder.idresolver.IdResolver;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -22,16 +25,15 @@ public class PlaceSeeder {
     private String url;
     private final ObjectMapper objectMapper;
     private final RestTemplate restTemplate;
-    private final IdResolver idResolver;
 
     public void seed() {//todo handle this exception properly
         try {
             List<Place> places = objectMapper.readValue(PlaceSeeder.class.getResourceAsStream("/data/places.json"), new TypeReference<List<Place>>(){});
             log.info("Places that should be seeded: " + places);
-            places.forEach(place -> idResolver.linkId(EntityType.PLACE, restTemplate.exchange(
+            places.forEach(place -> IdResolver.linkId(EntityType.PLACE, restTemplate.exchange(
                     url + "/places",
                     HttpMethod.POST,
-                    new HttpEntity<>(place,DataSeeder.httpHeaders)
+                    new HttpEntity<>(place, DataSeeder.httpHeaders)
                     ,Object.class).getBody(), place.getId())
             );
         } catch (IOException e) {

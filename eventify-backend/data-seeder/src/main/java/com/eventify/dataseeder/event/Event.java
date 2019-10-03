@@ -1,5 +1,7 @@
-package com.eventify.dataseeder;
+package com.eventify.dataseeder.event;
 
+import com.eventify.dataseeder.deserializers.IntegerSetToUUIDSetDeserializer;
+import com.eventify.dataseeder.deserializers.IntegerToUUIDDeserializer;
 import com.eventify.shared.demo.EventType;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -8,6 +10,7 @@ import lombok.ToString;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 //TODO Introduce my annotation where I will include those 3 lombok annotations?
@@ -25,4 +28,6 @@ public class Event {
     private String source;
     private String profilePicture;
     private List<Integer> prices;
+    @JsonDeserialize(using = IntegerSetToUUIDSetDeserializer.class)
+    private Set<UUID> hostIds;
 }

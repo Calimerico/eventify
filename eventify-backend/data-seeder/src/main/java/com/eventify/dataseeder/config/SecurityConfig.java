@@ -1,4 +1,4 @@
-package com.eventify.dataseeder;
+package com.eventify.dataseeder.config;
 
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -8,6 +8,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import javax.servlet.http.HttpServletResponse;
 
 @EnableWebSecurity
+//todo if data seeder become just one time scheduled kubernetes job, this web security will become useless
+//Now its fine since we are doing scraping from frontend
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override

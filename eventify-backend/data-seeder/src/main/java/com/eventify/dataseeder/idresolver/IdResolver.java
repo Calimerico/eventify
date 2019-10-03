@@ -1,14 +1,13 @@
-package com.eventify.dataseeder;
+package com.eventify.dataseeder.idresolver;
 
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 import java.util.UUID;
 
 @Component
-public class IdResolver {
+public abstract class IdResolver {
     private static Map<EntityType, Map<Integer, UUID>> ids;
 
     static {
@@ -18,7 +17,7 @@ public class IdResolver {
         ids.put(EntityType.PLACE, new HashMap<>());
     }
 
-    public void linkId(EntityType entityType, Object responseEntity, Integer id) {
+    public static void linkId(EntityType entityType, Object responseEntity, Integer id) {
         ids.get(entityType).put(id, UUID.fromString((String) ((Map) responseEntity).get("id")));
     }
 
