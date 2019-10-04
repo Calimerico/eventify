@@ -21,7 +21,7 @@ class HostOnEvent extends UUIDEntity {
     }
 
     public HostDto getHost() {
-        return new HostDto(host.getId(),host.getNames().get(0));
+        return new HostDto(host.getId(),host.getName());
     }
 
     public boolean isConfirmed() {
