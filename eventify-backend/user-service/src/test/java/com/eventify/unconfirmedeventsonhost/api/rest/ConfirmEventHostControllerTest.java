@@ -1,5 +1,6 @@
 package com.eventify.unconfirmedeventsonhost.api.rest;
 
+import com.eventify.shared.demo.Sex;
 import com.eventify.user.domain.UserAccount;
 import com.eventify.user.domain.UserBuilders;
 import com.eventify.user.infrastructure.UserRepository;
@@ -68,7 +69,7 @@ public class ConfirmEventHostControllerTest {
         UserAccount user = UserBuilders
                 .aUser()
                 .firstName("Spasoje")
-                .sex("MALE")
+                .sex(Sex.MALE)
                 .lastName("Petros")
                 .build();
         userId = user.getId();
