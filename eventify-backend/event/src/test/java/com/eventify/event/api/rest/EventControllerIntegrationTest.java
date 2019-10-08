@@ -6,6 +6,8 @@ import com.eventify.shared.demo.EventType;
 import com.eventify.event.domain.EventRepository;
 import com.eventify.shared.config.auth.TestSecurityConfig;
 import com.eventify.shared.kafka.KafkaEventProducer;
+import com.eventify.shared.kafka.KafkaStreams;
+import com.eventify.shared.kafka.MessageChannelFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.After;
 import org.junit.Test;
@@ -14,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.messaging.SubscribableChannel;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -25,7 +28,6 @@ import static com.eventify.event.api.rest.EventController.*;
 import static com.eventify.shared.config.auth.TestSecurityConfig.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.core.Is.is;
-import static org.mockito.Mockito.*;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -54,6 +56,18 @@ public class EventControllerIntegrationTest {
     @MockBean
     private KafkaEventProducer kafkaEventProducer;
 
+    @MockBean
+    private MessageChannelFactory messageChannelFactory;//todo think of better way of mocking kafka than this 5 MockBeans
+
+    @MockBean
+    private KafkaStreams kafkaStreams;
+
+    @MockBean(name = "eventsTopicInputChannel")
+    private SubscribableChannel eventsTopicInputChannel;
+
+    @MockBean(name = "placesTopicInputChannel")
+    private SubscribableChannel placesTopicInputChannel;
+
     @After
     public void tearDown() {
         eventRepository.deleteAll();
@@ -64,7 +78,7 @@ public class EventControllerIntegrationTest {
         //given
         Event event = eventBuilder
                 .description("desc")
-                .eventDateTime(LocalDateTime.now())
+                .eventDateTime(LocalDateTime.now().plusDays(1))
                 .eventName("event name")
                 .eventType(EventType.THEATER)
                 .build();
@@ -141,7 +155,6 @@ public class EventControllerIntegrationTest {
         updateEventRequest.setEventType(event.getEventType());
         LocalDateTime newTime = LocalDateTime.now().minusDays(2);
         updateEventRequest.setEventDateTime(newTime);
-        doNothing().when(kafkaEventProducer).send(any(),any());
 
         //when
         this.mvc.perform(put(BASE_PATH + ID_PATH, event.getId())
@@ -157,7 +170,7 @@ public class EventControllerIntegrationTest {
     @Test
     public void cannotUpdateEventIfNotAdminAndItsNotYourEvent() throws Exception {
         //given
-        LocalDateTime eventDateTime = LocalDateTime.now();
+        LocalDateTime eventDateTime = LocalDateTime.now().plusDays(1);
         Event event = eventBuilder
                 .description("desc")
                 .eventDateTime(eventDateTime)
@@ -170,7 +183,6 @@ public class EventControllerIntegrationTest {
         updateEventRequest.setDescription(new_desc);
         LocalDateTime newTime = LocalDateTime.now().minusDays(2);
         updateEventRequest.setEventDateTime(newTime);
-        doNothing().when(kafkaEventProducer).send(any(),any());
 
         //when
         this.mvc.perform(put(BASE_PATH + ID_PATH, event.getId())
@@ -185,7 +197,6 @@ public class EventControllerIntegrationTest {
 
     private void insertEvent() throws Exception {
         //given
-        doNothing().when(kafkaEventProducer).send(any(),any());
         CreateEventRequest createEventRequest = new CreateEventRequest();
         createEventRequest.setDescription("desc insert");
         createEventRequest.setEventName("name insert");
@@ -200,12 +211,11 @@ public class EventControllerIntegrationTest {
         //given
         Event event = eventBuilder
                 .description("desc")
-                .eventDateTime(LocalDateTime.now())
+                .eventDateTime(LocalDateTime.now().plusDays(1))
                 .eventName("event name")
                 .eventType(EventType.THEATER)
                 .build();
         eventRepository.save(event);
-        doNothing().when(kafkaEventProducer).send(any(),any());
 
         //when
         this.mvc.perform(delete(BASE_PATH + ID_PATH,event.getId())

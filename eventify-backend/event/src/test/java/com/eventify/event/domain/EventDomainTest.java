@@ -18,7 +18,7 @@ public class EventDomainTest {
     public void throwExceptionIfNameIsNull() {
         assertThatThrownBy(() -> eventBuilder
                 .eventType(EventType.THEATER)
-                .eventDateTime(LocalDateTime.now())
+                .eventDateTime(LocalDateTime.now().plusDays(1))
                 .description("desc")
                 .place(new Place(UUID.randomUUID(),"place name","SD",1l,2l))
                 .build()).isInstanceOf(IllegalStateException.class);
@@ -28,7 +28,7 @@ public class EventDomainTest {
     public void throwExceptionIfTypeIsNull() {
         assertThatThrownBy(() -> eventBuilder
                 .eventName("name")
-                .eventDateTime(LocalDateTime.now())
+                .eventDateTime(LocalDateTime.now().plusDays(1))
                 .description("desc")
                 .place(new Place(UUID.randomUUID(),"place name","SD",1l,2l))
                 .build()).isInstanceOf(IllegalStateException.class);
