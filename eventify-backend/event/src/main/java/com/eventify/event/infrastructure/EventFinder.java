@@ -1,6 +1,8 @@
 package com.eventify.event.infrastructure;
 
 import com.eventify.event.domain.Event;
+import com.eventify.event.domain.EventBuilder;
+import com.eventify.event.domain.EventRepository;
 import com.eventify.place.domain.Place;
 import com.eventify.place.infrastructure.PlaceRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +25,7 @@ import static java.util.stream.Collectors.toList;
 public class EventFinder {
     private final EventRepository eventRepository;
     private final PlaceRepository placeRepository;
+    private final EventBuilder eventBuilder;
 
     public Event findByName(String eventName) {
         return eventRepository.findByEventName(eventName);
@@ -34,7 +37,7 @@ public class EventFinder {
 
     //todo this is findbyhostid!!!
     public Page<Event> findByUserId(UUID userId, Pageable pageable) {
-        Example<Event> tExample = Example.of(Event.builder().build());
+        Example<Event> tExample = Example.of(eventBuilder.build());
         Page<Event> all = eventRepository.findAll(tExample, pageable);//todo we should create one findByUserId method and not user findall
         List<Event> myEvents = all.getContent()
                 .stream()
@@ -49,7 +52,7 @@ public class EventFinder {
         //TODO https://stackoverflow.com/questions/39784344/check-date-between-two-other-dates-spring-data-jpa
         Place place = eventFilter.getPlaceId() != null ? placeRepository.findById(eventFilter.getPlaceId()).orElse(null) : null;
         //TODO Places and hosts filter?
-        Example<Event> example = Example.of(Event.eventExample(
+        Example<Event> example = Example.of(eventBuilder.eventExample(
                 eventFilter.getEventName(),
                 place,
                 eventFilter.getEventType()));

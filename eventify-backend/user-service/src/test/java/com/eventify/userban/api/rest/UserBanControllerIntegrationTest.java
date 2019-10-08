@@ -3,7 +3,7 @@ package com.eventify.userban.api.rest;
 import com.eventify.shared.demo.Sex;
 import com.eventify.shared.kafka.KafkaEventProducer;
 import com.eventify.user.domain.UserAccount;
-import com.eventify.user.domain.UserBuilders;
+import com.eventify.user.domain.UserBuilder;
 import com.eventify.user.infrastructure.UserRepository;
 import com.eventify.shared.config.auth.TestSecurityConfig;
 import com.eventify.userban.domain.UserBanInfo;
@@ -60,8 +60,10 @@ public class UserBanControllerIntegrationTest {
     @Autowired
     private UserBanRepository userBanRepository;
 
-    private UserAccount user = UserBuilders
-            .aUser()
+    @Autowired
+    private UserBuilder userBuilder;
+
+    private UserAccount user = userBuilder
             .firstName("Spasoje")
             .lastName("Petronijevic")
             .username("spasoje")

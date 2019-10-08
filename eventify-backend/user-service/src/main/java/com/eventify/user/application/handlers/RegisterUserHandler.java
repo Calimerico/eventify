@@ -2,7 +2,7 @@ package com.eventify.user.application.handlers;
 
 import com.eventify.user.application.commands.RegisterUser;
 import com.eventify.user.domain.UserAccount;
-import com.eventify.user.domain.UserBuilders;
+import com.eventify.user.domain.UserBuilder;
 import com.eventify.user.infrastructure.UserRepository;
 import com.eventify.shared.net.CommandHandler;
 import lombok.RequiredArgsConstructor;
@@ -18,13 +18,14 @@ import java.util.UUID;
 public class RegisterUserHandler implements com.eventify.shared.demo.CommandHandler<RegisterUser, UUID> {
 
     private final UserRepository userRepository;
+    private final UserBuilder userBuilder;
 
     @Override
     public UUID handle(RegisterUser registerUser) {
         if (userRepository.findByUsername(registerUser.getUsername()).isPresent()) {
             throw new DataIntegrityViolationException("UserAccount already exist");
         }
-        UserAccount userAccount = userRepository.save(UserBuilders.aUser()
+        UserAccount userAccount = userRepository.save(userBuilder
                 .email(registerUser.getEmail())
                 .password(registerUser.getPassword())
                 .username(registerUser.getUsername())

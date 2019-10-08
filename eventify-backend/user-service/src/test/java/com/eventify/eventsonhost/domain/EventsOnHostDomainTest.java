@@ -9,7 +9,7 @@ public class EventsOnHostDomainTest {
 
     @Test
     public void name() {
-        EventsOnHost eventsOnHost = new EventsOnHost("pera");
+        EventsOnHost eventsOnHost = new EventsOnHostBuilder().fromName("pera");
         UUID unconfirmedEvent = UUID.randomUUID();
         UUID confirmedEvent = UUID.randomUUID();
         eventsOnHost.addUnconfirmedEvent(unconfirmedEvent);

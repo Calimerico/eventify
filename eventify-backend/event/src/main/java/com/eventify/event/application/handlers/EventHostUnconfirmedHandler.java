@@ -2,7 +2,7 @@ package com.eventify.event.application.handlers;
 
 import com.eventify.event.application.commands.EventHostUnconfirmed;
 import com.eventify.event.domain.Event;
-import com.eventify.event.infrastructure.EventRepository;
+import com.eventify.event.domain.EventRepository;
 import com.eventify.shared.demo.CommandHandler;
 import lombok.RequiredArgsConstructor;
 

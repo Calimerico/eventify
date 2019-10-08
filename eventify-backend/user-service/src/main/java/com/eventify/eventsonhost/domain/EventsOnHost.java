@@ -1,7 +1,9 @@
 package com.eventify.eventsonhost.domain;
 
+import com.eventify.shared.DomainEventPublisher;
 import com.eventify.shared.ddd.UUIDAggregate;
 import com.eventify.user.domain.UserAccount;
+import org.springframework.data.annotation.PersistenceConstructor;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -20,17 +22,14 @@ public class EventsOnHost extends UUIDAggregate {
     @ElementCollection
     private Set<UUID> confirmedEvents = new HashSet<>();
 
-    public EventsOnHost(UserAccount userAccount) {
-        host = new Host(userAccount);
+    EventsOnHost(String name, DomainEventPublisher domainEventPublisher) {
+        super(domainEventPublisher);
+        host = new Host(name, domainEventPublisher);
         setId(host.getId());
     }
 
-    public EventsOnHost(String name) {
-        host = new Host(name);
-        setId(host.getId());
-    }
-
-    private EventsOnHost(Host host, boolean confirmedByDefault, Set<UUID> unconfirmedEvents, Set<UUID> confirmedEvents) {
+    EventsOnHost(Host host, boolean confirmedByDefault, Set<UUID> unconfirmedEvents, Set<UUID> confirmedEvents, DomainEventPublisher domainEventPublisher) {
+        super(domainEventPublisher);
         this.host = host;
         this.confirmedByDefault = confirmedByDefault;
         this.unconfirmedEvents = unconfirmedEvents;
@@ -68,7 +67,9 @@ public class EventsOnHost extends UUIDAggregate {
         this.confirmedEvents.remove(eventId);
     }
 
-    private EventsOnHost() {
+    @PersistenceConstructor
+    private EventsOnHost(DomainEventPublisher domainEventPublisher) {
+        super(domainEventPublisher);
     }
 
     public static EventsOnHostBuilder builder() {
@@ -97,37 +98,5 @@ public class EventsOnHost extends UUIDAggregate {
         this.confirmedByDefault = confirmedByDefault;
     }
 
-    public static class EventsOnHostBuilder {
-        private Host host;
-        private boolean confirmedByDefault;
-        private Set<UUID> unconfirmedEvents;
-        private Set<UUID> confirmedEvents;
 
-        EventsOnHostBuilder() {
-        }
-
-        public EventsOnHost.EventsOnHostBuilder host(Host host) {
-            this.host = host;
-            return this;
-        }
-
-        public EventsOnHost.EventsOnHostBuilder confirmedByDefault(boolean confirmedByDefault) {
-            this.confirmedByDefault = confirmedByDefault;
-            return this;
-        }
-
-        public EventsOnHost.EventsOnHostBuilder unconfirmedEvents(Set<UUID> unconfirmedEvents) {
-            this.unconfirmedEvents = unconfirmedEvents;
-            return this;
-        }
-
-        public EventsOnHost.EventsOnHostBuilder confirmedEvents(Set<UUID> confirmedEvents) {
-            this.confirmedEvents = confirmedEvents;
-            return this;
-        }
-
-        public EventsOnHost build() {
-            return new EventsOnHost(host, confirmedByDefault, unconfirmedEvents, confirmedEvents);
-        }
-    }
 }

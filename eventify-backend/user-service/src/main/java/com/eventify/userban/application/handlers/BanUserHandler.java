@@ -3,8 +3,8 @@ package com.eventify.userban.application.handlers;
 import com.eventify.user.infrastructure.UserRepository;
 import com.eventify.shared.net.CommandHandler;
 import com.eventify.userban.application.commands.BanUser;
-import com.eventify.userban.domain.UserBanBuilders;
 import com.eventify.userban.domain.UserBanInfo;
+import com.eventify.userban.domain.UserBanInfoBuilder;
 import com.eventify.userban.infrastructure.UserBanRepository;
 import lombok.RequiredArgsConstructor;
 
@@ -17,12 +17,12 @@ public class BanUserHandler implements com.eventify.shared.demo.CommandHandler<B
 
     private final UserBanRepository userBanRepository;
     private final UserRepository userRepository;
+    private final UserBanInfoBuilder userBanInfoBuilder;
 
     @Override
     public Void handle(BanUser banUser) {
         UserBanInfo userBanInfo = userBanRepository.findById(banUser.getUserId())
-                .orElse(UserBanBuilders
-                        .aUserBanInfo()
+                .orElse(userBanInfoBuilder
                         .userAccount(userRepository.loadUser(banUser.getUserId()))
                         .build()
                 );

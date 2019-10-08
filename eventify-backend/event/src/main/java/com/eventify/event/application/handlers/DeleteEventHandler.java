@@ -2,7 +2,7 @@ package com.eventify.event.application.handlers;
 
 import com.eventify.event.EventDeletedEvent;
 import com.eventify.event.application.commands.DeleteEvent;
-import com.eventify.event.infrastructure.EventRepository;
+import com.eventify.event.domain.EventRepository;
 import com.eventify.shared.demo.CommandHandler;
 import com.eventify.shared.kafka.KafkaEventProducer;
 import lombok.RequiredArgsConstructor;

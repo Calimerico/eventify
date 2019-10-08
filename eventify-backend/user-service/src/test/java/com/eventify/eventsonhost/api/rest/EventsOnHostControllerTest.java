@@ -1,9 +1,10 @@
 package com.eventify.eventsonhost.api.rest;
 
+import com.eventify.eventsonhost.domain.EventsOnHostBuilder;
 import com.eventify.shared.demo.Sex;
 import com.eventify.shared.security.Context;
 import com.eventify.user.domain.UserAccount;
-import com.eventify.user.domain.UserBuilders;
+import com.eventify.user.domain.UserBuilder;
 import com.eventify.user.infrastructure.UserRepository;
 import com.eventify.config.security.PermissionService;
 import com.eventify.shared.config.auth.TestSecurityConfig;
@@ -53,6 +54,12 @@ public class EventsOnHostControllerTest {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private UserBuilder userBuilder;
+
+    @Autowired
+    private EventsOnHostBuilder eventsOnHostBuilder;
+
     @MockBean
     private PermissionService permissionService;
 
@@ -62,8 +69,7 @@ public class EventsOnHostControllerTest {
     private UUID eventId = UUID.randomUUID();
     private UUID eventId2 = UUID.randomUUID();
     private UUID userId;
-    private UserAccount user = UserBuilders
-            .aUser()
+    private UserAccount user = userBuilder
             .firstName("Spasoje")
             .sex(Sex.MALE)
             .lastName("Petros")
@@ -89,7 +95,7 @@ public class EventsOnHostControllerTest {
         HashSet<UUID> unconfirmedEvents = new HashSet<>();
         unconfirmedEvents.add(eventId);
         unconfirmedEvents.add(eventId2);
-        EventsOnHost eventsOnHost = new EventsOnHost(user);
+        EventsOnHost eventsOnHost = eventsOnHostBuilder.fromUserAccount(user);
         unconfirmedEvents.forEach(eventsOnHost::addUnconfirmedEvent);
         eventsOnHostRepository.save(eventsOnHost);
         //when
@@ -111,7 +117,7 @@ public class EventsOnHostControllerTest {
         HashSet<UUID> confirmedEvents = new HashSet<>();
         confirmedEvents.add(eventId);
         confirmedEvents.add(eventId2);
-        EventsOnHost eventsOnHost = new EventsOnHost(user);
+        EventsOnHost eventsOnHost = eventsOnHostBuilder.fromUserAccount(user);
         confirmedEvents.forEach(eventsOnHost::addConfirmedEvent);
         eventsOnHostRepository.save(eventsOnHost);
         //when

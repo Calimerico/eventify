@@ -1,7 +1,7 @@
 package com.eventify.config.security;
 
 import com.eventify.event.domain.Event;
-import com.eventify.event.infrastructure.EventRepository;
+import com.eventify.event.domain.EventRepository;
 import com.eventify.shared.security.Context;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;

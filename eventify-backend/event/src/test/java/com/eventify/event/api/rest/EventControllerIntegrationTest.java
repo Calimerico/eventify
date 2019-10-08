@@ -1,8 +1,9 @@
 package com.eventify.event.api.rest;
 
 import com.eventify.event.domain.Event;
+import com.eventify.event.domain.EventBuilder;
 import com.eventify.shared.demo.EventType;
-import com.eventify.event.infrastructure.EventRepository;
+import com.eventify.event.domain.EventRepository;
 import com.eventify.shared.config.auth.TestSecurityConfig;
 import com.eventify.shared.kafka.KafkaEventProducer;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -47,6 +48,9 @@ public class EventControllerIntegrationTest {
     @Autowired
     private EventRepository eventRepository;
 
+    @Autowired
+    private EventBuilder eventBuilder;
+
     @MockBean
     private KafkaEventProducer kafkaEventProducer;
 
@@ -58,8 +62,7 @@ public class EventControllerIntegrationTest {
     @Test
     public void getEventsSuccess() throws Exception {
         //given
-        Event event = Event
-                .builder()
+        Event event = eventBuilder
                 .description("desc")
                 .eventDateTime(LocalDateTime.now())
                 .eventName("event name")
@@ -124,8 +127,7 @@ public class EventControllerIntegrationTest {
     @WithUserDetails(ADMIN_USER)
     public void updateEventTest() throws Exception {
         //given
-        Event event = Event
-                .builder()
+        Event event = eventBuilder
                 .description("desc")
                 .eventDateTime(LocalDateTime.now())
                 .eventName("event name")
@@ -156,8 +158,7 @@ public class EventControllerIntegrationTest {
     public void cannotUpdateEventIfNotAdminAndItsNotYourEvent() throws Exception {
         //given
         LocalDateTime eventDateTime = LocalDateTime.now();
-        Event event = Event
-                .builder()
+        Event event = eventBuilder
                 .description("desc")
                 .eventDateTime(eventDateTime)
                 .eventName("event name")
@@ -197,8 +198,7 @@ public class EventControllerIntegrationTest {
 
     private void deleteEvent() throws Exception {
         //given
-        Event event = Event
-                .builder()
+        Event event = eventBuilder
                 .description("desc")
                 .eventDateTime(LocalDateTime.now())
                 .eventName("event name")

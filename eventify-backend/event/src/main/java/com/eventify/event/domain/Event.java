@@ -5,8 +5,10 @@ package com.eventify.event.domain;
  */
 
 import com.eventify.place.domain.Place;
+import com.eventify.shared.DomainEventPublisher;
 import com.eventify.shared.ddd.UUIDAggregate;
 import com.eventify.shared.demo.EventType;
+import org.springframework.data.annotation.PersistenceConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -37,7 +39,8 @@ public class Event extends UUIDAggregate {
     @ElementCollection
     private List<Integer> prices;//TODO Introduce Ticket entity or maybe embeddable?
 
-    private Event(String eventName, Set<HostOnEvent> hosts, EventType eventType, Place place, LocalDateTime eventDateTime, String description, String source, String profilePicture, List<Integer> prices) {
+    Event(String eventName, Set<HostOnEvent> hosts, EventType eventType, Place place, LocalDateTime eventDateTime, String description, String source, String profilePicture, List<Integer> prices, DomainEventPublisher domainEventPublisher) {
+        super(domainEventPublisher);
         this.eventName = eventName;
         this.hosts = hosts;
         this.eventType = eventType;
@@ -50,15 +53,11 @@ public class Event extends UUIDAggregate {
         checkAggregate();
     }
 
-    //TODO THIS CONSTRUCTOR PRODUCE INVALID DATA AND IT IS USED JUST FOR EVENT EXAMPLE WHEN SEARCHING FOR EVENTS!
-    //todo Consider split domain and data model for this entity
-    private Event(String name, Place place, EventType eventType) {
-        this.eventName = name;
-        this.place = place;
-        this.eventType = eventType;
-    }
 
-    private Event() {
+
+    @PersistenceConstructor
+    private Event(DomainEventPublisher domainEventPublisher) {
+        super(domainEventPublisher);
     }
 
     private void checkAggregate() {
@@ -68,10 +67,6 @@ public class Event extends UUIDAggregate {
         if (eventDateTime.isBefore(LocalDateTime.now())) {
             throw new IllegalStateException("Event date time must be in the future!");
         }
-    }
-
-    public static EventBuilder builder() {
-        return new EventBuilder();
     }
 
     public void update(EventUpdateParam param) {
@@ -168,84 +163,6 @@ public class Event extends UUIDAggregate {
         if (place == null)
             return null;
         return new PlaceDto(place.getId(),place.getName(),place.getLatitude(),place.getLongitude());
-    }
-
-    public static Event eventExample(String name, Place place, EventType eventType) {
-        Event event = new Event(name, place, eventType);
-        event.setId(null);
-        return event;
-    }
-
-    public static class EventBuilder {
-        private String eventName;
-        private Set<HostOnEvent> hosts;
-        private EventType eventType;
-        private Place place;
-        private LocalDateTime eventDateTime;
-        private String description;
-        private String source;
-        private String profilePicture;
-        private List<Integer> prices;
-
-        EventBuilder() {
-        }
-
-        public Event.EventBuilder eventName(String eventName) {
-            this.eventName = eventName;
-            return this;
-        }
-
-        public Event.EventBuilder hosts(Set<Host> hosts) {
-            this.hosts = emptyIfNull(hosts).stream().map(host -> new HostOnEvent(host,false)).collect(toSet());
-            return this;
-        }
-        public Event.EventBuilder host(Host host) {
-            if(this.hosts == null) {
-                this.hosts = new HashSet<>();
-            }
-            this.hosts.add(new HostOnEvent(host,false));
-            return this;
-        }
-
-        public Event.EventBuilder eventType(EventType eventType) {
-            this.eventType = eventType;
-            return this;
-        }
-
-        public Event.EventBuilder place(Place place) {
-            this.place = place;
-            return this;
-        }
-
-        public Event.EventBuilder eventDateTime(LocalDateTime eventDateTime) {
-            this.eventDateTime = eventDateTime;
-            return this;
-        }
-
-        public Event.EventBuilder description(String description) {
-            this.description = description;
-            return this;
-        }
-
-        public Event.EventBuilder source(String source) {
-            this.source = source;
-            return this;
-        }
-
-        public Event.EventBuilder profilePicture(String profilePicture) {
-            this.profilePicture = profilePicture;
-            return this;
-        }
-
-        public Event.EventBuilder prices(List<Integer> prices) {
-            this.prices = prices;
-            return this;
-        }
-
-        public Event build() {
-
-            return new Event(eventName, hosts, eventType, place, eventDateTime, description, source, profilePicture, prices);
-        }
     }
 }
 

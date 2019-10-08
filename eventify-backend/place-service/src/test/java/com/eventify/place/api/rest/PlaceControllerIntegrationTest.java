@@ -2,6 +2,7 @@ package com.eventify.place.api.rest;
 
 import com.eventify.place.api.rest.CreatePlaceRequest;
 import com.eventify.place.domain.Place;
+import com.eventify.place.domain.PlaceBuilder;
 import com.eventify.place.infrastructure.PlaceRepository;
 import com.eventify.shared.config.auth.TestSecurityConfig;
 import com.eventify.shared.kafka.KafkaEventProducer;
@@ -53,6 +54,9 @@ public class PlaceControllerIntegrationTest {
     @MockBean
     private KafkaEventProducer kafkaEventProducer;
 
+    @Autowired
+    private PlaceBuilder placeBuilder;
+
     @After
     public void tearDown() {
         placeRepository.deleteAll();
@@ -85,13 +89,14 @@ public class PlaceControllerIntegrationTest {
     @Test
     public void getPlacesTest() throws Exception {
         //given
-        Place place = new Place();
-        place.setCity("Novi sad");
         HashSet<String> names = new HashSet<>();
         names.add("Stadion Karadjordje");
-        place.setLongitude(45.8153216);
-        place.setLatitude(46.8153216);
-        place.setNames(names);
+        Place place = placeBuilder
+                .city("Novi sad")
+                .longitude(45.8153216)
+                .latitude(46.8153216)
+                .names(names)
+                .build();
         placeRepository.save(place);
 
         //when

@@ -13,8 +13,6 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Data
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 class BanInfo extends UUIDEntity {
 
     private UUID adminWhichBannedUser;
@@ -28,5 +26,30 @@ class BanInfo extends UUIDEntity {
         this.reasonForBan = reasonForBan;
         this.fromDate = fromDate;
         this.toDate = toDate;
+    }
+
+    public void unbanUser(UUID adminWhichUnbannedUser) {
+        this.toDate = LocalDateTime.now();
+        this.adminWhichUnbannedUser = adminWhichUnbannedUser;
+    }
+
+    public UUID getAdminWhichBannedUser() {
+        return adminWhichBannedUser;
+    }
+
+    public UUID getAdminWhichUnbannedUser() {
+        return adminWhichUnbannedUser;
+    }
+
+    public String getReasonForBan() {
+        return reasonForBan;
+    }
+
+    public LocalDateTime getFromDate() {
+        return fromDate;
+    }
+
+    public LocalDateTime getToDate() {
+        return toDate;
     }
 }

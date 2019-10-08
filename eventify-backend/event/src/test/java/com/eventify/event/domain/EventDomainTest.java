@@ -1,28 +1,22 @@
 package com.eventify.event.domain;
 
-import com.eventify.event.domain.Event;
-import com.eventify.event.infrastructure.EventRepository;
 import com.eventify.place.domain.Place;
-import com.eventify.place.infrastructure.PlaceRepository;
 import com.eventify.shared.demo.EventType;
-import org.assertj.core.api.Assertions;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.UUID;
 
-import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.*;
 
 public class EventDomainTest {
 
+    private EventBuilder eventBuilder = new EventBuilder();
+
+
     @Test
     public void throwExceptionIfNameIsNull() {
-        assertThatThrownBy(() -> Event
-                .builder()
+        assertThatThrownBy(() -> eventBuilder
                 .eventType(EventType.THEATER)
                 .eventDateTime(LocalDateTime.now())
                 .description("desc")
@@ -32,8 +26,7 @@ public class EventDomainTest {
 
     @Test
     public void throwExceptionIfTypeIsNull() {
-        assertThatThrownBy(() -> Event
-                .builder()
+        assertThatThrownBy(() -> eventBuilder
                 .eventName("name")
                 .eventDateTime(LocalDateTime.now())
                 .description("desc")
@@ -43,8 +36,7 @@ public class EventDomainTest {
 
     @Test
     public void throwExceptionIfEventDateTimeIsNull() {
-        assertThatThrownBy(() -> Event
-                .builder()
+        assertThatThrownBy(() -> eventBuilder
                 .eventName("name")
                 .eventType(EventType.THEATER)
                 .description("desc")
@@ -54,8 +46,7 @@ public class EventDomainTest {
 
     @Test
     public void throwExceptionIfEventDateTimeIsInPast() {
-        assertThatThrownBy(() -> Event
-                .builder()
+        assertThatThrownBy(() -> eventBuilder
                 .eventName("name")
                 .eventDateTime(LocalDateTime.now().minusDays(2))
                 .eventType(EventType.THEATER)
@@ -66,8 +57,7 @@ public class EventDomainTest {
 
     @Test
     public void noExceptionsWhenAllFieldsAreFine() {
-        assertThatCode(() -> Event
-                .builder()
+        assertThatCode(() -> eventBuilder
                 .eventName("name")
                 .eventDateTime(LocalDateTime.now().plusDays(2L))
                 .eventType(EventType.THEATER)
@@ -79,8 +69,7 @@ public class EventDomainTest {
 
     @Test
     public void throwExceptionIfEventDoesNotContainHostForConfirmation() {
-        Event event = Event
-                .builder()
+        Event event = eventBuilder
                 .eventName("name")
                 .eventDateTime(LocalDateTime.now().plusDays(2L))
                 .eventType(EventType.THEATER)
@@ -96,8 +85,7 @@ public class EventDomainTest {
     @Test
     public void noExceptionsWhenWeTryToUpdateHostAndHostIsPresent() {
         Host host = new Host("some host");
-        Event event = Event
-                .builder()
+        Event event = eventBuilder
                 .eventName("name")
                 .eventDateTime(LocalDateTime.now().plusDays(2L))
                 .eventType(EventType.THEATER)
@@ -115,8 +103,7 @@ public class EventDomainTest {
     @Test
     public void userIsHostOfEventIfConfirmationHappened() {
         Host host = new Host("some host");
-        Event event = Event
-                .builder()
+        Event event = eventBuilder
                 .eventName("name")
                 .eventDateTime(LocalDateTime.now().plusDays(2L))
                 .eventType(EventType.THEATER)
@@ -131,8 +118,7 @@ public class EventDomainTest {
     @Test
     public void userIsNotHostOfEventIfConfirmationHasntHappened() {
         Host host = new Host("some host");
-        Event event = Event
-                .builder()
+        Event event = eventBuilder
                 .eventName("name")
                 .eventDateTime(LocalDateTime.now().plusDays(2L))
                 .eventType(EventType.THEATER)
