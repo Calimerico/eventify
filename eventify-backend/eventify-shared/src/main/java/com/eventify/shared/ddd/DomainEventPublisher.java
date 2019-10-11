@@ -1,6 +1,5 @@
 package com.eventify.shared.ddd;
 
-import com.eventify.shared.demo.DomainEvent;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;

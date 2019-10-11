@@ -1,7 +1,7 @@
 package com.eventify.event.api.msg;
 
 import com.eventify.shared.demo.EventType;
-import com.eventify.shared.demo.DomainEvent;
+import com.eventify.shared.ddd.DomainEvent;
 import lombok.*;
 
 import java.time.LocalDateTime;

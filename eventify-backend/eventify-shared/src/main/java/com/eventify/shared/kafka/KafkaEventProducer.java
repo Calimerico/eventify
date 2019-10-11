@@ -1,6 +1,6 @@
 package com.eventify.shared.kafka;
 
-import com.eventify.shared.demo.DomainEvent;
+import com.eventify.shared.ddd.DomainEvent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.messaging.MessageChannel;

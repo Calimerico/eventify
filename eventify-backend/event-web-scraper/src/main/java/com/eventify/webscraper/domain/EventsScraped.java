@@ -1,6 +1,6 @@
 package com.eventify.webscraper.domain;
 
-import com.eventify.shared.demo.DomainEvent;
+import com.eventify.shared.ddd.DomainEvent;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
