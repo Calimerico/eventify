@@ -1,4 +1,4 @@
-package com.eventify.event;
+package com.eventify.user.domain.events;
 
 import com.eventify.shared.ddd.DomainEvent;
 import lombok.AllArgsConstructor;
@@ -9,11 +9,15 @@ import lombok.NoArgsConstructor;
 import java.util.Set;
 import java.util.UUID;
 
+/**
+ * Created by spasoje on 20-Dec-18.
+ */
 @Builder
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class EventDeletedEvent implements DomainEvent {
+public class EventAddedEvent implements DomainEvent {
     private UUID eventId;
-    private Set<UUID> hosts;
+    private Set<UUID> confirmedHosts;
+    private Set<UUID> unconfirmedHosts;
 }

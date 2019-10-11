@@ -1,12 +1,12 @@
 package com.eventify.webscraper.domain;
 
+import com.eventify.webscraper.domain.events.EventScraped;
+import com.eventify.webscraper.domain.events.EventsScraped;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;

@@ -1,8 +1,8 @@
 package com.eventify.user.infrastructure;
 
 import com.eventify.eventsonhost.application.commands.UnconfirmEventHost;
-import com.eventify.user.api.msg.EventAddedEvent;
-import com.eventify.user.api.msg.EventDeletedEvent;
+import com.eventify.user.domain.events.EventAddedEvent;
+import com.eventify.user.domain.events.EventDeletedEvent;
 import com.eventify.user.application.commands.MakeUserHostOfEvent;
 import com.eventify.user.application.commands.RemoveEventFromUsers;
 import com.eventify.shared.demo.Gate;

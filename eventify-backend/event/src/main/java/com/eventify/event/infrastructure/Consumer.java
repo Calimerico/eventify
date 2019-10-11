@@ -1,9 +1,9 @@
 package com.eventify.event.infrastructure;
 
-import com.eventify.event.api.msg.EventHostConfirmed;
-import com.eventify.event.api.msg.EventHostUnconfirmed;
-import com.eventify.event.api.msg.EventsScraped;
-import com.eventify.place.api.msg.PlaceUpdatedEvent;
+import com.eventify.event.domain.events.EventHostConfirmed;
+import com.eventify.event.domain.events.EventHostUnconfirmed;
+import com.eventify.event.domain.events.EventsScraped;
+import com.eventify.place.domain.events.PlaceUpdatedEvent;
 import com.eventify.event.application.commands.CreateEvent;
 import com.eventify.event.application.commands.CreateEvents;
 import com.eventify.shared.demo.Gate;

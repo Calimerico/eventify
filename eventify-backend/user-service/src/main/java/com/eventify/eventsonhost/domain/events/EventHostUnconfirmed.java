@@ -1,4 +1,4 @@
-package com.eventify.place.api.msg;
+package com.eventify.eventsonhost.domain.events;
 
 import com.eventify.shared.ddd.DomainEvent;
 import lombok.AllArgsConstructor;
@@ -12,10 +12,7 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PlaceUpdatedEvent implements DomainEvent {
-    private UUID id;
-    private String name;
-    private String city;
-    private double latitude;
-    private double longitude;
+public class EventHostUnconfirmed implements DomainEvent {
+    private UUID eventId;
+    private UUID hostId;
 }

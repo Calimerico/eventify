@@ -2,7 +2,7 @@ package com.eventify.eventsonhost.application.handlers;
 
 import com.eventify.shared.demo.CommandHandler;
 import com.eventify.shared.kafka.KafkaEventProducer;
-import com.eventify.eventsonhost.api.rest.EventHostConfirmed;
+import com.eventify.eventsonhost.domain.events.EventHostConfirmed;
 import com.eventify.eventsonhost.application.commands.ConfirmEventHost;
 import com.eventify.eventsonhost.domain.EventsOnHost;
 import com.eventify.eventsonhost.domain.EventsOnHostRepository;

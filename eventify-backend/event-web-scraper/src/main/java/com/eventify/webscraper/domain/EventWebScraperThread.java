@@ -1,6 +1,6 @@
 package com.eventify.webscraper.domain;
 
-import org.jsoup.nodes.Document;
+import com.eventify.webscraper.domain.events.EventScraped;
 
 import java.util.List;
 

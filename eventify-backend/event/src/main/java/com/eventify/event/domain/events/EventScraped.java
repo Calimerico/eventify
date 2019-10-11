@@ -1,4 +1,4 @@
-package com.eventify.event.api.msg;
+package com.eventify.event.domain.events;
 
 import com.eventify.shared.demo.EventType;
 import com.eventify.shared.ddd.DomainEvent;

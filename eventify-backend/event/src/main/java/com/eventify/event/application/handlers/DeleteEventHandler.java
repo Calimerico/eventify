@@ -1,6 +1,6 @@
 package com.eventify.event.application.handlers;
 
-import com.eventify.event.EventDeletedEvent;
+import com.eventify.event.domain.events.EventDeletedEvent;
 import com.eventify.event.application.commands.DeleteEvent;
 import com.eventify.event.domain.EventRepository;
 import com.eventify.shared.demo.CommandHandler;

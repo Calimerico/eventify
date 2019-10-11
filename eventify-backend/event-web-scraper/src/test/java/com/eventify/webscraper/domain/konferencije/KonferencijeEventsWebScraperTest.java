@@ -1,8 +1,7 @@
 package com.eventify.webscraper.domain.konferencije;
 
 
-import com.eventify.webscraper.domain.EventsScraped;
-import com.eventify.webscraper.domain.konferencije.KonferencijeEventsWebScraper;
+import com.eventify.webscraper.domain.events.EventsScraped;
 import org.assertj.core.api.Assertions;
 import org.jsoup.Jsoup;
 import org.junit.Before;

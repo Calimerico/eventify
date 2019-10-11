@@ -1,6 +1,6 @@
 package com.eventify.eventsonhost.application.handlers;
 
-import com.eventify.eventsonhost.api.rest.EventHostUnconfirmed;
+import com.eventify.eventsonhost.domain.events.EventHostUnconfirmed;
 import com.eventify.eventsonhost.application.commands.UnconfirmEventHost;
 import com.eventify.eventsonhost.domain.EventsOnHost;
 import com.eventify.eventsonhost.domain.EventsOnHostRepository;

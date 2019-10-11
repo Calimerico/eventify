@@ -1,4 +1,4 @@
-package com.eventify.user.api.msg;
+package com.eventify.event.domain.events;
 
 import com.eventify.shared.ddd.DomainEvent;
 import lombok.AllArgsConstructor;
@@ -15,6 +15,5 @@ import java.util.UUID;
 @AllArgsConstructor
 public class EventDeletedEvent implements DomainEvent {
     private UUID eventId;
-    private Set<UUID> confirmedHosts;
-    private Set<UUID> unconfirmedHosts;
+    private Set<UUID> hosts;
 }

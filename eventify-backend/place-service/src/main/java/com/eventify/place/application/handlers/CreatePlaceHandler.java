@@ -1,6 +1,6 @@
 package com.eventify.place.application.handlers;
 
-import com.eventify.place.PlaceUpdatedEvent;
+import com.eventify.place.domain.events.PlaceUpdatedEvent;
 import com.eventify.place.domain.PlaceBuilder;
 import com.eventify.place.infrastructure.PlaceRepository;
 import com.eventify.shared.demo.CommandHandler;
@@ -9,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import com.eventify.place.application.commands.CreatePlace;
 import com.eventify.place.domain.Place;
 
-import java.util.Arrays;
 import java.util.HashSet;
 
 import static com.eventify.shared.kafka.Topic.PLACES_TOPIC;

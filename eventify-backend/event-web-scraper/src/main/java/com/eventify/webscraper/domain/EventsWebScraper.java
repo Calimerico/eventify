@@ -1,5 +1,7 @@
 package com.eventify.webscraper.domain;
 
+import com.eventify.webscraper.domain.events.EventsScraped;
+
 /**
  * Created by spasoje on 21-Nov-18.
  */

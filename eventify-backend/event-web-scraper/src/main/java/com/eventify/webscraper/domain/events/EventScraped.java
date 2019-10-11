@@ -1,5 +1,6 @@
-package com.eventify.webscraper.domain;
+package com.eventify.webscraper.domain.events;
 
+import com.eventify.shared.ddd.DomainEvent;
 import com.eventify.shared.demo.EventType;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -19,7 +20,7 @@ import java.util.UUID;
 @Builder
 @ToString
 //TODO Is this appropriate package for output event?Introduce domain and external events?
-public class EventScraped {
+public class EventScraped implements DomainEvent {
     private String eventName;
     private Set<UUID> eventHostIds;
 //    private Integer eventSeriesId;

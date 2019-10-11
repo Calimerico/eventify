@@ -1,6 +1,7 @@
 package com.eventify.webscraper.domain;
 
 import com.eventify.shared.demo.EventType;
+import com.eventify.webscraper.domain.events.EventScraped;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
@@ -9,7 +10,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public abstract class BaseEventWebScraper implements EventWebScraper {
 

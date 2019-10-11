@@ -1,6 +1,6 @@
 package com.eventify.event.application.handlers;
 
-import com.eventify.event.EventAddedEvent;
+import com.eventify.event.domain.events.EventAddedEvent;
 import com.eventify.event.application.commands.CreateEvents;
 import com.eventify.event.domain.Event;
 import com.eventify.event.domain.EventBuilder;
