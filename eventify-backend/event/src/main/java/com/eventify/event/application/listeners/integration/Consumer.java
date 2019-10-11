@@ -1,8 +1,8 @@
-package com.eventify.event.infrastructure;
+package com.eventify.event.application.listeners.integration;
 
-import com.eventify.event.domain.events.EventHostConfirmed;
-import com.eventify.event.domain.events.EventHostUnconfirmed;
-import com.eventify.event.domain.events.EventsScraped;
+import com.eventify.event.api.integration.events.input.EventHostConfirmed;
+import com.eventify.event.api.integration.events.input.EventHostUnconfirmed;
+import com.eventify.event.api.integration.events.input.EventsScraped;
 import com.eventify.place.domain.events.PlaceUpdatedEvent;
 import com.eventify.event.application.commands.CreateEvent;
 import com.eventify.event.application.commands.CreateEvents;
@@ -62,7 +62,7 @@ public class Consumer {//TODO Rename
     }
 
     @StreamListener(condition = "headers['eventType'] == 'EventHostUnconfirmed' ", value = EVENTS_TOPIC_INPUT_CHANNEL)
-    public void handleEventHostConfirmed(@Payload EventHostUnconfirmed eventHostUnconfirmed) {
+    public void handleEventHostUnconfirmed(@Payload EventHostUnconfirmed eventHostUnconfirmed) {
         gate.dispatch(com.eventify.event.application.commands.EventHostUnconfirmed
                 .builder()
                 .eventId(eventHostUnconfirmed.getEventId())
@@ -72,7 +72,7 @@ public class Consumer {//TODO Rename
     }
 
     @StreamListener(condition = "headers['eventType'] == 'PlaceUpdatedEvent' ", value = PLACES_TOPIC_INPUT_CHANNEL)
-    public void handleEventHostConfirmed(@Payload PlaceUpdatedEvent placeUpdatedEvent) {
+    public void handlePlaceUpdatedEvent(@Payload PlaceUpdatedEvent placeUpdatedEvent) {
         gate.dispatch(com.eventify.event.application.commands.PlaceUpdatedEvent
                 .builder()
                 .id(placeUpdatedEvent.getId())

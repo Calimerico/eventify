@@ -7,13 +7,11 @@ import com.eventify.event.domain.EventBuilder;
 import com.eventify.event.domain.EventRepository;
 import com.eventify.place.domain.Place;
 import com.eventify.place.infrastructure.PlaceRepository;
+import com.eventify.shared.ddd.DomainEventPublisher;
 import com.eventify.shared.demo.CommandHandler;
-import com.eventify.shared.kafka.KafkaEventProducer;
 import lombok.RequiredArgsConstructor;
 
 import java.util.*;
-
-import static com.eventify.shared.kafka.Topic.EVENTS_TOPIC;
 
 @com.eventify.shared.net.CommandHandler
 @RequiredArgsConstructor
@@ -21,7 +19,6 @@ public class CreateEventsHandler implements CommandHandler<CreateEvents, Void> {
 
     private final EventRepository eventRepository;
     private final PlaceRepository placeRepository;//TODO Replace repo with finder
-    private final KafkaEventProducer kafkaEventProducer;
     private final EventBuilder eventBuilder;
 
     @Override
@@ -44,12 +41,12 @@ public class CreateEventsHandler implements CommandHandler<CreateEvents, Void> {
         });
         eventRepository.saveAll(events);
         events.forEach(event -> {
-            kafkaEventProducer.send(EventAddedEvent
+            DomainEventPublisher.publish(EventAddedEvent
                     .builder()
                     .eventId(event.getId())
                     .confirmedHosts(event.findConfirmedHostIds())
                     .unconfirmedHosts(event.findUnconfirmedHostIds())
-                    .build(), EVENTS_TOPIC);
+                    .build());
         });
 
         return null;

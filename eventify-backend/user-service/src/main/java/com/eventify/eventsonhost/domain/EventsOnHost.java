@@ -1,5 +1,8 @@
 package com.eventify.eventsonhost.domain;
 
+import com.eventify.eventsonhost.domain.events.EventHostConfirmed;
+import com.eventify.eventsonhost.domain.events.EventHostUnconfirmed;
+import com.eventify.shared.ddd.DomainEventPublisher;
 import com.eventify.shared.ddd.UUIDAggregate;
 
 import javax.persistence.*;
@@ -46,11 +49,21 @@ public class EventsOnHost extends UUIDAggregate {
     }
 
     public void addUnconfirmedEvent(UUID eventId) {
+        DomainEventPublisher.publish(EventHostUnconfirmed
+                .builder()
+                .eventId(eventId)
+                .hostId(host.getId())
+                .build());
         this.unconfirmedEvents.add(eventId);
     }
 
     public void addConfirmedEvent(UUID eventId) {
         this.confirmedEvents.add(eventId);
+        DomainEventPublisher.publish(EventHostConfirmed
+                .builder()
+                .hostId(host.getId())
+                .eventId(eventId)
+                .build());
     }
 
     public void removeEvent(UUID eventId) {

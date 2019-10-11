@@ -1,7 +1,8 @@
-package com.eventify.event.domain.events;
+package com.eventify.event.api.integration.events.input;
 
 import com.eventify.shared.demo.EventType;
 import com.eventify.shared.ddd.DomainEvent;
+import com.eventify.shared.demo.IntegrationEvent;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -15,7 +16,7 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class EventScraped implements DomainEvent {
+public class EventScraped implements IntegrationEvent {
     private String eventName;
     private Set<UUID> eventHostIds;
 //    private Integer eventSeriesId;

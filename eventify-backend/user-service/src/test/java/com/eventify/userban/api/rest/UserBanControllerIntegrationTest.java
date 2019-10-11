@@ -1,5 +1,6 @@
 package com.eventify.userban.api.rest;
 
+import com.eventify.shared.config.auth.MockKafkaConfig;
 import com.eventify.shared.demo.Sex;
 import com.eventify.shared.kafka.KafkaEventProducer;
 import com.eventify.user.domain.UserAccount;
@@ -38,7 +39,7 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = RANDOM_PORT, classes = TestSecurityConfig.class)
+@SpringBootTest(webEnvironment = RANDOM_PORT, classes = {TestSecurityConfig.class, MockKafkaConfig.class})
 @AutoConfigureMockMvc
 @ContextConfiguration
 @Commit//todo read this https://stackoverflow.com/questions/43519761/replacement-of-transactionconfiguration
@@ -50,9 +51,6 @@ public class UserBanControllerIntegrationTest {
 
     @Autowired
     private ObjectMapper objectMapper;
-
-    @MockBean
-    private KafkaEventProducer kafkaEventProducer;
 
     @Autowired
     private UserRepository userRepository;
@@ -74,7 +72,6 @@ public class UserBanControllerIntegrationTest {
     @Before
     public void setUp() {
         userRepository.save(user);
-        doNothing().when(kafkaEventProducer).send(any(),any());
     }
 
     @Test

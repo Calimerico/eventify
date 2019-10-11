@@ -3,7 +3,6 @@ package com.eventify.event.api.rest;
 import com.eventify.event.domain.Event;
 import com.eventify.event.domain.EventBuilder;
 import com.eventify.shared.config.auth.MockKafkaConfig;
-import com.eventify.shared.ddd.DomainEventPublisher;
 import com.eventify.shared.demo.EventType;
 import com.eventify.event.domain.EventRepository;
 import com.eventify.shared.config.auth.TestSecurityConfig;
@@ -64,7 +63,6 @@ public class EventControllerIntegrationTest {
                 .eventName("event name")
                 .eventType(EventType.THEATER)
                 .build();
-        DomainEventPublisher.publish(null);
         eventRepository.save(event);
 
         //when

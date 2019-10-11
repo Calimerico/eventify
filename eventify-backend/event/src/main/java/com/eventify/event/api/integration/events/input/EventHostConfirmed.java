@@ -1,6 +1,7 @@
-package com.eventify.event.domain.events;
+package com.eventify.event.api.integration.events.input;
 
 import com.eventify.shared.ddd.DomainEvent;
+import com.eventify.shared.demo.IntegrationEvent;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,7 +13,7 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class EventHostUnconfirmed implements DomainEvent {
+public class EventHostConfirmed implements IntegrationEvent {
     private UUID eventId;
     private UUID hostId;
 }

@@ -1,6 +1,6 @@
-package com.eventify.event.domain.events;
+package com.eventify.event.api.integration.events.input;
 
-import com.eventify.shared.ddd.DomainEvent;
+import com.eventify.shared.demo.IntegrationEvent;
 import lombok.*;
 
 import java.util.List;
@@ -12,6 +12,6 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class EventsScraped implements DomainEvent {
+public class EventsScraped implements IntegrationEvent {
     private List<EventScraped> eventsScraped;
 }

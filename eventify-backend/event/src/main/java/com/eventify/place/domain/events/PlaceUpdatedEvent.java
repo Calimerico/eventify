@@ -1,6 +1,7 @@
 package com.eventify.place.domain.events;
 
 import com.eventify.shared.ddd.DomainEvent;
+import com.eventify.shared.demo.IntegrationEvent;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,7 +13,7 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PlaceUpdatedEvent implements DomainEvent {
+public class PlaceUpdatedEvent implements IntegrationEvent {
     private UUID id;
     private String name;
     private String city;

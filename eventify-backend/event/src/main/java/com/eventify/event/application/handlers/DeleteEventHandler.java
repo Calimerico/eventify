@@ -3,6 +3,7 @@ package com.eventify.event.application.handlers;
 import com.eventify.event.domain.events.EventDeletedEvent;
 import com.eventify.event.application.commands.DeleteEvent;
 import com.eventify.event.domain.EventRepository;
+import com.eventify.shared.ddd.DomainEventPublisher;
 import com.eventify.shared.demo.CommandHandler;
 import com.eventify.shared.kafka.KafkaEventProducer;
 import lombok.RequiredArgsConstructor;
@@ -20,19 +21,16 @@ import static com.eventify.shared.kafka.Topic.EVENTS_TOPIC;
 public class DeleteEventHandler implements CommandHandler<DeleteEvent,Void> {
 
     private final EventRepository eventRepository;
-    private final KafkaEventProducer kafkaEventProducer;
 
     @Override
     public Void handle(DeleteEvent deleteEvent) {
         Set<UUID> hostIds = eventRepository.loadById(deleteEvent.getId()).findConfirmedHostIds();
         eventRepository.deleteById(deleteEvent.getId());
-        kafkaEventProducer.send(EventDeletedEvent
+        DomainEventPublisher.publish(EventDeletedEvent
                 .builder()
                 .eventId(deleteEvent.getId())
                 .hosts(hostIds)
-                .build(),
-                EVENTS_TOPIC
-        );
+                .build());
         return null;
     }
 }
