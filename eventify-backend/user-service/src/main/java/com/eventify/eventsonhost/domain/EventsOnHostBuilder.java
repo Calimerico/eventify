@@ -1,10 +1,14 @@
 package com.eventify.eventsonhost.domain;
 
+import com.eventify.shared.demo.Util;
 import com.eventify.user.domain.UserAccount;
 import org.springframework.stereotype.Component;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
+
+import static com.eventify.shared.demo.Util.*;
 
 @Component
 public class EventsOnHostBuilder {
@@ -28,17 +32,21 @@ public class EventsOnHostBuilder {
     }
 
     public EventsOnHostBuilder unconfirmedEvents(Set<UUID> unconfirmedEvents) {
-        this.unconfirmedEvents = unconfirmedEvents;
+        this.unconfirmedEvents = emptyIfNull(unconfirmedEvents);
         return this;
     }
 
     public EventsOnHostBuilder confirmedEvents(Set<UUID> confirmedEvents) {
-        this.confirmedEvents = confirmedEvents;
+        this.confirmedEvents = emptyIfNull(confirmedEvents);
         return this;
     }
 
     public EventsOnHost build() {
-        return new EventsOnHost(host, confirmedByDefault, unconfirmedEvents, confirmedEvents);
+        return new EventsOnHost(
+                host,
+                confirmedByDefault, unconfirmedEvents == null ? new HashSet<>(): unconfirmedEvents,
+                confirmedEvents == null ? new HashSet<>() : confirmedEvents
+        );
     }
 
     public EventsOnHost fromUserAccount(UserAccount user) {
