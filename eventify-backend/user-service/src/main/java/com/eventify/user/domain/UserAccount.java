@@ -1,9 +1,7 @@
 package com.eventify.user.domain;
 
-import com.eventify.shared.DomainEventPublisher;
 import com.eventify.shared.ddd.UUIDAggregate;
 import com.eventify.shared.demo.Sex;
-import org.springframework.data.annotation.PersistenceConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -23,13 +21,10 @@ public class UserAccount extends UUIDAggregate {
     private Sex sex;
     private String role;
 
-    @PersistenceConstructor
-    private UserAccount(DomainEventPublisher domainEventPublisher) {
-        super(domainEventPublisher);
+    private UserAccount() {
     }
 
-    public UserAccount(String email, String username, String password, String firstName, String lastName, Sex sex, String role, DomainEventPublisher domainEventPublisher) {
-        super(domainEventPublisher);
+    UserAccount(String email, String username, String password, String firstName, String lastName, Sex sex, String role) {
         this.email = email;
         this.username = username;
         this.password = password;

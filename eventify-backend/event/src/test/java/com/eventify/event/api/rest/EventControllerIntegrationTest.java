@@ -2,12 +2,11 @@ package com.eventify.event.api.rest;
 
 import com.eventify.event.domain.Event;
 import com.eventify.event.domain.EventBuilder;
+import com.eventify.shared.config.auth.MockKafkaConfig;
+import com.eventify.shared.ddd.DomainEventPublisher;
 import com.eventify.shared.demo.EventType;
 import com.eventify.event.domain.EventRepository;
 import com.eventify.shared.config.auth.TestSecurityConfig;
-import com.eventify.shared.kafka.KafkaEventProducer;
-import com.eventify.shared.kafka.KafkaStreams;
-import com.eventify.shared.kafka.MessageChannelFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.After;
 import org.junit.Test;
@@ -15,8 +14,6 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.messaging.SubscribableChannel;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -35,7 +32,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = RANDOM_PORT, classes = TestSecurityConfig.class)
+@SpringBootTest(webEnvironment = RANDOM_PORT, classes = {TestSecurityConfig.class, MockKafkaConfig.class})
 @AutoConfigureMockMvc
 @Transactional
 //todo we should test here if someone can delete or update his own event!
@@ -53,21 +50,6 @@ public class EventControllerIntegrationTest {
     @Autowired
     private EventBuilder eventBuilder;
 
-    @MockBean
-    private KafkaEventProducer kafkaEventProducer;
-
-    @MockBean
-    private MessageChannelFactory messageChannelFactory;//todo think of better way of mocking kafka than this 5 MockBeans
-
-    @MockBean
-    private KafkaStreams kafkaStreams;
-
-    @MockBean(name = "eventsTopicInputChannel")
-    private SubscribableChannel eventsTopicInputChannel;
-
-    @MockBean(name = "placesTopicInputChannel")
-    private SubscribableChannel placesTopicInputChannel;
-
     @After
     public void tearDown() {
         eventRepository.deleteAll();
@@ -82,6 +64,7 @@ public class EventControllerIntegrationTest {
                 .eventName("event name")
                 .eventType(EventType.THEATER)
                 .build();
+        DomainEventPublisher.publish(null);
         eventRepository.save(event);
 
         //when
@@ -143,7 +126,7 @@ public class EventControllerIntegrationTest {
         //given
         Event event = eventBuilder
                 .description("desc")
-                .eventDateTime(LocalDateTime.now())
+                .eventDateTime(LocalDateTime.now().plusDays(1))
                 .eventName("event name")
                 .eventType(EventType.THEATER)
                 .build();
@@ -153,7 +136,7 @@ public class EventControllerIntegrationTest {
         updateEventRequest.setDescription(new_desc);
         updateEventRequest.setEventName(event.getEventName());
         updateEventRequest.setEventType(event.getEventType());
-        LocalDateTime newTime = LocalDateTime.now().minusDays(2);
+        LocalDateTime newTime = LocalDateTime.now().plusDays(2);
         updateEventRequest.setEventDateTime(newTime);
 
         //when
@@ -201,10 +184,12 @@ public class EventControllerIntegrationTest {
         createEventRequest.setDescription("desc insert");
         createEventRequest.setEventName("name insert");
         createEventRequest.setEventType(EventType.THEATER);
+        createEventRequest.setEventDateTime(LocalDateTime.now().plusDays(1));
         //when
         this.mvc.perform(post(BASE_PATH)
                 .contentType(APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(createEventRequest)));
+//                .andExpect(mvcResult -> assertThat(mvcResult.getResponse().getStatus()).isEqualTo(200));
     }
 
     private void deleteEvent() throws Exception {

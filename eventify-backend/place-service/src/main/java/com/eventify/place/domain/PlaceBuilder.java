@@ -1,15 +1,11 @@
 package com.eventify.place.domain;
 
-import com.eventify.shared.DomainEventPublisher;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Set;
 
 @Component
 public class PlaceBuilder {
-    @Autowired
-    private DomainEventPublisher domainEventPublisher;
     private double latitude;
     private double longitude;
     private Set<String> names;
@@ -39,7 +35,7 @@ public class PlaceBuilder {
     }
 
     public Place build() {
-        return new Place(latitude, longitude, names, city, domainEventPublisher);
+        return new Place(latitude, longitude, names, city);
     }
 
 }

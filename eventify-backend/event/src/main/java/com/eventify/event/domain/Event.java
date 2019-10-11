@@ -5,10 +5,8 @@ package com.eventify.event.domain;
  */
 
 import com.eventify.place.domain.Place;
-import com.eventify.shared.DomainEventPublisher;
 import com.eventify.shared.ddd.UUIDAggregate;
 import com.eventify.shared.demo.EventType;
-import org.springframework.data.annotation.PersistenceConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -39,8 +37,7 @@ public class Event extends UUIDAggregate {
     @ElementCollection
     private List<Integer> prices;//TODO Introduce Ticket entity or maybe embeddable?
 
-    Event(String eventName, Set<HostOnEvent> hosts, EventType eventType, Place place, LocalDateTime eventDateTime, String description, String source, String profilePicture, List<Integer> prices, DomainEventPublisher domainEventPublisher) {
-        super(domainEventPublisher);
+    Event(String eventName, Set<HostOnEvent> hosts, EventType eventType, Place place, LocalDateTime eventDateTime, String description, String source, String profilePicture, List<Integer> prices) {
         this.eventName = eventName;
         this.hosts = hosts;
         this.eventType = eventType;
@@ -53,16 +50,20 @@ public class Event extends UUIDAggregate {
         checkAggregate();
     }
 
+    //todo THIS CONSTRUCTOR IS USED JUST FOR EVENT EXAMPLE BECAUSE IT PRODUCES INVALID EVENT(no checkAggregate() is called)
+    Event(String name, Place place, EventType eventType) {
+        this.eventName = name;
+        this.place = place;
+        this.eventType = eventType;
+        setId(null);
+    }
 
-
-    @PersistenceConstructor
-    private Event(DomainEventPublisher domainEventPublisher) {
-        super(domainEventPublisher);
+    private Event() {
     }
 
     private void checkAggregate() {
-        if (eventName == null || eventType == null || eventDateTime == null) {
-            throw new IllegalStateException("Event name, type and dateTime must be specified!");
+        if (getId() == null || eventName == null || eventType == null || eventDateTime == null) {
+            throw new IllegalStateException("Event name, id, type and dateTime must be specified!");
         }
         if (eventDateTime.isBefore(LocalDateTime.now())) {
             throw new IllegalStateException("Event date time must be in the future!");

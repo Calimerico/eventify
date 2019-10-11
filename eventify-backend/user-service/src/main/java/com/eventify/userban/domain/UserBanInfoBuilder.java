@@ -1,13 +1,7 @@
 package com.eventify.userban.domain;
 
-import com.eventify.shared.DomainEventPublisher;
 import com.eventify.user.domain.UserAccount;
-import lombok.Builder;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -16,8 +10,6 @@ import java.util.Set;
 
 @Component
 public class UserBanInfoBuilder {
-    @Autowired
-    private DomainEventPublisher domainEventPublisher;
     private UserAccount userAccount;
     private Set<BanInfo> banInfos;
 
@@ -35,6 +27,6 @@ public class UserBanInfoBuilder {
     }
 
     public UserBanInfo build() {
-        return new UserBanInfo(userAccount, banInfos, domainEventPublisher);
+        return new UserBanInfo(userAccount, banInfos);
     }
 }

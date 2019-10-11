@@ -1,9 +1,7 @@
 package com.eventify.event.domain;
 
 import com.eventify.place.domain.Place;
-import com.eventify.shared.DomainEventPublisher;
 import com.eventify.shared.demo.EventType;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -17,8 +15,6 @@ import static org.apache.commons.collections4.CollectionUtils.emptyIfNull;
 @Component
 public class EventBuilder {
 
-    @Autowired
-    private DomainEventPublisher domainEventPublisher;
     private String eventName;
     private Set<HostOnEvent> hosts;
     private EventType eventType;
@@ -87,15 +83,10 @@ public class EventBuilder {
     }
 
     public Event build() {
-        return new Event(eventName, hosts, eventType, place, eventDateTime, description, source, profilePicture, prices, domainEventPublisher);
+        return new Event(eventName, hosts, eventType, place, eventDateTime, description, source, profilePicture, prices);
     }
 
-    //TODO THIS CONSTRUCTOR PRODUCE INVALID DATA AND IT IS USED JUST FOR EVENT EXAMPLE WHEN SEARCHING FOR EVENTS!
-    //todo Consider split domain and data model for this entity
     public Event eventExample(String name, Place place, EventType eventType) {
-        return this
-                .eventName(name)
-                .place(place)
-                .eventType(eventType).build();
+        return new Event(name,place, eventType);
     }
 }

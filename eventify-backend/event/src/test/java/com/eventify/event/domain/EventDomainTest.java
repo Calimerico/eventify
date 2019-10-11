@@ -1,6 +1,7 @@
 package com.eventify.event.domain;
 
 import com.eventify.place.domain.Place;
+import com.eventify.place.domain.PlaceBuilder;
 import com.eventify.shared.demo.EventType;
 import org.junit.Test;
 
@@ -11,7 +12,8 @@ import static org.assertj.core.api.Assertions.*;
 
 public class EventDomainTest {
 
-    private EventBuilder eventBuilder = new EventBuilder();
+    private EventBuilder eventBuilder = new EventBuilder();//todo those 2 builders have publisher null
+    private PlaceBuilder placeBuilder = new PlaceBuilder();
 
 
     @Test
@@ -20,7 +22,7 @@ public class EventDomainTest {
                 .eventType(EventType.THEATER)
                 .eventDateTime(LocalDateTime.now().plusDays(1))
                 .description("desc")
-                .place(new Place(UUID.randomUUID(),"place name","SD",1l,2l))
+                .place(getPlace())
                 .build()).isInstanceOf(IllegalStateException.class);
     }
 
@@ -30,7 +32,7 @@ public class EventDomainTest {
                 .eventName("name")
                 .eventDateTime(LocalDateTime.now().plusDays(1))
                 .description("desc")
-                .place(new Place(UUID.randomUUID(),"place name","SD",1l,2l))
+                .place(getPlace())
                 .build()).isInstanceOf(IllegalStateException.class);
     }
 
@@ -40,7 +42,7 @@ public class EventDomainTest {
                 .eventName("name")
                 .eventType(EventType.THEATER)
                 .description("desc")
-                .place(new Place(UUID.randomUUID(),"place name","SD",1l,2l))
+                .place(getPlace())
                 .build()).isInstanceOf(IllegalStateException.class);
     }
 
@@ -51,7 +53,7 @@ public class EventDomainTest {
                 .eventDateTime(LocalDateTime.now().minusDays(2))
                 .eventType(EventType.THEATER)
                 .description("desc")
-                .place(new Place(UUID.randomUUID(),"place name","SD",1l,2l))
+                .place(getPlace())
                 .build()).isInstanceOf(IllegalStateException.class);
     }
 
@@ -63,7 +65,7 @@ public class EventDomainTest {
                 .eventType(EventType.THEATER)
                 .host(new Host("some host"))
                 .description("desc")
-                .place(new Place(UUID.randomUUID(), "place name", "SD", 1l, 2l))
+                .place(getPlace())
                 .build()).doesNotThrowAnyException();
     }
 
@@ -75,7 +77,7 @@ public class EventDomainTest {
                 .eventType(EventType.THEATER)
                 .host(new Host("some host"))
                 .description("desc")
-                .place(new Place(UUID.randomUUID(), "place name", "SD", 1l, 2l))
+                .place(getPlace())
                 .build();
         assertThatThrownBy(() -> {
             event.confirmHost(UUID.randomUUID());
@@ -91,7 +93,7 @@ public class EventDomainTest {
                 .eventType(EventType.THEATER)
                 .host(host)
                 .description("desc")
-                .place(new Place(UUID.randomUUID(), "place name", "SD", 1l, 2l))
+                .place(getPlace())
                 .build();
         assertThat(event.findConfirmedHostIds()).isEmpty();
         assertThat(event.findUnconfirmedHostIds()).contains(host.getId());
@@ -109,7 +111,7 @@ public class EventDomainTest {
                 .eventType(EventType.THEATER)
                 .host(host)
                 .description("desc")
-                .place(new Place(UUID.randomUUID(), "place name", "SD", 1l, 2l))
+                .place(getPlace())
                 .build();
         event.confirmHost(host.getId());
         assertThat(event.isUserHostForThisEvent(host.getId())).isTrue();
@@ -124,8 +126,18 @@ public class EventDomainTest {
                 .eventType(EventType.THEATER)
                 .host(host)
                 .description("desc")
-                .place(new Place(UUID.randomUUID(), "place name", "SD", 1l, 2l))
+                .place(getPlace())
                 .build();
         assertThat(event.isUserHostForThisEvent(host.getId())).isFalse();
+    }
+
+    public Place getPlace() {
+        return placeBuilder
+                .name("place name")
+                .id(UUID.randomUUID())
+                .longitude(1L)
+                .latitude(2L)
+                .city("SD")
+                .build();
     }
 }

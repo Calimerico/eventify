@@ -1,9 +1,6 @@
 package com.eventify.eventsonhost.domain;
 
-import com.eventify.shared.DomainEventPublisher;
 import com.eventify.shared.ddd.UUIDAggregate;
-import com.eventify.user.domain.UserAccount;
-import org.springframework.data.annotation.PersistenceConstructor;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -22,14 +19,15 @@ public class EventsOnHost extends UUIDAggregate {
     @ElementCollection
     private Set<UUID> confirmedEvents = new HashSet<>();
 
-    EventsOnHost(String name, DomainEventPublisher domainEventPublisher) {
-        super(domainEventPublisher);
-        host = new Host(name, domainEventPublisher);
+    EventsOnHost(String name) {
+        host = new Host(name);
         setId(host.getId());
     }
 
-    EventsOnHost(Host host, boolean confirmedByDefault, Set<UUID> unconfirmedEvents, Set<UUID> confirmedEvents, DomainEventPublisher domainEventPublisher) {
-        super(domainEventPublisher);
+    private EventsOnHost() {
+    }
+
+    EventsOnHost(Host host, boolean confirmedByDefault, Set<UUID> unconfirmedEvents, Set<UUID> confirmedEvents) {
         this.host = host;
         this.confirmedByDefault = confirmedByDefault;
         this.unconfirmedEvents = unconfirmedEvents;
@@ -65,11 +63,6 @@ public class EventsOnHost extends UUIDAggregate {
         }
         this.unconfirmedEvents.remove(eventId);
         this.confirmedEvents.remove(eventId);
-    }
-
-    @PersistenceConstructor
-    private EventsOnHost(DomainEventPublisher domainEventPublisher) {
-        super(domainEventPublisher);
     }
 
     public static EventsOnHostBuilder builder() {

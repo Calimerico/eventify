@@ -1,11 +1,10 @@
 package com.eventify.place.api.rest;
 
-import com.eventify.place.api.rest.CreatePlaceRequest;
 import com.eventify.place.domain.Place;
 import com.eventify.place.domain.PlaceBuilder;
 import com.eventify.place.infrastructure.PlaceRepository;
+import com.eventify.shared.config.auth.MockKafkaConfig;
 import com.eventify.shared.config.auth.TestSecurityConfig;
-import com.eventify.shared.kafka.KafkaEventProducer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.assertj.core.api.Assertions;
 import org.junit.After;
@@ -14,7 +13,6 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.annotation.Commit;
 import org.springframework.test.context.ContextConfiguration;
@@ -35,7 +33,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = RANDOM_PORT, classes = TestSecurityConfig.class)
+@SpringBootTest(webEnvironment = RANDOM_PORT, classes = {TestSecurityConfig.class, MockKafkaConfig.class})
 @AutoConfigureMockMvc
 @ContextConfiguration
 @Commit//todo read this https://stackoverflow.com/questions/43519761/replacement-of-transactionconfiguration
@@ -50,9 +48,6 @@ public class PlaceControllerIntegrationTest {
 
     @Autowired
     private PlaceRepository placeRepository;
-
-    @MockBean
-    private KafkaEventProducer kafkaEventProducer;
 
     @Autowired
     private PlaceBuilder placeBuilder;

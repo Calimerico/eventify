@@ -1,4 +1,4 @@
-package com.eventify.shared;
+package com.eventify.shared.ddd;
 
 import com.eventify.shared.demo.DomainEvent;
 import lombok.RequiredArgsConstructor;
@@ -7,11 +7,10 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class DomainEventPublisherImpl implements DomainEventPublisher {
+class DomainEventPublisherBean {
 
     private final ApplicationEventPublisher applicationEventPublisher;
 
-    @Override
     public void publish(DomainEvent event) {
         applicationEventPublisher.publishEvent(event);
     }

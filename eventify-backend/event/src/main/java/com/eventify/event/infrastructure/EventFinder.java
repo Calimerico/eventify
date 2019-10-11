@@ -52,16 +52,13 @@ public class EventFinder {
         //TODO https://stackoverflow.com/questions/39784344/check-date-between-two-other-dates-spring-data-jpa
         Place place = eventFilter.getPlaceId() != null ? placeRepository.findById(eventFilter.getPlaceId()).orElse(null) : null;
         //TODO Places and hosts filter?
-        Example<Event> example = Example.of(eventBuilder.eventExample(
-                eventFilter.getEventName(),
-                place,
-                eventFilter.getEventType()));
+        Example<Event> example = Example.of(eventBuilder.eventExample(eventFilter.getEventName(), place, eventFilter.getEventType()));
         List<Event> events = eventRepository.findAll(example, pageable)
                 .stream()
                 .filter(event -> eventFilter.getTimeFrom() == null || (event.getEventDateTime() == null || !event.getEventDateTime().isBefore(eventFilter.getTimeFrom())))
                 .filter(event -> eventFilter.getTimeTo() == null || (event.getEventDateTime() == null || !event.getEventDateTime().isAfter(eventFilter.getTimeTo())))
-                .filter(event -> eventFilter.getPriceFrom() == null || event.getPrices() == null || event.getPrices().isEmpty() || event.getPrices().stream().filter(price -> price >= eventFilter.getPriceFrom()).collect(toList()).size() > 0)
-                .filter(event -> eventFilter.getPriceTo() == null || event.getPrices() == null || event.getPrices().isEmpty() || event.getPrices().stream().filter(price -> price <= eventFilter.getPriceTo()).collect(toList()).size() > 0)
+                .filter(event -> eventFilter.getPriceFrom() == null || event.getPrices() == null || event.getPrices().isEmpty() || event.getPrices().stream().anyMatch(price -> price >= eventFilter.getPriceFrom()))
+                .filter(event -> eventFilter.getPriceTo() == null || event.getPrices() == null || event.getPrices().isEmpty() || event.getPrices().stream().anyMatch(price -> price <= eventFilter.getPriceTo()))
                 //TODO This solution with filtering is a little bit hacky since we should somehow filter event in sql query, not here
                 .collect(toList());
         return new PageImpl<>(events,pageable,events.size());

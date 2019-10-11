@@ -1,9 +1,7 @@
 package com.eventify.userban.domain;
 
-import com.eventify.shared.DomainEventPublisher;
 import com.eventify.shared.ddd.UUIDAggregate;
 import com.eventify.user.domain.UserAccount;
-import org.springframework.data.annotation.PersistenceConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -21,13 +19,10 @@ public class UserBanInfo extends UUIDAggregate {
     @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL)
     private Set<BanInfo> banInfos;
 
-    @PersistenceConstructor
-    private UserBanInfo(DomainEventPublisher domainEventPublisher) {
-        super(domainEventPublisher);
+    private UserBanInfo() {
     }
 
-    UserBanInfo(UserAccount userAccount, Set<BanInfo> banInfos, DomainEventPublisher domainEventPublisher) {
-        super(domainEventPublisher);
+    UserBanInfo(UserAccount userAccount, Set<BanInfo> banInfos) {
         this.setId(userAccount.getId());
         this.userAccount = userAccount;
         this.banInfos = banInfos;

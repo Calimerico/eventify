@@ -1,13 +1,7 @@
 package com.eventify.user.domain;
 
-import com.eventify.shared.DomainEventPublisher;
 import com.eventify.shared.demo.Sex;
-import lombok.Builder;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.util.Set;
-import java.util.UUID;
 
 /**
  * Created by spasoje on 03-Feb-19.
@@ -16,8 +10,6 @@ import java.util.UUID;
 @Component
 public class UserBuilder {
 
-    @Autowired
-    private DomainEventPublisher domainEventPublisher;
     private String email;
     private String username;
     private String password;
@@ -65,6 +57,6 @@ public class UserBuilder {
     }
 
     public UserAccount build() {
-        return new UserAccount(email, username, password, firstName, lastName, sex, role, domainEventPublisher);
+        return new UserAccount(email, username, password, firstName, lastName, sex, role);
     }
 }

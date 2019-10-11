@@ -9,7 +9,7 @@ public abstract class UUIDEntity {
     @Id
     private UUID id = UUID.randomUUID();
     @Version
-    private long version;
+    private Long version;
 
     public UUID getId() {
         return id;

@@ -1,8 +1,6 @@
 package com.eventify.eventsonhost.domain;
 
-import com.eventify.shared.DomainEventPublisher;
 import com.eventify.user.domain.UserAccount;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Set;
@@ -11,8 +9,6 @@ import java.util.UUID;
 @Component
 public class EventsOnHostBuilder {
 
-    @Autowired
-    private DomainEventPublisher domainEventPublisher;
     private Host host;
     private boolean confirmedByDefault;
     private Set<UUID> unconfirmedEvents;
@@ -42,18 +38,18 @@ public class EventsOnHostBuilder {
     }
 
     public EventsOnHost build() {
-        return new EventsOnHost(host, confirmedByDefault, unconfirmedEvents, confirmedEvents, domainEventPublisher);
+        return new EventsOnHost(host, confirmedByDefault, unconfirmedEvents, confirmedEvents);
     }
 
     public EventsOnHost fromUserAccount(UserAccount user) {
-        Host host = new Host(user, domainEventPublisher);
+        Host host = new Host(user);
         return this
                 .host(host)
                 .build();
     }
 
     public EventsOnHost fromName(String name) {
-        Host host = new Host(name, domainEventPublisher);
+        Host host = new Host(name);
         return this.host(host).build();
     }
 }
