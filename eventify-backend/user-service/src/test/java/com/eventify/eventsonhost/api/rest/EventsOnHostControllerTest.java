@@ -69,11 +69,7 @@ public class EventsOnHostControllerTest {
     private UUID eventId = UUID.randomUUID();
     private UUID eventId2 = UUID.randomUUID();
     private UUID userId;
-    private UserAccount user = userBuilder
-            .firstName("Spasoje")
-            .sex(Sex.MALE)
-            .lastName("Petros")
-            .build();
+    private UserAccount user;
 
     @Autowired
     private EventsOnHostRepository eventsOnHostRepository;
@@ -82,22 +78,28 @@ public class EventsOnHostControllerTest {
     @Before
     public void setUp() throws Exception {
         //todo improve security testing!
+        user = userBuilder
+                .firstName("Spasoje")
+                .sex(Sex.MALE)
+                .lastName("Petros")
+                .build();
         Mockito.when(context.getUserId()).thenReturn(user.getId());
         Mockito.when(permissionService.hasPermissionToConfirmHostOnEvent(any())).thenReturn(true);
         userId = user.getId();
         userRepository.save(user);
-    }
-
-    @Test
-    @WithUserDetails(REGULAR_USER)
-    public void confirmHostOnEventTest() throws Exception {
-        //given Add unconfirmed events so we can confirm one of them
         HashSet<UUID> unconfirmedEvents = new HashSet<>();
         unconfirmedEvents.add(eventId);
         unconfirmedEvents.add(eventId2);
         EventsOnHost eventsOnHost = eventsOnHostBuilder.fromUserAccount(user);
         unconfirmedEvents.forEach(eventsOnHost::addUnconfirmedEvent);
         eventsOnHostRepository.save(eventsOnHost);
+    }
+
+    @Test
+    @WithUserDetails(REGULAR_USER)
+    public void confirmHostOnEventTest() throws Exception {
+        //given
+
         //when
         mockMvc.perform(
                 patch(BASE_PATH + "/" + eventId + CONFIRM_HOST)
@@ -113,13 +115,13 @@ public class EventsOnHostControllerTest {
     @Test
     @WithUserDetails(REGULAR_USER)
     public void unconfirmHostOnEventTest() throws Exception {
-        //given Add confirmed events so we can confirm one of them
-        HashSet<UUID> confirmedEvents = new HashSet<>();
-        confirmedEvents.add(eventId);
-        confirmedEvents.add(eventId2);
-        EventsOnHost eventsOnHost = eventsOnHostBuilder.fromUserAccount(user);
-        confirmedEvents.forEach(eventsOnHost::addConfirmedEvent);
-        eventsOnHostRepository.save(eventsOnHost);
+        //given Add 2 confirmed events and remove all unconfirmed events
+
+        EventsOnHost eventsOnHostBefore = eventsOnHostRepository.findByHostId(userId);
+        eventsOnHostBefore.removeEvent(eventId);
+        eventsOnHostBefore.removeEvent(eventId2);
+        eventsOnHostBefore.addConfirmedEvent(eventId);
+        eventsOnHostBefore.addConfirmedEvent(eventId2);
         //when
         mockMvc.perform(
                 patch(BASE_PATH + "/" + eventId + UNCONFIRM_HOST)

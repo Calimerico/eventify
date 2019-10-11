@@ -9,8 +9,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static com.eventify.shared.demo.Util.*;
 import static java.util.stream.Collectors.toSet;
-import static org.apache.commons.collections4.CollectionUtils.emptyIfNull;
 
 @Component
 public class EventBuilder {

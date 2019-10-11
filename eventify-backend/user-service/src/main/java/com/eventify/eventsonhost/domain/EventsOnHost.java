@@ -67,13 +67,6 @@ public class EventsOnHost extends UUIDAggregate {
     }
 
     public void removeEvent(UUID eventId) {
-        //todo elementcollection is null, strange behavior
-        if (this.unconfirmedEvents == null) {
-            this.unconfirmedEvents = new HashSet<>();
-        }
-        if (this.confirmedEvents == null) {
-            this.confirmedEvents = new HashSet<>();
-        }
         this.unconfirmedEvents.remove(eventId);
         this.confirmedEvents.remove(eventId);
     }
@@ -87,16 +80,10 @@ public class EventsOnHost extends UUIDAggregate {
     }
 
     public Set<UUID> getUnconfirmedEvents() {
-        if (this.unconfirmedEvents == null) {
-            return new HashSet<>();
-        }
         return new HashSet<>(this.unconfirmedEvents);
     }
 
     public Set<UUID> getConfirmedEvents() {
-        if (this.confirmedEvents == null) {
-            return new HashSet<>();
-        }
         return new HashSet<>(this.confirmedEvents);
     }
 
