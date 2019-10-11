@@ -1,7 +1,6 @@
-package com.eventify.analytics.visitedhost.repository;
+package com.eventify.visitedpage.repository;
 
-import com.eventify.analytics.visitedhost.domain.VisitedHost;
-import com.eventify.shared.demo.Sex;
+import com.eventify.visitedpage.domain.VisitedPage;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,10 +15,10 @@ import java.util.UUID;
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @AutoConfigureDataMongo
-public class VisitedHostRepositoryTest {
+public class VisitedPageRepositoryTest {
 
     @Autowired
-     VisitedHostRepository repository;
+     VisitedPageRepository repository;
 
     @Before
     public  void setup(){
@@ -32,13 +31,19 @@ public class VisitedHostRepositoryTest {
     }
 
     @Test
-    public void whenAddVisitedHostShouldAddIt() {
+    public void whenAddVisitedPageShouldAddIt() {
 
-        VisitedHost visitedHost1 =  VisitedHost.builder().userId(UUID.randomUUID()).hostId(UUID.randomUUID()).age(25).sex(Sex.MALE).build();
-        repository.save(visitedHost1);
-        VisitedHost visitedHost2 =  VisitedHost.builder().userId(UUID.randomUUID()).hostId(UUID.randomUUID()).age(24).sex(Sex.FEMALE).build();
-        repository.save(visitedHost2);
+        VisitedPage visitedPage1 =  VisitedPage.builder()
+                .userId(UUID.randomUUID())
+                .pageId(UUID.randomUUID())
+                .build();
+        repository.save(visitedPage1);
 
+        VisitedPage visitedPage2 =  VisitedPage.builder()
+                .userId(UUID.randomUUID())
+                .pageId(UUID.randomUUID())
+                .build();
+        repository.save(visitedPage2);
 
         assert repository.findAll().size() == 2;
     }

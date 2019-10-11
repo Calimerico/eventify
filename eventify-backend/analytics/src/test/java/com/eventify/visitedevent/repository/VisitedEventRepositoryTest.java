@@ -1,6 +1,6 @@
-package com.eventify.analytics.visitedevent.repository;
+package com.eventify.visitedevent.repository;
 
-import com.eventify.analytics.visitedevent.domain.VisitedEvent;
+import com.eventify.visitedevent.domain.VisitedEvent;
 import com.eventify.shared.demo.EventType;
 import com.eventify.shared.demo.Sex;
 import org.junit.After;

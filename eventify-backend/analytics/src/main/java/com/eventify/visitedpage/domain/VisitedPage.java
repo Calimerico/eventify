@@ -1,4 +1,4 @@
-package com.eventify.analytics.visitedpage.domain;
+package com.eventify.visitedpage.domain;
 
 import org.springframework.data.annotation.Id;
 import lombok.*;

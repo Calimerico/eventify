@@ -1,7 +1,7 @@
-package com.eventify.analytics.visitedevent.repository;
+package com.eventify.visitedevent.repository;
 
-import com.eventify.analytics.visitedevent.domain.VisitedEvent;
-import com.eventify.analytics.visitedpage.domain.VisitedPage;
+import com.eventify.visitedevent.domain.VisitedEvent;
+import com.eventify.visitedpage.domain.VisitedPage;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.List;
