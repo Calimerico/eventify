@@ -6,6 +6,7 @@ import com.eventify.user.domain.UserAccount;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -17,7 +18,7 @@ public class UserBanInfo extends UUIDAggregate {
     private UserAccount userAccount;
 
     @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL)
-    private Set<BanInfo> banInfos;
+    private Set<BanInfo> banInfos = new HashSet<>();
 
     private UserBanInfo() {
     }

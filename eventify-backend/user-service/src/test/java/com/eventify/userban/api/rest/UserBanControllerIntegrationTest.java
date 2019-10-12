@@ -41,8 +41,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = RANDOM_PORT, classes = {TestSecurityConfig.class, MockKafkaConfig.class})
 @AutoConfigureMockMvc
-@ContextConfiguration
-@Commit//todo read this https://stackoverflow.com/questions/43519761/replacement-of-transactionconfiguration
 @Transactional
 public class UserBanControllerIntegrationTest {
 
@@ -61,16 +59,17 @@ public class UserBanControllerIntegrationTest {
     @Autowired
     private UserBuilder userBuilder;
 
-    private UserAccount user = userBuilder
-            .firstName("Spasoje")
-            .lastName("Petronijevic")
-            .username("spasoje")
-            .password("spasoje")
-            .sex(Sex.MALE)
-            .build();
+    private UserAccount user;
 
     @Before
     public void setUp() {
+        user = userBuilder
+                .firstName("Spasoje")
+                .lastName("Petronijevic")
+                .username("spasoje")
+                .password("spasoje")
+                .sex(Sex.MALE)
+                .build();
         userRepository.save(user);
     }
 
@@ -98,9 +97,4 @@ public class UserBanControllerIntegrationTest {
         assertThat(userBanInfo.getBanInfos().size()).isEqualTo(1);
     }
 
-    @After
-    public void tearDown() {
-        userBanRepository.deleteAll();
-        userRepository.deleteAll();
-    }
 }

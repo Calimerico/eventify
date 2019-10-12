@@ -12,7 +12,7 @@ import static org.assertj.core.api.Assertions.*;
 
 public class EventDomainTest {
 
-    private EventBuilder eventBuilder = new EventBuilder();//todo those 2 builders have publisher null
+    private EventBuilder eventBuilder = new EventBuilder();
     private PlaceBuilder placeBuilder = new PlaceBuilder();
 
 

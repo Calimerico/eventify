@@ -1,8 +1,11 @@
 package com.eventify.userban.domain;
 
+import com.eventify.shared.demo.Util;
 import com.eventify.user.domain.UserAccount;
 import org.springframework.stereotype.Component;
 import java.util.Set;
+
+import static com.eventify.shared.demo.Util.*;
 
 /**
  * Created by spasoje on 03-Feb-19.
@@ -27,6 +30,6 @@ public class UserBanInfoBuilder {
     }
 
     public UserBanInfo build() {
-        return new UserBanInfo(userAccount, banInfos);
+        return new UserBanInfo(userAccount, emptyIfNull(banInfos));
     }
 }

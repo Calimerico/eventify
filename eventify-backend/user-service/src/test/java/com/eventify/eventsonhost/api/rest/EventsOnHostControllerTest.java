@@ -43,8 +43,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = RANDOM_PORT, classes = TestSecurityConfig.class)
 @AutoConfigureMockMvc
-@ContextConfiguration
-@Commit//todo read this https://stackoverflow.com/questions/43519761/replacement-of-transactionconfiguration
 @Transactional
 public class EventsOnHostControllerTest {
 
@@ -140,10 +138,5 @@ public class EventsOnHostControllerTest {
         mockMvc.perform(get(BASE_PATH + UNCONFIRMED_EVENTS))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()", is(2)));
-    }
-
-    @After
-    public void tearDown() throws Exception {
-        eventsOnHostRepository.deleteAll();
     }
 }
