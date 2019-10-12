@@ -30,7 +30,7 @@ public class ArchUnitTest {
     @ArchTest
     public static final ArchRule uuidAggregateRules = ArchRuleDefinition.classes()
             .that().areAssignableFrom(UUIDAggregate.class)
-            .and().doNotHaveSimpleName("UUIDAggregate")
+            .and().doNotHaveSimpleName("UUIDAggregate").and().doNotHaveSimpleName("UUIDEntity")
             .should().resideInAPackage("..domain..")
 //            .andShould()
 //            .beAnnotatedWith(Entity.class)

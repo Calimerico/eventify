@@ -7,7 +7,6 @@ import com.eventify.shared.demo.EventType;
 import com.eventify.event.domain.EventRepository;
 import com.eventify.shared.config.auth.TestSecurityConfig;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,11 +47,6 @@ public class EventControllerIntegrationTest {
 
     @Autowired
     private EventBuilder eventBuilder;
-
-    @After
-    public void tearDown() {
-        eventRepository.deleteAll();
-    }
 
     @Test
     public void getEventsSuccess() throws Exception {

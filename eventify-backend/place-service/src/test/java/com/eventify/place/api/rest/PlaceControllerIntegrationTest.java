@@ -7,15 +7,12 @@ import com.eventify.shared.config.auth.MockKafkaConfig;
 import com.eventify.shared.config.auth.TestSecurityConfig;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.assertj.core.api.Assertions;
-import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.test.context.support.WithUserDetails;
-import org.springframework.test.annotation.Commit;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,8 +32,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = RANDOM_PORT, classes = {TestSecurityConfig.class, MockKafkaConfig.class})
 @AutoConfigureMockMvc
-@ContextConfiguration
-@Commit//todo read this https://stackoverflow.com/questions/43519761/replacement-of-transactionconfiguration
 @Transactional
 public class PlaceControllerIntegrationTest {
 
@@ -51,11 +46,6 @@ public class PlaceControllerIntegrationTest {
 
     @Autowired
     private PlaceBuilder placeBuilder;
-
-    @After
-    public void tearDown() {
-        placeRepository.deleteAll();
-    }
 
     @Test
     @WithUserDetails(ADMIN_USER)
