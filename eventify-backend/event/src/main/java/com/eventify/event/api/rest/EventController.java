@@ -24,6 +24,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import static com.eventify.shared.security.RoleName.ROLE_ADMIN;
@@ -83,6 +84,8 @@ public class EventController {
                 .profilePicture(createEventRequest.getProfilePicture())
                 .prices(createEventRequest.getPrices())
                 .hosts(createEventRequest.getHostIds())
+                .createdBy(context.getUserId())
+                .createdDateTime(LocalDateTime.now())
                 .build());
         return ResponseEntity.ok(EventResource.fromEvent(createdEvent));//todo created instead of ok
     }

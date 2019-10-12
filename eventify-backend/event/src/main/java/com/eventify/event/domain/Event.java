@@ -36,8 +36,10 @@ public class Event extends UUIDAggregate {
     private String profilePicture;
     @ElementCollection
     private List<Integer> prices;//TODO Introduce Ticket entity or maybe embeddable?
+    private UUID createdBy;
+    private LocalDateTime createDateTime;
 
-    Event(String eventName, Set<HostOnEvent> hosts, EventType eventType, Place place, LocalDateTime eventDateTime, String description, String source, String profilePicture, List<Integer> prices) {
+    Event(String eventName, Set<HostOnEvent> hosts, EventType eventType, Place place, LocalDateTime eventDateTime, String description, String source, String profilePicture, List<Integer> prices, UUID createdBy, LocalDateTime createDateTime) {
         this.eventName = eventName;
         this.hosts = hosts;
         this.eventType = eventType;
@@ -47,6 +49,8 @@ public class Event extends UUIDAggregate {
         this.source = source;
         this.profilePicture = profilePicture;
         this.prices = prices;
+        this.createdBy = createdBy;
+        this.createDateTime = createDateTime;
         checkAggregate();
     }
 

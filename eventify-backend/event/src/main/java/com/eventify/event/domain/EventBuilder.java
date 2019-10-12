@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 import static com.eventify.shared.demo.Util.*;
 import static java.util.stream.Collectors.toSet;
@@ -24,6 +25,8 @@ public class EventBuilder {
     private String source;
     private String profilePicture;
     private List<Integer> prices;
+    private UUID createdBy;
+    private LocalDateTime createDateTime;
 
     EventBuilder() {
     }
@@ -77,13 +80,23 @@ public class EventBuilder {
         return this;
     }
 
+    public EventBuilder createdBy(UUID createdBy) {
+        this.createdBy = createdBy;
+        return this;
+    }
+
+    public EventBuilder createDateTime(LocalDateTime createDateTime) {
+        this.createDateTime = createDateTime;
+        return this;
+    }
+
     public EventBuilder prices(List<Integer> prices) {
         this.prices = prices;
         return this;
     }
 
     public Event build() {
-        return new Event(eventName, hosts, eventType, place, eventDateTime, description, source, profilePicture, prices);
+        return new Event(eventName, hosts, eventType, place, eventDateTime, description, source, profilePicture, prices,createdBy, createDateTime);
     }
 
     public Event eventExample(String name, Place place, EventType eventType) {

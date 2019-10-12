@@ -17,7 +17,6 @@ import java.util.UUID;
 @Value
 @Builder
 public class CreateEvent implements Command<Event> {
-    //todo we needed created by and created date here as params
     private String eventName;
     private EventType eventType;
     private UUID placeId;
@@ -27,4 +26,6 @@ public class CreateEvent implements Command<Event> {
     private Set<UUID> hosts;
     private String profilePicture;
     private List<Integer> prices;
+    private UUID createdBy;
+    private LocalDateTime createdDateTime;
 }

@@ -10,6 +10,7 @@ import org.springframework.cloud.stream.annotation.StreamListener;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,6 +37,8 @@ public class EventsScrapedListener implements IntegrationEventListener<EventsScr
                             .profilePicture(eventScraped.getPicture())
                             .description(eventScraped.getDescription())
                             .hosts(eventScraped.getEventHostIds())
+                            .createdDateTime(LocalDateTime.now())
+//                            .createdBy()//todo created by scraper
 //                          .placeId(eventScraped.getPlaceId())//todo
                             .build()
             );

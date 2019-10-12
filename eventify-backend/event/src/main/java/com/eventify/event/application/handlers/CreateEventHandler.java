@@ -24,7 +24,7 @@ import static com.eventify.shared.kafka.Topic.EVENTS_TOPIC;
 public class CreateEventHandler implements CommandHandler<CreateEvent, Event> {
 
     private final EventRepository eventRepository;
-    private final PlaceRepository placeRepository;//TODO Replace repo with finder
+    private final PlaceRepository placeRepository;
     private final EventBuilder eventBuilder;
 
     @Override
@@ -36,7 +36,7 @@ public class CreateEventHandler implements CommandHandler<CreateEvent, Event> {
                 .eventDateTime(createEvent.getEventDateTime())
                 .eventName(createEvent.getEventName())
                 .eventType(createEvent.getEventType())
-                .place(place)//TODO
+                .place(place)
 //                .hosts(createEvent.getHosts())//todo
                 .source(createEvent.getSource())
                 .profilePicture(createEvent.getProfilePicture())
@@ -51,7 +51,7 @@ public class CreateEventHandler implements CommandHandler<CreateEvent, Event> {
         return event;
     }
 
-    private Place getPlace(UUID placeId) {//todo
+    private Place getPlace(UUID placeId) {
         Place place = null;
         if (placeId != null) {
             place = placeRepository.findById(placeId).orElse(null);
