@@ -1,4 +1,4 @@
-package com.eventify.analytics.visitedhost.domain;
+package com.eventify.visitedhost.domain;
 
 import com.eventify.shared.demo.Sex;
 import lombok.AccessLevel;

@@ -1,4 +1,4 @@
-package com.eventify.analytics.visitedevent.domain;
+package com.eventify.visitedevent.domain;
 
 import com.eventify.shared.demo.EventType;
 import com.eventify.shared.demo.Sex;
