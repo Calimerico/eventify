@@ -1,4 +1,4 @@
-package com.eventify.visitedevent.api;
+package com.eventify.visitedevent.api.rest;
 
 import com.eventify.visitedevent.application.commands.CreateVisitedEvent;
 import com.eventify.shared.demo.Gate;
