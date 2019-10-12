@@ -6,6 +6,7 @@ import com.eventify.shared.kafka.KafkaEventProducer;
 import com.eventify.shared.kafka.Topic;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.event.TransactionalEventListener;
 
 import static com.eventify.shared.kafka.Topic.*;
 
@@ -16,6 +17,7 @@ public class EventAddedEventListener implements DomainEventListener<EventAddedEv
     private final KafkaEventProducer kafkaEventProducer;
 
     @Override
+    @TransactionalEventListener
     public void handle(EventAddedEvent domainEvent) {
         kafkaEventProducer.send(
                 com.eventify.event.api.integration.events.output.EventAddedEvent

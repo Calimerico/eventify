@@ -5,6 +5,7 @@ import com.eventify.shared.demo.DomainEventListener;
 import com.eventify.shared.kafka.KafkaEventProducer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.event.TransactionalEventListener;
 
 import static com.eventify.shared.kafka.Topic.*;
 
@@ -15,6 +16,7 @@ public class EventDeletedEventListener implements DomainEventListener<EventDelet
     private final KafkaEventProducer kafkaEventProducer;
 
     @Override
+    @TransactionalEventListener
     public void handle(EventDeletedEvent domainEvent) {
         kafkaEventProducer.send(
                 com.eventify.event.api.integration.events.output.EventDeletedEvent

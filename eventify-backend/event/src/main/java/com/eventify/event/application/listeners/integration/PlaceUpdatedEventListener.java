@@ -1,6 +1,6 @@
 package com.eventify.event.application.listeners.integration;
 
-import com.eventify.place.domain.events.PlaceUpdatedEvent;
+import com.eventify.event.api.integration.events.input.PlaceUpdatedEvent;
 import com.eventify.shared.demo.Gate;
 import com.eventify.shared.demo.IntegrationEventListener;
 import lombok.RequiredArgsConstructor;

@@ -1,4 +1,4 @@
-package com.eventify.place.domain.events;
+package com.eventify.event.api.integration.events.input;
 
 import com.eventify.shared.ddd.DomainEvent;
 import com.eventify.shared.demo.IntegrationEvent;

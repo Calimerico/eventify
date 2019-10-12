@@ -5,6 +5,7 @@ import com.eventify.shared.demo.DomainEventListener;
 import com.eventify.shared.kafka.KafkaEventProducer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.event.TransactionalEventListener;
 
 import static com.eventify.shared.kafka.Topic.*;
 
@@ -15,6 +16,7 @@ public class EventHostUnconfirmedListener implements DomainEventListener<EventHo
     private final KafkaEventProducer kafkaEventProducer;
 
     @Override
+    @TransactionalEventListener
     public void handle(EventHostUnconfirmed domainEvent) {
         kafkaEventProducer.send(
                 com.eventify.eventsonhost.api.integration.events.output.EventHostUnconfirmed.fromDomain(domainEvent),
