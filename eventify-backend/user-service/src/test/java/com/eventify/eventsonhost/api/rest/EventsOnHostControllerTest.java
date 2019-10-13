@@ -1,31 +1,24 @@
 package com.eventify.eventsonhost.api.rest;
 
 import com.eventify.eventsonhost.domain.EventsOnHostBuilder;
+import com.eventify.shared.config.auth.IntegrationTest;
 import com.eventify.shared.demo.Sex;
 import com.eventify.shared.security.Context;
 import com.eventify.user.domain.UserAccount;
 import com.eventify.user.domain.UserBuilder;
 import com.eventify.user.infrastructure.UserRepository;
 import com.eventify.config.security.PermissionService;
-import com.eventify.shared.config.auth.TestSecurityConfig;
 import com.eventify.eventsonhost.domain.EventsOnHost;
 import com.eventify.eventsonhost.domain.EventsOnHostRepository;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.test.context.support.WithUserDetails;
-import org.springframework.test.annotation.Commit;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.util.HashSet;
 import java.util.UUID;
 
@@ -34,17 +27,13 @@ import static com.eventify.shared.config.auth.TestSecurityConfig.REGULAR_USER;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.mockito.ArgumentMatchers.any;
-import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = RANDOM_PORT, classes = TestSecurityConfig.class)
-@AutoConfigureMockMvc
-@Transactional
-public class EventsOnHostControllerTest {
+public class EventsOnHostControllerTest extends IntegrationTest {
 
     @Autowired
     private MockMvc mockMvc;

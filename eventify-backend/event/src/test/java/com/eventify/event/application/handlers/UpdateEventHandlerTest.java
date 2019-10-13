@@ -4,6 +4,7 @@ import com.eventify.event.application.commands.UpdateEvent;
 import com.eventify.event.domain.Event;
 import com.eventify.event.domain.EventBuilder;
 import com.eventify.event.domain.EventRepository;
+import com.eventify.shared.config.auth.IntegrationTest;
 import com.eventify.shared.config.auth.MockKafkaConfig;
 import com.eventify.shared.demo.EventType;
 import org.junit.Before;
@@ -22,10 +23,7 @@ import static org.assertj.core.api.Assertions.*;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.NONE;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = NONE, classes = MockKafkaConfig.class)
-@Transactional
-@Commit
-public class UpdateEventHandlerTest {
+public class UpdateEventHandlerTest extends IntegrationTest {
 
     @Autowired
     private UpdateEventHandler updateEventHandler;

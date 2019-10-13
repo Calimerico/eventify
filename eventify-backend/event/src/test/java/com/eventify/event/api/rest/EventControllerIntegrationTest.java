@@ -2,20 +2,16 @@ package com.eventify.event.api.rest;
 
 import com.eventify.event.domain.Event;
 import com.eventify.event.domain.EventBuilder;
-import com.eventify.shared.config.auth.MockKafkaConfig;
+import com.eventify.shared.config.auth.IntegrationTest;
 import com.eventify.shared.demo.EventType;
 import com.eventify.event.domain.EventRepository;
-import com.eventify.shared.config.auth.TestSecurityConfig;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
@@ -23,18 +19,14 @@ import static com.eventify.event.api.rest.EventController.*;
 import static com.eventify.shared.config.auth.TestSecurityConfig.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.core.Is.is;
-import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = RANDOM_PORT, classes = {TestSecurityConfig.class, MockKafkaConfig.class})
-@AutoConfigureMockMvc
-@Transactional
 //todo we should test here if someone can delete or update his own event!
-public class EventControllerIntegrationTest {
+public class EventControllerIntegrationTest extends IntegrationTest {
 
     @Autowired
     private MockMvc mvc;

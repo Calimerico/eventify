@@ -3,26 +3,20 @@ package com.eventify.place.api.rest;
 import com.eventify.place.domain.Place;
 import com.eventify.place.domain.PlaceBuilder;
 import com.eventify.place.infrastructure.PlaceRepository;
-import com.eventify.shared.config.auth.MockKafkaConfig;
-import com.eventify.shared.config.auth.TestSecurityConfig;
+import com.eventify.shared.config.auth.IntegrationTest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.util.HashSet;
 import java.util.List;
 
 import static com.eventify.shared.config.auth.TestSecurityConfig.*;
 import static org.hamcrest.core.Is.is;
-import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -30,10 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = RANDOM_PORT, classes = {TestSecurityConfig.class, MockKafkaConfig.class})
-@AutoConfigureMockMvc
-@Transactional
-public class PlaceControllerIntegrationTest {
+public class PlaceControllerIntegrationTest extends IntegrationTest {
 
     @Autowired
     private MockMvc mvc;
