@@ -116,7 +116,6 @@ class EventSearch extends React.Component {
 
     shouldLoadEvents() {
         const {lastUsedFilter, filter} = this.props;
-        debugger;
         return filter.eventType !== lastUsedFilter.eventType ||
                filter.city !== lastUsedFilter.city ||
                ((lastUsedFilter.timeFrom == null && filter.timeFrom != null) || (filter.timeFrom != null && lastUsedFilter.timeFrom != null && filter.timeFrom.isBefore(lastUsedFilter.timeFrom))) ||
