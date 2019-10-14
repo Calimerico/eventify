@@ -63,13 +63,17 @@ public class UserBanControllerIntegrationTest extends IntegrationTest {
     @WithUserDetails(ADMIN_USER)
     public void banUserTest() throws Exception {
         banUser(200);
+
+        //then
+        UserBanInfo userBanInfo = userBanRepository.findById(user.getId()).orElse(null);
+        assertThat(userBanInfo).isNotNull();
+        assertThat(userBanInfo.getBanInfos().size()).isEqualTo(1);
     }
 
     @Test
     @WithUserDetails(REGULAR_USER)
-    @Ignore
     public void cannotBanUserIfYouAreNotAdmin() throws Exception {
-        banUser(401);
+        banUser(403);
     }
 
     private void banUser(int expectedStatus) throws Exception {
@@ -88,10 +92,7 @@ public class UserBanControllerIntegrationTest extends IntegrationTest {
                 .content(objectMapper.writeValueAsString(banUserRequest))
         ).andExpect(mvcResult -> assertThat(mvcResult.getResponse().getStatus()).isEqualTo(expectedStatus));
 
-        //then
-        UserBanInfo userBanInfo = userBanRepository.findById(user.getId()).orElse(null);
-        assertThat(userBanInfo).isNotNull();
-        assertThat(userBanInfo.getBanInfos().size()).isEqualTo(1);
+
     }
 
 }
