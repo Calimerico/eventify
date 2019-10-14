@@ -43,11 +43,15 @@ public class EventControllerIntegrationTest extends IntegrationTest {
     @Test
     public void getEventsSuccess() throws Exception {
         //given
+        LocalDateTime eventDateTime = LocalDateTime.now().plusDays(1);
+        String name = "event name";
+        String desc = "desc";
+        EventType theater = EventType.THEATER;
         Event event = eventBuilder
-                .description("desc")
-                .eventDateTime(LocalDateTime.now().plusDays(1))
-                .eventName("event name")
-                .eventType(EventType.THEATER)
+                .description(desc)
+                .eventDateTime(eventDateTime)
+                .eventName(name)
+                .eventType(theater)
                 .build();
         eventRepository.save(event);
 
@@ -56,16 +60,21 @@ public class EventControllerIntegrationTest extends IntegrationTest {
                 get(BASE_PATH)
                         .contentType(APPLICATION_JSON)
         )
-
                 //then
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$._embedded.resources.length()", is(1)));
+                 .andExpect(status().isOk())
+                .andExpect(mvcResult -> {
+                    jsonPath("$._embedded.resources.length()", is(1));
+                    jsonPath("$._embedded.resources[0].description", is(desc));
+                    jsonPath("$._embedded.resources[0].eventDateTime", is(eventDateTime));
+                    jsonPath("$._embedded.resources[0].eventName", is(name));
+                    jsonPath("$._embedded.resources[0].eventType", is(theater));
+                });
     }
 
     @Test
     @WithUserDetails(REGULAR_USER)
     public void insertEventTest() throws Exception {
-        insertEvent();
+        insertEvent(200);
 
         //then
         Event event = eventRepository.findByEventName("name insert");
@@ -76,7 +85,7 @@ public class EventControllerIntegrationTest extends IntegrationTest {
 
     @Test
     public void cannotInsertEventIfNotAuthorized() throws Exception {
-        insertEvent();
+        insertEvent(401);
 
         //then
         Event event = eventRepository.findByEventName("name insert");
@@ -88,7 +97,7 @@ public class EventControllerIntegrationTest extends IntegrationTest {
     @Test
     @WithUserDetails(ADMIN_USER)
     public void deleteEventTest() throws Exception {
-        deleteEvent();
+        deleteEvent(204);
 
         //then
         assertThat(eventRepository.findAll()).hasSize(0);
@@ -96,7 +105,7 @@ public class EventControllerIntegrationTest extends IntegrationTest {
 
     @Test
     public void cannotDeleteEventIfNotAdminAndItsNotYourEvent() throws Exception {
-        deleteEvent();
+        deleteEvent(401);
 
         //then
         assertThat(eventRepository.findAll()).hasSize(1);
@@ -162,21 +171,36 @@ public class EventControllerIntegrationTest extends IntegrationTest {
         assertThat(updatedEvent.getEventName()).isEqualTo("event name");
     }
 
-    private void insertEvent() throws Exception {
+    private void insertEvent(int expectedStatus) throws Exception {
         //given
         CreateEventRequest createEventRequest = new CreateEventRequest();
-        createEventRequest.setDescription("desc insert");
-        createEventRequest.setEventName("name insert");
-        createEventRequest.setEventType(EventType.THEATER);
-        createEventRequest.setEventDateTime(LocalDateTime.now().plusDays(1));
+        String desc = "desc insert";
+        createEventRequest.setDescription(desc);
+        String name = "name insert";
+        createEventRequest.setEventName(name);
+        EventType theater = EventType.THEATER;
+        createEventRequest.setEventType(theater);
+        LocalDateTime eventDateTime = LocalDateTime.now().plusDays(1);
+        createEventRequest.setEventDateTime(eventDateTime);
         //when
         this.mvc.perform(post(BASE_PATH)
                 .contentType(APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(createEventRequest)));
-//                .andExpect(mvcResult -> assertThat(mvcResult.getResponse().getStatus()).isEqualTo(200));
+                .content(objectMapper.writeValueAsString(createEventRequest)))
+                .andExpect(mvcResult -> {
+                    assertThat(mvcResult.getResponse().getStatus()).isEqualTo(expectedStatus);
+                    //then
+                    if (expectedStatus >= 200 && expectedStatus < 300) {
+                        jsonPath("$._embedded.resources.length()", is(1));
+                        jsonPath("$._embedded.resources[0].description", is(desc));
+                        jsonPath("$._embedded.resources[0].eventDateTime", is(eventDateTime));
+                        jsonPath("$._embedded.resources[0].eventName", is(name));
+                        jsonPath("$._embedded.resources[0].eventType", is(theater));
+                    }
+
+                });
     }
 
-    private void deleteEvent() throws Exception {
+    private void deleteEvent(int expectedStatus) throws Exception {
         //given
         Event event = eventBuilder
                 .description("desc")
@@ -189,6 +213,10 @@ public class EventControllerIntegrationTest extends IntegrationTest {
         //when
         this.mvc.perform(delete(BASE_PATH + ID_PATH,event.getId())
                 .contentType(APPLICATION_JSON)
-        );
+        )
+                //then
+                .andExpect(mvcResult -> {
+            assertThat(mvcResult.getResponse().getStatus()).isEqualTo(expectedStatus);
+        });
     }
 }

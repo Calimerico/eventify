@@ -9,6 +9,7 @@ import com.eventify.userban.domain.UserBanInfo;
 import com.eventify.userban.infrastructure.UserBanRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,7 @@ import static com.eventify.userban.api.rest.UserBanController.BAN_USER;
 import static com.eventify.userban.api.rest.UserBanController.BASE_PATH;
 import static org.assertj.core.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
 public class UserBanControllerIntegrationTest extends IntegrationTest {
@@ -60,6 +62,17 @@ public class UserBanControllerIntegrationTest extends IntegrationTest {
     @Test
     @WithUserDetails(ADMIN_USER)
     public void banUserTest() throws Exception {
+        banUser(200);
+    }
+
+    @Test
+    @WithUserDetails(REGULAR_USER)
+    @Ignore
+    public void cannotBanUserIfYouAreNotAdmin() throws Exception {
+        banUser(401);
+    }
+
+    private void banUser(int expectedStatus) throws Exception {
         //given
         BanUserRequest banUserRequest = new BanUserRequest();
         UUID adminId = UUID.randomUUID();
@@ -73,7 +86,7 @@ public class UserBanControllerIntegrationTest extends IntegrationTest {
         mvc.perform(patch(BASE_PATH + BAN_USER)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(banUserRequest))
-        );
+        ).andExpect(mvcResult -> assertThat(mvcResult.getResponse().getStatus()).isEqualTo(expectedStatus));
 
         //then
         UserBanInfo userBanInfo = userBanRepository.findById(user.getId()).orElse(null);

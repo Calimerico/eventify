@@ -28,7 +28,7 @@ public class EventBuilder {
     private UUID createdBy;
     private LocalDateTime createDateTime;
 
-    EventBuilder() {
+    public EventBuilder() {
     }
 
 

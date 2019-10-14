@@ -10,6 +10,7 @@ import com.eventify.user.infrastructure.UserRepository;
 import com.eventify.config.security.PermissionService;
 import com.eventify.eventsonhost.domain.EventsOnHost;
 import com.eventify.eventsonhost.domain.EventsOnHostRepository;
+import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -90,7 +91,7 @@ public class EventsOnHostControllerTest extends IntegrationTest {
         //when
         mockMvc.perform(
                 patch(BASE_PATH + "/" + eventId + CONFIRM_HOST)
-        );
+        ).andExpect(status().isOk());
         //then
         EventsOnHost eventsOnHostAfter = eventsOnHostRepository.findByHostId(userId);
         assertThat(eventsOnHostAfter.getUnconfirmedEvents().contains(eventId2)).isEqualTo(true);
@@ -112,7 +113,7 @@ public class EventsOnHostControllerTest extends IntegrationTest {
         //when
         mockMvc.perform(
                 patch(BASE_PATH + "/" + eventId + UNCONFIRM_HOST)
-        );
+        ).andExpect(status().isOk());
         //then
         EventsOnHost eventsOnHostAfter = eventsOnHostRepository.findByHostId(userId);
         assertThat(eventsOnHostAfter.getUnconfirmedEvents().contains(eventId2)).isEqualTo(false);
@@ -126,6 +127,8 @@ public class EventsOnHostControllerTest extends IntegrationTest {
     public void getEventsForConfirmation() throws Exception {
         mockMvc.perform(get(BASE_PATH + UNCONFIRMED_EVENTS))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()", is(2)));
+                .andExpect(mvcResult -> {
+                    jsonPath("$", Matchers.containsInAnyOrder(eventId, eventId2));
+                });
     }
 }
