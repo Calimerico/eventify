@@ -1,13 +1,13 @@
 package com.eventify.visitedpage.domain;
 
-import org.springframework.data.annotation.Id;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 import java.util.UUID;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
-@Builder
+@AllArgsConstructor(access = AccessLevel.PACKAGE)
 public class VisitedPage {
     private UUID userId;
     private UUID pageId;

@@ -12,8 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
-@Builder
+@AllArgsConstructor(access = AccessLevel.PACKAGE)
 public class VisitedEvent {
     private UUID userId;
     private Sex sex;
