@@ -29,4 +29,10 @@ mvn clean install -DskipTests=true
 cd ../user-service
 mvn clean install -DskipTests=true
 
+docker-compose down
+
+docker-compose build
+
+docker system prune --volumes -f
+
 docker-compose up -d
