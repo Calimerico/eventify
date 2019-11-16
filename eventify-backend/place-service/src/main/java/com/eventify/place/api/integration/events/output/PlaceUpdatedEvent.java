@@ -22,6 +22,7 @@ public class PlaceUpdatedEvent implements IntegrationEvent {
     public static PlaceUpdatedEvent fromDomainEvent(com.eventify.place.domain.events.PlaceUpdatedEvent placeUpdatedEvent) {
         return PlaceUpdatedEvent
                 .builder()
+                .id(placeUpdatedEvent.getId())
                 .city(placeUpdatedEvent.getCity())
                 .name(placeUpdatedEvent.getName())
                 .latitude(placeUpdatedEvent.getLatitude())
