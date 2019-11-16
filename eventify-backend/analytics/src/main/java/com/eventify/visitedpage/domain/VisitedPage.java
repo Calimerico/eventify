@@ -1,14 +1,15 @@
 package com.eventify.visitedpage.domain;
 
-import org.springframework.data.annotation.Id;
-import lombok.*;
+import com.eventify.shared.ddd.UUIDAggregate;
 
 import java.util.UUID;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
-@Builder
-public class VisitedPage {
+public class VisitedPage extends UUIDAggregate {
     private UUID userId;
     private UUID pageId;
+
+    VisitedPage(UUID userId, UUID pageId) {
+        this.userId = userId;
+        this.pageId = pageId;
+    }
 }
