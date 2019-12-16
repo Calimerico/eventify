@@ -9,7 +9,6 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.AutoConfigureDataMongo;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.UUID;
@@ -17,7 +16,7 @@ import java.util.UUID;
 @RunWith(SpringRunner.class)
 @DataMongoTest
 @AutoConfigureDataMongo
-public class VisitedPageRepositoryTest {
+public class AddVisitedPageRepositoryTest {
 
     @Autowired
      VisitedPageRepository repository;
@@ -37,13 +36,13 @@ public class VisitedPageRepositoryTest {
 
         VisitedPage visitedPage1 =  new VisitedPageBuilder()
                 .userId(UUID.randomUUID())
-                .pageId(UUID.randomUUID())
+                .pageId(Long.valueOf(1L))
                 .build();
         repository.save(visitedPage1);
 
         VisitedPage visitedPage2 =  new VisitedPageBuilder()
                 .userId(UUID.randomUUID())
-                .pageId(UUID.randomUUID())
+                .pageId(Long.valueOf(2L))
                 .build();
         repository.save(visitedPage2);
 

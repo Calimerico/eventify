@@ -6,7 +6,7 @@ import java.util.UUID;
 
 public class VisitedPageBuilder {
     private UUID userId;
-    private UUID pageId;
+    private Long pageId;
 
      public VisitedPageBuilder() {
     }
@@ -16,7 +16,7 @@ public class VisitedPageBuilder {
         return this;
     }
 
-    public VisitedPageBuilder pageId(UUID pageId) {
+    public VisitedPageBuilder pageId(Long pageId) {
         this.pageId = pageId;
         return this;
     }
