@@ -135,6 +135,7 @@ class EventSearch extends React.Component {
                                 Event type
                             </InputLabel>
                             <Select
+                                className={classes.textField}
                                 value={eventType}
                                 onChange={this.handleSelectEventTypeChange}
                                 input={<Input name="eventType" id="event-type-label-placeholder" />}
@@ -152,6 +153,7 @@ class EventSearch extends React.Component {
                             </InputLabel>
                             <Select
                                 value={city}
+                                className={classes.textField}
                                 onChange={this.handleSelectCityChange}
                                 input={<Input name="city" id="city-label-placeholder" />}
                                 displayEmpty
@@ -167,6 +169,7 @@ class EventSearch extends React.Component {
                                 Place
                             </InputLabel>
                             <Select
+                                className={classes.textField}
                                 value={places.find(p => p.id === placeId) == null ? null : places.find(p => p.id === placeId).names[0]}
                                 onChange={this.handleSelectPlaceChange}
                                 input={<Input name="placeId" id="place-label-placeholder" />}
@@ -183,11 +186,15 @@ class EventSearch extends React.Component {
                                 selected={timeFrom}
                                 name="timeFrom"
                                 onChange={this.handleFromDateChange}
+                                className={classes.textField}
+
                             />
                             <DatePicker
                                 selected={timeTo}
                                 name="timeTo"
                                 onChange={this.handleToDateChange}
+                                className={classes.textField}
+
                             />
                             <TextField
                                 id="standard-dense"
@@ -199,11 +206,11 @@ class EventSearch extends React.Component {
                             <TextField
                                 id="standard-dense"
                                 label="Price to"
-                                className={classes.textField2}
+                                className={classes.textField}
                                 onChange={this.handlePriceToChange}
                                 value={priceTo}
                             />
-                            <Button color="primary" onClick={this.searchEvents} className={classes.search}>Search</Button>
+                            <Button color="primary" style={{width:'70%'}} onClick={this.searchEvents} className={classes.search}>Search</Button>
                         </FormControl>
                     </Grid>
                 </Grid>
