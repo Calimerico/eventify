@@ -2,6 +2,7 @@ package com.eventify.webscraper.domain;
 
 import com.eventify.shared.demo.EventType;
 import com.eventify.webscraper.domain.events.EventScraped;
+import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
@@ -11,6 +12,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
 import java.util.List;
 
+@Slf4j
 public abstract class BaseEventWebScraper implements EventWebScraper {
 
     protected abstract String getDescription(Document document);
@@ -27,9 +29,17 @@ public abstract class BaseEventWebScraper implements EventWebScraper {
         Document eventDocument = null;
         try {
             eventDocument = Jsoup.connect(linkToDocument).get();
+            if(eventDocument!=null){
+                return getEventScraped(linkToDocument, eventDocument);
+            }
+           log.debug("Missing documment for link: {}",linkToDocument);
         } catch (IOException e) {
             e.printStackTrace();//todo
         }
+        return null;
+    }
+
+    private EventScraped getEventScraped(String linkToDocument, Document eventDocument) {
         String eventName = getEventName(eventDocument);
         DateTimeFormatter formatter = getEventDateTimeFormatter();
         LocalDateTime eventDateTime = getEventDateTime(eventDocument, formatter);

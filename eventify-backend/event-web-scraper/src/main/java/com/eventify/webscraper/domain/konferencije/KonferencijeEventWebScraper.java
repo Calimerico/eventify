@@ -3,6 +3,7 @@ package com.eventify.webscraper.domain.konferencije;
 import com.eventify.shared.demo.EventType;
 import com.eventify.webscraper.domain.BaseEventWebScraper;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -19,7 +20,8 @@ public class KonferencijeEventWebScraper extends BaseEventWebScraper {
 
     @Override
     protected String getEventName(Document document) {
-        return document.selectFirst(".hero div h1").text();
+        Element element = document.selectFirst(".hero div h1");
+        return element!=null ? element.text():null;
     }
 
     @Override
