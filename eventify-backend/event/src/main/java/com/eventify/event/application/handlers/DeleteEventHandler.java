@@ -2,16 +2,13 @@ package com.eventify.event.application.handlers;
 
 import com.eventify.event.domain.events.EventDeletedEvent;
 import com.eventify.event.application.commands.DeleteEvent;
-import com.eventify.event.domain.EventRepository;
+import com.eventify.event.infrastructure.EventRepository;
 import com.eventify.shared.ddd.DomainEventPublisher;
 import com.eventify.shared.demo.CommandHandler;
-import com.eventify.shared.kafka.KafkaEventProducer;
 import lombok.RequiredArgsConstructor;
 
 import java.util.Set;
 import java.util.UUID;
-
-import static com.eventify.shared.kafka.Topic.EVENTS_TOPIC;
 
 /**
  * Created by spasoje on 02-Feb-19.

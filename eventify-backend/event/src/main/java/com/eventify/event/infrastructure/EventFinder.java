@@ -2,7 +2,6 @@ package com.eventify.event.infrastructure;
 
 import com.eventify.event.domain.Event;
 import com.eventify.event.domain.EventBuilder;
-import com.eventify.event.domain.EventRepository;
 import com.eventify.place.domain.Place;
 import com.eventify.place.infrastructure.PlaceRepository;
 import lombok.RequiredArgsConstructor;

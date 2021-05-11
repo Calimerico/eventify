@@ -5,7 +5,7 @@ import com.eventify.event.domain.Event;
 import com.eventify.event.domain.EventUpdateParam;
 import com.eventify.place.domain.Place;
 import com.eventify.place.infrastructure.PlaceRepository;
-import com.eventify.event.domain.EventRepository;
+import com.eventify.event.infrastructure.EventRepository;
 import com.eventify.shared.demo.CommandHandler;
 import lombok.RequiredArgsConstructor;
 

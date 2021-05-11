@@ -4,17 +4,14 @@ import com.eventify.event.domain.events.EventAddedEvent;
 import com.eventify.event.application.commands.CreateEvent;
 import com.eventify.event.domain.Event;
 import com.eventify.event.domain.EventBuilder;
-import com.eventify.event.domain.EventRepository;
+import com.eventify.event.infrastructure.EventRepository;
 import com.eventify.place.domain.Place;
 import com.eventify.place.infrastructure.PlaceRepository;
 import com.eventify.shared.ddd.DomainEventPublisher;
 import com.eventify.shared.demo.CommandHandler;
-import com.eventify.shared.kafka.KafkaEventProducer;
 import lombok.RequiredArgsConstructor;
 
 import java.util.UUID;
-
-import static com.eventify.shared.kafka.Topic.EVENTS_TOPIC;
 
 /**
  * Created by spasoje on 15-Dec-18.

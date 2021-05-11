@@ -1,5 +1,6 @@
-package com.eventify.event.domain;
+package com.eventify.event.infrastructure;
 
+import com.eventify.event.domain.Event;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

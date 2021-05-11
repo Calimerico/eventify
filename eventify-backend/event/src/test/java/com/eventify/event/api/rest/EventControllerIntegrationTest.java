@@ -4,7 +4,7 @@ import com.eventify.event.domain.Event;
 import com.eventify.event.domain.EventBuilder;
 import com.eventify.shared.config.auth.IntegrationTest;
 import com.eventify.shared.demo.EventType;
-import com.eventify.event.domain.EventRepository;
+import com.eventify.event.infrastructure.EventRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;

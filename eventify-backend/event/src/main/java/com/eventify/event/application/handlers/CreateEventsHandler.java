@@ -4,7 +4,7 @@ import com.eventify.event.domain.events.EventAddedEvent;
 import com.eventify.event.application.commands.CreateEvents;
 import com.eventify.event.domain.Event;
 import com.eventify.event.domain.EventBuilder;
-import com.eventify.event.domain.EventRepository;
+import com.eventify.event.infrastructure.EventRepository;
 import com.eventify.place.domain.Place;
 import com.eventify.place.infrastructure.PlaceRepository;
 import com.eventify.shared.ddd.DomainEventPublisher;

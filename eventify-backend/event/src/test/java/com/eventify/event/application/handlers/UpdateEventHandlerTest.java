@@ -3,24 +3,19 @@ package com.eventify.event.application.handlers;
 import com.eventify.event.application.commands.UpdateEvent;
 import com.eventify.event.domain.Event;
 import com.eventify.event.domain.EventBuilder;
-import com.eventify.event.domain.EventRepository;
+import com.eventify.event.infrastructure.EventRepository;
 import com.eventify.shared.config.auth.IntegrationTest;
-import com.eventify.shared.config.auth.MockKafkaConfig;
 import com.eventify.shared.demo.EventType;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Commit;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.NONE;
 
 @RunWith(SpringRunner.class)
 public class UpdateEventHandlerTest extends IntegrationTest {
