@@ -74,6 +74,7 @@ public class EventController {
     @Secured({ROLE_REGISTERED_USER, ROLE_ADMIN})
     public ResponseEntity<EventResource> insertEvent(@RequestBody @Valid CreateEventRequest createEventRequest) {
         System.out.println("A");
+        System.out.println("B");
         Event createdEvent = gate.dispatch(CreateEvent
                 .builder()
                 .description(createEventRequest.getDescription())
