@@ -73,6 +73,7 @@ public class EventController {
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     @Secured({ROLE_REGISTERED_USER, ROLE_ADMIN})
     public ResponseEntity<EventResource> insertEvent(@RequestBody @Valid CreateEventRequest createEventRequest) {
+        System.out.println("A");
         Event createdEvent = gate.dispatch(CreateEvent
                 .builder()
                 .description(createEventRequest.getDescription())
