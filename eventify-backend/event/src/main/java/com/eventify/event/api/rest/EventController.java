@@ -75,6 +75,7 @@ public class EventController {
     public ResponseEntity<EventResource> insertEvent(@RequestBody @Valid CreateEventRequest createEventRequest) {
         System.out.println("A");
         System.out.println("B");
+        System.out.println("C");
         Event createdEvent = gate.dispatch(CreateEvent
                 .builder()
                 .description(createEventRequest.getDescription())
