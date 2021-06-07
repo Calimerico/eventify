@@ -76,6 +76,9 @@ public class EventController {
         System.out.println("A");
         System.out.println("B");
         System.out.println("C");
+
+        System.out.println("D");
+
         Event createdEvent = gate.dispatch(CreateEvent
                 .builder()
                 .description(createEventRequest.getDescription())
