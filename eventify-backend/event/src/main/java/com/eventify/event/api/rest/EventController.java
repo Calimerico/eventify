@@ -79,6 +79,7 @@ public class EventController {
 
         System.out.println("D");
         System.out.println("E");
+        System.out.println("F");
 
         Event createdEvent = gate.dispatch(CreateEvent
                 .builder()
